@@ -10,11 +10,15 @@ import javax.swing.JColorChooser;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
+import javax.swing.SwingUtilities;
+
+import sun.java2d.loops.DrawRect;
 
 import java.awt.Container;
 import java.awt.Point;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -87,13 +91,24 @@ public class GraphicalEditor extends JFrame {
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				Point p = e.getPoint();
-				if (mode.equals("Select/Move")) {
-					select(canvas.getItemAt(p));
+				Color o = outline.getBackground();
+				Color f = fill.getBackground();
+				CanvasItem item = null;
+
+				if (mode.equals("Select/Move")
+						&& SwingUtilities.isLeftMouseButton(e)) {
 					// TODO you can use the function select(CanvasItem item);
+					select(canvas.getItemAt(p));
+
+				} else if (mode.equals("Select/Move")
+						&& SwingUtilities.isRightMouseButton(e)) {
+					select(canvas.getItemAt(p));
+					item = new RectangleItem(canvas, o, f, p);
+					System.out.println(canvas.addItem(item));
+					select(item);
+
 				} else {
-					CanvasItem item = null;
-					Color o = outline.getBackground();
-					Color f = fill.getBackground();
+
 					if (mode.equals("Rectangle")) {
 						item = new RectangleItem(canvas, o, f, p);
 					} else if (mode.equals("Ellipse")) {
@@ -172,20 +187,20 @@ public class GraphicalEditor extends JFrame {
 			System.out.println("Color listener has been launched !");
 			// TODO Manage the color change
 
-//			if (p.getName().equals("outline")) {
-//				System.out.println("Outline");
-//			}
-//			if (p.getName().equals("fill")) {
-//				System.out.println("fill ");
-				if (c == null) {
-					// JOptionPane.showMessageDialog(GraphicalEditor.this,
-					// "ColorChooser Canceled !");
-				} else {
-					p.setBackground(c);
-//					System.out.println("Choosen color : " + c);
-					repaint();
-				}
-//			}
+			// if (p.getName().equals("outline")) {
+			// System.out.println("Outline");
+			// }
+			// if (p.getName().equals("fill")) {
+			// System.out.println("fill ");
+			if (c == null) {
+				// JOptionPane.showMessageDialog(GraphicalEditor.this,
+				// "ColorChooser Canceled !");
+			} else {
+				p.setBackground(c);
+				// System.out.println("Choosen color : " + c);
+				repaint();
+			}
+			// }
 			// You can test if the action have been done
 			// on the fill JPpanel or on the outline JPanel
 		}
