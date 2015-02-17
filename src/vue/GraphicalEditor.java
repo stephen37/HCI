@@ -98,9 +98,10 @@ public class GraphicalEditor extends JFrame {
 						item = new RectangleItem(canvas, o, f, p);
 					} else if (mode.equals("Ellipse")) {
 						// TODO create a new ellipse
-
+						item = new CercleItem(canvas, o, f, p);
 					} else if (mode.equals("Line")) {
 						// TODO create a new line
+						item = new LineItem(canvas, o, f, p);
 					} else if (mode.equals("Path")) {
 						// TODO create a new path
 					}
