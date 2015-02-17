@@ -1,6 +1,7 @@
 package vue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -42,84 +43,11 @@ public class GraphicalEditor extends JFrame {
 	private PersistentCanvas canvas; // Stores the created items
 	private CanvasItem selection; // Stores the selected item
 
-	// Listen the mode changes and update the Title
-	private ActionListener modeListener = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			// TODO you can use the function updateTitle();
-			mode = e.getActionCommand();
-			updateTitle();
-
-		}
-	};
-
-	// Listen the action on the button
-	private ActionListener operationListener = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			if (selection == null)
-				return;
-
-			String op = e.getActionCommand();
-			if (op.equals("Delete")) {
-				// TODO delete the selected item
-				canvas.removeItem(selection);
-			} else if (op.equals("Clone")) {
-				// TODO duplicate and translate the selected item
-				CanvasItem clone = selection.duplicate();
-				clone.move(10, 10);
-				canvas.addItem(clone);
-
-				select(clone);
-			}
-		}
-	};
-
-	// Listen the click on the color chooser
-	private MouseAdapter colorListener = new MouseAdapter() {
-		public void mouseClicked(MouseEvent e) {
-			JPanel p = (JPanel) e.getSource();
-			Color c = p.getBackground();
-			c = JColorChooser.showDialog(null, "Select a color", c);
-			// TODO Manage the color change
-			// You can test if the action have been done
-			// on the fill JPpanel or on the outline JPanel
-		}
-	};
-
-	// Create the radio button for the mode
-	private JRadioButton createMode(String description, ButtonGroup group) {
-		JRadioButton rbtn = new JRadioButton(description);
-		rbtn.setActionCommand(description);
-		if (mode == description)
-			rbtn.setSelected(true);
-		rbtn.addActionListener(modeListener);
-		group.add(rbtn);
-		return rbtn;
-	}
-
-	// Create the button for the operation
-	private JButton createOperation(String description) {
-		JButton btn = new JButton(description);
-		btn.setActionCommand(description);
-		btn.addActionListener(operationListener);
-		operations.add(btn);
-		return btn;
-	}
-
-	// Create the color sample used to choose the color
-	private JPanel createColorSample(Color c) {
-		JPanel p = new JPanel();
-		p.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-		p.setOpaque(true);
-		p.setBackground(c);
-		p.setMaximumSize(new Dimension(500, 150));
-		p.addMouseListener(colorListener);
-		return p;
-	}
-
 	// Constructor of the Graphical Editor
 	public GraphicalEditor(String theTitle, int width, int height) {
 		title = theTitle;
 		selection = null;
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		Container pane = getContentPane();
 		pane.setLayout(new BoxLayout(pane, BoxLayout.LINE_AXIS));
@@ -189,7 +117,7 @@ public class GraphicalEditor extends JFrame {
 					return;
 				if (mode.equals("Select/Move")) {
 					// TODO move the selected object
-					 selection.move(e.getX() - mousepos.x, e.getY() - mousepos.y);
+					selection.move(e.getX() - mousepos.x, e.getY() - mousepos.y);
 				} else {
 					selection.update(e.getPoint());
 				}
@@ -200,6 +128,97 @@ public class GraphicalEditor extends JFrame {
 		pack();
 		updateTitle();
 		setVisible(true);
+
+	}
+
+	// Listen the mode changes and update the Title
+	private ActionListener modeListener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			// TODO you can use the function updateTitle();
+			mode = e.getActionCommand();
+			updateTitle();
+
+		}
+	};
+
+	// Listen the action on the button
+	private ActionListener operationListener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			if (selection == null)
+				return;
+
+			String op = e.getActionCommand();
+			if (op.equals("Delete")) {
+				// TODO delete the selected item
+				canvas.removeItem(selection);
+			} else if (op.equals("Clone")) {
+				// TODO duplicate and translate the selected item
+				CanvasItem clone = selection.duplicate();
+				clone.move(10, 10);
+				canvas.addItem(clone);
+
+				select(clone);
+			}
+		}
+	};
+
+	// Listen the click on the color chooser
+	private MouseAdapter colorListener = new MouseAdapter() {
+		public void mouseClicked(MouseEvent e) {
+			JPanel p = (JPanel) e.getSource();
+			Color c = p.getBackground();
+			c = JColorChooser.showDialog(null, "Select a color", c);
+			System.out.println("Color listener has been launched !");
+			// TODO Manage the color change
+
+//			if (p.getName().equals("outline")) {
+//				System.out.println("Outline");
+//			}
+//			if (p.getName().equals("fill")) {
+//				System.out.println("fill ");
+				if (c == null) {
+					// JOptionPane.showMessageDialog(GraphicalEditor.this,
+					// "ColorChooser Canceled !");
+				} else {
+					p.setBackground(c);
+//					System.out.println("Choosen color : " + c);
+					repaint();
+				}
+//			}
+			// You can test if the action have been done
+			// on the fill JPpanel or on the outline JPanel
+		}
+	};
+
+	// Create the radio button for the mode
+	private JRadioButton createMode(String description, ButtonGroup group) {
+		JRadioButton rbtn = new JRadioButton(description);
+		rbtn.setActionCommand(description);
+		if (mode == description)
+			rbtn.setSelected(true);
+		rbtn.addActionListener(modeListener);
+		group.add(rbtn);
+		return rbtn;
+	}
+
+	// Create the button for the operation
+	private JButton createOperation(String description) {
+		JButton btn = new JButton(description);
+		btn.setActionCommand(description);
+		btn.addActionListener(operationListener);
+		operations.add(btn);
+		return btn;
+	}
+
+	// Create the color sample used to choose the color
+	private JPanel createColorSample(Color c) {
+		JPanel p = new JPanel();
+		p.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		p.setOpaque(true);
+		p.setBackground(c);
+		p.setMaximumSize(new Dimension(500, 150));
+		p.addMouseListener(colorListener);
+		return p;
 	}
 
 	// Update the Title
