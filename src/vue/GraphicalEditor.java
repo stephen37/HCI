@@ -100,14 +100,14 @@ public class GraphicalEditor extends JFrame {
 						&& SwingUtilities.isLeftMouseButton(e)) {
 					// TODO you can use the function select(CanvasItem item);
 					select(canvas.getItemAt(p));
-
+//SELECTION RECTANGLE
 				} else if (mode.equals("Select/Move")
 						&& SwingUtilities.isRightMouseButton(e)) {
 					select(canvas.getItemAt(p));
 					item = new RectangleItem(canvas, o, f, p);
 					System.out.println(canvas.addItem(item));
 					select(item);
-
+//FIN
 				} else {
 
 					if (mode.equals("Rectangle")) {
@@ -221,7 +221,6 @@ public class GraphicalEditor extends JFrame {
 			c = JColorChooser.showDialog(null, "Select a color", c);
 			// TODO Manage the color change
 
-<<<<<<< HEAD
 			// if (p.getName().equals("outline")) {
 			// System.out.println("Outline");
 			// }
@@ -238,7 +237,7 @@ public class GraphicalEditor extends JFrame {
 			// }
 			// You can test if the action have been done
 			// on the fill JPpanel or on the outline JPanel
-=======
+
 			if (selection == null) {
 				p.setBackground(c);
 			} else if (p == outline) {
@@ -249,7 +248,6 @@ public class GraphicalEditor extends JFrame {
 				selection.setFillColor(c);
 			}
 			repaint();
->>>>>>> aef8160183509ddaa8dc30f534c31bdca21e7277
 		}
 
 	};
