@@ -1,7 +1,6 @@
 package vue;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -17,6 +16,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseEvent;
@@ -104,6 +105,7 @@ public class GraphicalEditor extends JFrame {
 						item = new LineItem(canvas, o, f, p);
 					} else if (mode.equals("Path")) {
 						// TODO create a new path
+						item = new PathItem(canvas, o, f, p);
 					}
 					canvas.addItem(item);
 					select(item);
@@ -126,12 +128,21 @@ public class GraphicalEditor extends JFrame {
 			}
 		});
 
+//		pane.addKeyListener(keyboardListener);
 		pack();
 		updateTitle();
 		setVisible(true);
 
 	}
 
+	
+	public CanvasItem getSelection() {
+		return selection;
+		
+	}
+	public PersistentCanvas getCanvas() {
+		return canvas;
+	}
 	// Listen the mode changes and update the Title
 	private ActionListener modeListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
@@ -163,32 +174,50 @@ public class GraphicalEditor extends JFrame {
 		}
 	};
 
+	private KeyListener keyboardListener = new KeyListener() {
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			System.out.println("Touche : " + e.getKeyChar());
+
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			System.out.println("Touche : " + e.getKeyChar());
+
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			System.out.println("Touche : " + e.getKeyChar());
+
+		}
+	};
+
 	// Listen the click on the color chooser
 	private MouseAdapter colorListener = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {
 			JPanel p = (JPanel) e.getSource();
 			Color c = p.getBackground();
 			c = JColorChooser.showDialog(null, "Select a color", c);
-			System.out.println("Color listener has been launched !");
 			// TODO Manage the color change
 
-//			if (p.getName().equals("outline")) {
-//				System.out.println("Outline");
-//			}
-//			if (p.getName().equals("fill")) {
-//				System.out.println("fill ");
-				if (c == null) {
-					// JOptionPane.showMessageDialog(GraphicalEditor.this,
-					// "ColorChooser Canceled !");
-				} else {
-					p.setBackground(c);
-//					System.out.println("Choosen color : " + c);
-					repaint();
-				}
-//			}
-			// You can test if the action have been done
-			// on the fill JPpanel or on the outline JPanel
+			if (selection == null) {
+				p.setBackground(c);
+			} else if (p == outline) {
+				p.setBackground(c);
+				selection.setOutlineColor(c);
+			} else if (p == fill) {
+				p.setBackground(c);
+				selection.setFillColor(c);
+			}
+			repaint();
 		}
+
 	};
 
 	// Create the radio button for the mode
