@@ -238,10 +238,7 @@ public class GraphicalEditor extends JFrame {
 			// }
 			// You can test if the action have been done
 			// on the fill JPpanel or on the outline JPanel
-<<<<<<< HEAD
-=======
 
->>>>>>> b0713e69999ac04b6881364e9b7eca267a2b0b04
 			if (selection == null) {
 				p.setBackground(c);
 			} else if (p == outline) {
