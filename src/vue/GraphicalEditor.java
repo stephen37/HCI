@@ -100,14 +100,14 @@ public class GraphicalEditor extends JFrame {
 						&& SwingUtilities.isLeftMouseButton(e)) {
 					// TODO you can use the function select(CanvasItem item);
 					select(canvas.getItemAt(p));
-
+//SELECTION RECTANGLE
 				} else if (mode.equals("Select/Move")
 						&& SwingUtilities.isRightMouseButton(e)) {
 					select(canvas.getItemAt(p));
 					item = new RectangleItem(canvas, o, f, p);
 					System.out.println(canvas.addItem(item));
 					select(item);
-
+//FIN
 				} else {
 
 					if (mode.equals("Rectangle")) {
@@ -238,6 +238,10 @@ public class GraphicalEditor extends JFrame {
 			// }
 			// You can test if the action have been done
 			// on the fill JPpanel or on the outline JPanel
+<<<<<<< HEAD
+=======
+
+>>>>>>> b0713e69999ac04b6881364e9b7eca267a2b0b04
 			if (selection == null) {
 				p.setBackground(c);
 			} else if (p == outline) {
