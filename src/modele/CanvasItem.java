@@ -1,10 +1,11 @@
 package modele;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.Color;
-import java.awt.Point;
-import java.awt.Stroke;
+
 import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Shape;
+import java.awt.Stroke;
 
 /**
  * @author Nicolas Roussel (roussel@lri.fr)
