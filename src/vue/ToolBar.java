@@ -94,6 +94,7 @@ public class ToolBar extends JFrame {
 		setVisible(true);
 		setResizable(false);
 		setSize(100, 600);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
 

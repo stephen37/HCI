@@ -49,6 +49,7 @@ public class GraphicalEditor extends JFrame {
 	ToolBar toolbar;
 
 	// Constructor of the Graphical Editor
+	
 	public GraphicalEditor(String theTitle, int width, int height) {
 		title = theTitle;
 		selection = null;
