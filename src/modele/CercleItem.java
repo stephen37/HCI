@@ -34,6 +34,10 @@ public class CercleItem extends CanvasItem {
 		canvas.repaint();
 	}
 
+	public void modifSelect(){
+	
+	}
+	
 	public void move(int dx, int dy) {
 		((Ellipse2D.Float) shape).x += dx;
 		((Ellipse2D.Float) shape).y += dy;

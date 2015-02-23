@@ -30,6 +30,10 @@ public class LineItem extends CanvasItem {
 		canvas.repaint();
 	}
 
+	public void modifSelect(){
+		
+	}
+	
 	public void move(int dx, int dy) {
 		((Line2D.Float) shape).x1 += dx;
 		((Line2D.Float) shape).y1 += dx;

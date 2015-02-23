@@ -4,8 +4,10 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.Stroke;
+import java.util.ArrayList;
 
 /**
  * @author Nicolas Roussel (roussel@lri.fr)
@@ -17,6 +19,8 @@ public abstract class CanvasItem {
 	protected Color outline, fill;
 	protected Shape shape;
 	protected Boolean isSelected;
+	
+	protected ArrayList<Rectangle> modifRect;
 
 	public CanvasItem(PersistentCanvas c, Color o, Color f) {
 		canvas = c;
@@ -24,6 +28,8 @@ public abstract class CanvasItem {
 		outline = o;
 		shape = null;
 		isSelected = false;
+		
+		modifRect = new ArrayList<Rectangle>();
 	}
 
 	public void setOutlineColor(Color c) {
@@ -72,10 +78,14 @@ public abstract class CanvasItem {
 		return shape.contains(p);
 	}
 
+	public abstract void modifSelect();
+	
 	public abstract CanvasItem duplicate();
 
 	public abstract void update(Point p);
 
 	public abstract void move(int dx, int dy);
 
+	
+	
 }

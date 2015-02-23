@@ -37,6 +37,10 @@ public class PathItem extends CanvasItem {
 			canvas.repaint();
 		}
 
+		public void modifSelect(){
+			
+		}
+		
 		public void paint(Graphics2D g) {
 			drawShape(g);
 		}
