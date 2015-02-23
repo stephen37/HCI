@@ -58,45 +58,45 @@ public class ToolBar extends JFrame {
 		SelectMoveButton selectMoveButton = new SelectMoveButton();
 		selectMoveButton.setPreferredSize(new Dimension(100, 20));
 		selectMoveButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GraphicalEditor.mode = "Select/Move";
-				
+
 			}
 		});
 		// Bouton permettant de dessiner des rectangles.
 		RectangleButton rectangleButton = new RectangleButton();
 		rectangleButton.setPreferredSize(new Dimension(100, 20));
 		rectangleButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				GraphicalEditor.mode  = "Rectangle";
+				GraphicalEditor.mode = "Rectangle";
 			}
 		});
 		// Bouton permettant de dessiner des ellipses
 		EllipseButton ellipseButton = new EllipseButton();
 		ellipseButton.setPreferredSize(new Dimension(100, 20));
 		ellipseButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				GraphicalEditor.mode  = "Ellipse";
+				GraphicalEditor.mode = "Ellipse";
 			}
 		});
 		// /bouton permettant de dessiner des lignes droites.
 		LineButton lineButton = new LineButton();
 		lineButton.setPreferredSize(new Dimension(100, 20));
 		lineButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				GraphicalEditor.mode = "Line";
-				
+
 			}
 		});
 		// Bouton permettant de dessiner des lignes.
@@ -105,7 +105,7 @@ public class ToolBar extends JFrame {
 		PathButton pathButton = new PathButton();
 		pathButton.setPreferredSize(new Dimension(100, 20));
 		pathButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
@@ -148,18 +148,14 @@ public class ToolBar extends JFrame {
 			JPanel p = (JPanel) e.getSource();
 			Color c = p.getBackground();
 			c = JColorChooser.showDialog(null, "Select a color", c);
-
-			System.out.println("Color listener");
-			if (selection == null) {
+			if (GraphicalEditor.selection == null) {
 				p.setBackground(c);
 			} else if (p == outline) {
-				System.out.println("Outline selectionné ! ");
 				p.setBackground(c);
-				selection.setOutlineColor(c);
+				GraphicalEditor.selection.setOutlineColor(c);
 			} else if (p == fill) {
-				System.out.println("Fill selectionné ! ");
 				p.setBackground(c);
-				selection.setFillColor(c);
+				GraphicalEditor.selection.setFillColor(c);
 			}
 
 			/*
@@ -173,7 +169,7 @@ public class ToolBar extends JFrame {
 
 	};
 
-	// Listen the mode changes 
+	// Listen the mode changes
 	private ActionListener modeListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			mode = e.getActionCommand();
@@ -189,18 +185,12 @@ public class ToolBar extends JFrame {
 
 			String op = e.getActionCommand();
 			if (op.equals("Delete")) {
-				canvas.removeItem(selection);
-				System.out.println("Canvas : " + selection);
+				GraphicalEditor.canvas.removeItem(GraphicalEditor.selection);
 			} else if (op.equals("Clone")) {
-				CanvasItem clone = selection.duplicate();
+				CanvasItem clone = GraphicalEditor.selection.duplicate();
 				clone.move(10, 10);
-				canvas.addItem(clone);
+				GraphicalEditor.canvas.addItem(clone);
 				// canvas.removeItem(selection);
-			} else if (op.equals("Clone")) {
-				// CanvasItem clone = selection.duplicate();
-				// clone.move(10, 10);
-				// canvas.addItem(clone);
-				// select(clone);
 			}
 		}
 	};
@@ -214,10 +204,10 @@ public class ToolBar extends JFrame {
 		group.add(rbtn);
 		return rbtn;
 	}
-	
+
 	private JButton createModeButton(String description) {
 		JButton btn = new JButton();
-		if (mode == description){
+		if (mode == description) {
 			btn.setSelected(true);
 		}
 		btn.addActionListener(modeListener);

@@ -44,8 +44,8 @@ public class GraphicalEditor extends JFrame {
 
 	private String title; // Changes according to the mode
 
-	public PersistentCanvas canvas; // Stores the created items
-	private CanvasItem selection; // Stores the selected item
+	public static PersistentCanvas canvas; // Stores the created items
+	public static CanvasItem selection; // Stores the selected item
 	ToolBar toolbar;
 	public static String mode;
 	JPanel outline;
