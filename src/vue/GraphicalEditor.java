@@ -48,23 +48,23 @@ public class GraphicalEditor extends JFrame {
 	public static CanvasItem selection; // Stores the selected item
 	ToolBar toolbar;
 	public static String mode;
-	JPanel outline;
-	JPanel fill;
+
+	// JPanel outline;
+	// JPanel fill;
 
 	// Constructor of the Graphical Editor
 
 	public GraphicalEditor(String theTitle, int width, int height, ToolBar tool) {
 
-	// Constructor of the Graphical Editor
+		// Constructor of the Graphical Editor
 
 		title = theTitle;
 		selection = null;
 		toolbar = tool;
 		mode = toolbar.getMode();
-		outline = toolbar.getOutlinePanel();
-		fill = toolbar.getFillPanel();
+		// outline = toolbar.getOutlinePanel();
+		// fill = toolbar.getFillPanel();
 		operations = toolbar.getOperations();
-		
 
 		Container pane = getContentPane();
 		pane.setLayout(new BoxLayout(pane, BoxLayout.LINE_AXIS));
@@ -92,18 +92,16 @@ public class GraphicalEditor extends JFrame {
 					select(canvas.getItemAt(p));
 
 					// SELECTION RECTANGLE
-//SELECTION RECTANGLE 
+					// SELECTION RECTANGLE
 					/*
-				} else if (mode.equals("Select/Move")
-						&& SwingUtilities.isRightMouseButton(e)) {
-					select(canvas.getItemAt(p));
-					item = new RectangleItem(canvas, o, f, p);
-					System.out.println(canvas.addItem(item));
-					select(item);
+					 * } else if (mode.equals("Select/Move") &&
+					 * SwingUtilities.isRightMouseButton(e)) {
+					 * select(canvas.getItemAt(p)); item = new
+					 * RectangleItem(canvas, o, f, p);
+					 * System.out.println(canvas.addItem(item)); select(item);
+					 * // FIN
+					 */
 					// FIN
-
-					*/
-//FIN
 				} else {
 
 					if (mode.equals("Rectangle")) {
@@ -146,7 +144,7 @@ public class GraphicalEditor extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(150, 0);
-}
+	}
 
 	// Listen the mode changes and update the Title
 	private ActionListener modeListener = new ActionListener() {
@@ -158,27 +156,7 @@ public class GraphicalEditor extends JFrame {
 		}
 	};
 
-	// Listen the action on the button
-	private ActionListener operationListener = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			if (selection == null)
-				return;
 
-			String op = e.getActionCommand();
-			if (op.equals("Delete")) {
-				// TODO delete the selected item
-				canvas.removeItem(selection);
-				deselect(selection);
-			} else if (op.equals("Clone")) {
-				// TODO duplicate and translate the selected item
-				CanvasItem clone = selection.duplicate();
-				clone.move(10, 10);
-				canvas.addItem(clone);
-
-				select(clone);
-			}
-		}
-	};
 
 	private KeyListener keyboardListener = new KeyListener() {
 
@@ -204,78 +182,8 @@ public class GraphicalEditor extends JFrame {
 		}
 	};
 
-	// Listen the click on the color chooser
-	private MouseAdapter colorListener = new MouseAdapter() {
-		public void mouseClicked(MouseEvent e) {
-			JPanel p = (JPanel) e.getSource();
-			Color c = p.getBackground();
-			c = JColorChooser.showDialog(null, "Select a color", c);
-			// TODO Manage the color change
-
-			// if (p.getName().equals("outline")) {
-			// System.out.println("Outline");
-			// }
-			// if (p.getName().equals("fill")) {
-			// System.out.println("fill ");
-			if (c == null) {
-				// JOptionPane.showMessageDialog(GraphicalEditor.this,
-				// "ColorChooser Canceled !");
-			} else {
-				p.setBackground(c);
-				// System.out.println("Choosen color : " + c);
-				repaint();
-			}
-			// }
-			// You can test if the action have been done
-			// on the fill JPpanel or on the outline JPanel
-
-			if (selection == null) {
-				p.setBackground(c);
-			} else if (p == outline) {
-				p.setBackground(c);
-				selection.setOutlineColor(c);
-			} else if (p == fill) {
-				p.setBackground(c);
-				selection.setFillColor(c);
-			}
-			repaint();
-		}
-
-	};
-
-	// Create the radio button for the mode
-	private JRadioButton createMode(String description, ButtonGroup group) {
-		JRadioButton rbtn = new JRadioButton(description);
-		rbtn.setActionCommand(description);
-		if (mode == description)
-			rbtn.setSelected(true);
-		rbtn.addActionListener(modeListener);
-		group.add(rbtn);
-		return rbtn;
-	}
-
-	// Create the button for the operation
-	private JButton createOperation(String description) {
-		JButton btn = new JButton(description);
-		btn.setActionCommand(description);
-		btn.addActionListener(operationListener);
-		operations.add(btn);
-		return btn;
-	}
-
-	// Create the color sample used to choose the color
-	private JPanel createColorSample(Color c) {
-		JPanel p = new JPanel();
-		p.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-		p.setOpaque(true);
-		p.setBackground(c);
-		p.setMaximumSize(new Dimension(500, 150));
-		p.addMouseListener(colorListener);
-		return p;
-	}
-
 	// Update the Title
-	private void updateTitle() {
+	public void updateTitle() {
 		setTitle(title + " - " + mode);
 	}
 

@@ -173,7 +173,7 @@ public class ToolBar extends JFrame {
 	private ActionListener modeListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			mode = e.getActionCommand();
-
+			
 		}
 	};
 
@@ -186,6 +186,7 @@ public class ToolBar extends JFrame {
 			String op = e.getActionCommand();
 			if (op.equals("Delete")) {
 				GraphicalEditor.canvas.removeItem(GraphicalEditor.selection);
+				GraphicalEditor.selection.deselect();
 			} else if (op.equals("Clone")) {
 				CanvasItem clone = GraphicalEditor.selection.duplicate();
 				clone.move(10, 10);
