@@ -37,9 +37,12 @@ public class ToolBar extends JFrame {
 	JPanel fill;
 	JPanel outline;
 	ArrayList<JButton> operations;
+<<<<<<< HEAD
 	PersistentCanvas canvas;
 	private CanvasItem selection;
 	
+=======
+>>>>>>> 1c0dd89a6b93e2891ed05e3dee7d5b993aef5885
 
 	// CanvasItem selection = ge.getSelection();
 	// PersistentCanvas canvas = ge.getCanvas();
@@ -51,12 +54,16 @@ public class ToolBar extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+<<<<<<< HEAD
 		selection = null;
+=======
+>>>>>>> 1c0dd89a6b93e2891ed05e3dee7d5b993aef5885
 		// panel.setBackground(Color.red);
 
 		// Create the mode selection button list
 		mode = "Rectangle";
 
+<<<<<<< HEAD
 		//Bouton select/Move
 		SelectMoveButton selectMoveButton = new SelectMoveButton();
 		selectMoveButton.setPreferredSize(new Dimension(100, 20));
@@ -70,6 +77,23 @@ public class ToolBar extends JFrame {
 		LineButton lineButton = new LineButton();
 		lineButton.setPreferredSize(new Dimension(100, 20));
 		//Bouton permettant de dessiner des lignes.
+=======
+		// ButtonGroup group = new ButtonGroup();
+		/*
+		 * panel.add(createMode("Select/Move", group));
+		 * panel.add(createMode("Rectangle", group));
+		 * panel.add(createMode("Ellipse", group)); panel.add(createMode("Line",
+		 * group)); panel.add(createMode("Path", group));
+		 */
+		SelectMoveButton selectMoveButton = new SelectMoveButton();
+		selectMoveButton.setPreferredSize(new Dimension(100, 20));
+		RectangleButton rectangleButton = new RectangleButton();
+		rectangleButton.setPreferredSize(new Dimension(100, 20));
+		EllipseButton ellipseButton = new EllipseButton();
+		ellipseButton.setPreferredSize(new Dimension(100, 20));
+		LineButton lineButton = new LineButton();
+		lineButton.setPreferredSize(new Dimension(100, 20));
+>>>>>>> 1c0dd89a6b93e2891ed05e3dee7d5b993aef5885
 		PathButton pathButton = new PathButton();
 		pathButton.setPreferredSize(new Dimension(100, 20));
 
@@ -91,8 +115,13 @@ public class ToolBar extends JFrame {
 		panel.add(Box.createRigidArea(new Dimension(0, 5)));
 		panel.add(createOperation("Clone"));
 		panel.add(Box.createVerticalGlue());
+<<<<<<< HEAD
 		pane.add(panel);
 		// this.add(panel);
+=======
+		// pane.add(panel);
+		this.add(panel);
+>>>>>>> 1c0dd89a6b93e2891ed05e3dee7d5b993aef5885
 		setVisible(true);
 		setResizable(false);
 		setSize(100, 600);
@@ -105,6 +134,7 @@ public class ToolBar extends JFrame {
 			JPanel p = (JPanel) e.getSource();
 			Color c = p.getBackground();
 			c = JColorChooser.showDialog(null, "Select a color", c);
+<<<<<<< HEAD
 			System.out.println("Color listener");
 			if (selection == null) {
 				p.setBackground(c);
@@ -118,6 +148,16 @@ public class ToolBar extends JFrame {
 				selection.setFillColor(c);
 			}
 
+=======
+			// TODO Manage the color change
+
+			/*
+			 * if (selection == null) { p.setBackground(c); } else if (p ==
+			 * outline) { p.setBackground(c); selection.setOutlineColor(c); }
+			 * else if (p == fill) { p.setBackground(c);
+			 * selection.setFillColor(c); }
+			 */
+>>>>>>> 1c0dd89a6b93e2891ed05e3dee7d5b993aef5885
 			repaint();
 		}
 
@@ -140,12 +180,20 @@ public class ToolBar extends JFrame {
 
 			String op = e.getActionCommand();
 			if (op.equals("Delete")) {
+<<<<<<< HEAD
 				 canvas.removeItem(selection);
 				 System.out.println("Canvas : "+ selection);
 			} else if (op.equals("Clone")) {
 				 CanvasItem clone = selection.duplicate();
 				 clone.move(10, 10);
 				 canvas.addItem(clone);
+=======
+				// canvas.removeItem(selection);
+			} else if (op.equals("Clone")) {
+				// CanvasItem clone = selection.duplicate();
+				// clone.move(10, 10);
+				// canvas.addItem(clone);
+>>>>>>> 1c0dd89a6b93e2891ed05e3dee7d5b993aef5885
 
 				// select(clone);
 			}
