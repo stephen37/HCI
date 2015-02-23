@@ -14,7 +14,6 @@ import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -31,29 +30,34 @@ import modele.PathItem;
 import modele.PersistentCanvas;
 import modele.RectangleItem;
 
-
 @SuppressWarnings("serial")
 public class GraphicalEditor extends JFrame {
 
 	// Graphical Interface
 	private ArrayList<JButton> operations;
-	private JPanel outline;
-	private JPanel fill;
+
 	private Point mousepos; // Stores the previous mouse position
 
 	private String title; // Changes according to the mode
-	private String mode; // Mode of interaction
 
-	private PersistentCanvas canvas; // Stores the created items
+	public PersistentCanvas canvas; // Stores the created items
 	private CanvasItem selection; // Stores the selected item
 	ToolBar toolbar;
+	String mode;
+	JPanel outline;
+	JPanel fill;
 
 	// Constructor of the Graphical Editor
-	
-	public GraphicalEditor(String theTitle, int width, int height) {
+
+	public GraphicalEditor(String theTitle, int width, int height, ToolBar tool) {
 		title = theTitle;
 		selection = null;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		toolbar = tool;
+		mode = toolbar.getMode();
+		outline = toolbar.getOutlinePanel();
+		fill = toolbar.getFillPanel();
+		operations = toolbar.getOperations();
+		
 
 		Container pane = getContentPane();
 		pane.setLayout(new BoxLayout(pane, BoxLayout.LINE_AXIS));
@@ -62,53 +66,31 @@ public class GraphicalEditor extends JFrame {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-		// Create the mode selection button list
-		mode = "Rectangle"; // TODO you can change that later
-		ButtonGroup group = new ButtonGroup();
-		panel.add(createMode("Select/Move", group));
-		panel.add(createMode("Rectangle", group));
-		panel.add(createMode("Ellipse", group));
-		panel.add(createMode("Line", group));
-		panel.add(createMode("Path", group));
-		panel.add(Box.createVerticalStrut(30));
-		fill = createColorSample(Color.LIGHT_GRAY);
-		panel.add(fill);
-		panel.add(Box.createVerticalStrut(10));
-		outline = createColorSample(Color.BLACK);
-		panel.add(outline);
-		panel.add(Box.createVerticalStrut(30));
-		operations = new ArrayList<JButton>();
-		panel.add(createOperation("Delete"));
-		panel.add(Box.createRigidArea(new Dimension(0, 5)));
-		panel.add(createOperation("Clone"));
-		panel.add(Box.createVerticalGlue());
-		pane.add(panel);
-
 		// Create the canvas for drawing
 		canvas = new PersistentCanvas();
 		canvas.setBackground(Color.WHITE);
 		canvas.setPreferredSize(new Dimension(width, height));
 		pane.add(canvas);
-		
+
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				Point p = e.getPoint();
-				Color o = outline.getBackground();
-				Color f = fill.getBackground();
+				Color o = toolbar.getOutlineColor();
+				Color f = toolbar.getFillColor();
 				CanvasItem item = null;
 
 				if (mode.equals("Select/Move")
 						&& SwingUtilities.isLeftMouseButton(e)) {
 					// TODO you can use the function select(CanvasItem item);
 					select(canvas.getItemAt(p));
-//SELECTION RECTANGLE
+					// SELECTION RECTANGLE
 				} else if (mode.equals("Select/Move")
 						&& SwingUtilities.isRightMouseButton(e)) {
 					select(canvas.getItemAt(p));
 					item = new RectangleItem(canvas, o, f, p);
 					System.out.println(canvas.addItem(item));
 					select(item);
-//FIN
+					// FIN
 				} else {
 
 					if (mode.equals("Rectangle")) {
@@ -144,22 +126,16 @@ public class GraphicalEditor extends JFrame {
 			}
 		});
 
-//		pane.addKeyListener(keyboardListener);
+		// pane.addKeyListener(keyboardListener);
 		pack();
 		updateTitle();
 		setVisible(true);
-//		toolbar = new ToolBar();
-
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocation(150, 0);
 	}
 
 	
-	public CanvasItem getSelection() {
-		return selection;
-		
-	}
-	public PersistentCanvas getCanvas() {
-		return canvas;
-	}
+
 	// Listen the mode changes and update the Title
 	private ActionListener modeListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
@@ -306,5 +282,13 @@ public class GraphicalEditor extends JFrame {
 			for (JButton op : operations)
 				op.setEnabled(false);
 		}
+	}
+	public CanvasItem getSelection() {
+		return selection;
+
+	}
+
+	public PersistentCanvas getCanvas() {
+		return canvas;
 	}
 }
