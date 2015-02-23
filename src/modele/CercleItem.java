@@ -3,31 +3,32 @@ package modele;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Ellipse2D.Float;
-
 
 public class CercleItem extends CanvasItem {
-	
+
 	Point firstPoint;
-	
-	public CercleItem(PersistentCanvas c, Color o, Color f, Point p){
+
+	public CercleItem(PersistentCanvas c, Color o, Color f, Point p) {
 		super(c, o, f);
 		shape = new Ellipse2D.Float(p.x, p.y, 0, 0);
 		firstPoint = p;
 	}
-	
+
 	public CercleItem(CercleItem other) {
 		super(other.canvas, other.outline, other.fill);
-		//shape = new Ellipse2D.Float((Ellipse2D) other.shape);
+		shape = new Ellipse2D.Float(
+				(float) ((Ellipse2D.Float) other.shape).getX(),
+				(float) ((Ellipse2D.Float) other.shape).getY(),
+				(float) ((Ellipse2D.Float) other.shape).getWidth(),
+				(float) ((Ellipse2D.Float) other.shape).getHeight());
 		isSelected = false;
-		firstPoint = other.firstPoint;	
+		firstPoint = other.firstPoint;
 	}
-	
+
 	public CanvasItem duplicate() {
 		return canvas.addItem(new CercleItem(this));
 	}
-	
+
 	public void update(Point p) {
 		((Ellipse2D.Float) shape).setFrameFromDiagonal(firstPoint, p);
 		canvas.repaint();
