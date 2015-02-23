@@ -3,10 +3,6 @@ package modele;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
-<<<<<<< HEAD
-=======
-
->>>>>>> e2ecc04cb381653d8752fadd8772df7b496e2b79
 
 public class CercleItem extends CanvasItem {
 

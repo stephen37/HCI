@@ -35,8 +35,9 @@ public class ToolBar extends JFrame {
 	JPanel fill;
 	JPanel outline;
 	ArrayList<JButton> operations;
-//	CanvasItem selection = ge.getSelection();
-//	PersistentCanvas canvas = ge.getCanvas();
+
+	// CanvasItem selection = ge.getSelection();
+	// PersistentCanvas canvas = ge.getCanvas();
 
 	public ToolBar() {
 		// TODO Auto-generated constructor stub
@@ -46,31 +47,29 @@ public class ToolBar extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-//		panel.setBackground(Color.red);
+		// panel.setBackground(Color.red);
 
 		// Create the mode selection button list
-		mode = "Rectangle"; 
+		mode = "Rectangle";
 
-//		ButtonGroup group = new ButtonGroup();
+		// ButtonGroup group = new ButtonGroup();
 		/*
-		panel.add(createMode("Select/Move", group));
-		panel.add(createMode("Rectangle", group));
-		panel.add(createMode("Ellipse", group));
-		panel.add(createMode("Line", group));
-		panel.add(createMode("Path", group));
-		
-		*/
+		 * panel.add(createMode("Select/Move", group));
+		 * panel.add(createMode("Rectangle", group));
+		 * panel.add(createMode("Ellipse", group)); panel.add(createMode("Line",
+		 * group)); panel.add(createMode("Path", group));
+		 */
 		SelectMoveButton selectMoveButton = new SelectMoveButton();
-		selectMoveButton.setPreferredSize(new Dimension(100,20));
+		selectMoveButton.setPreferredSize(new Dimension(100, 20));
 		RectangleButton rectangleButton = new RectangleButton();
-		rectangleButton.setPreferredSize(new Dimension(100,20));
+		rectangleButton.setPreferredSize(new Dimension(100, 20));
 		EllipseButton ellipseButton = new EllipseButton();
-		ellipseButton.setPreferredSize(new Dimension(100,20));
+		ellipseButton.setPreferredSize(new Dimension(100, 20));
 		LineButton lineButton = new LineButton();
-		lineButton.setPreferredSize(new Dimension(100,20));
+		lineButton.setPreferredSize(new Dimension(100, 20));
 		PathButton pathButton = new PathButton();
-		pathButton.setPreferredSize(new Dimension(100,20));
-		
+		pathButton.setPreferredSize(new Dimension(100, 20));
+
 		panel.add(selectMoveButton);
 		panel.add(rectangleButton);
 		panel.add(ellipseButton);
@@ -89,7 +88,7 @@ public class ToolBar extends JFrame {
 		panel.add(Box.createRigidArea(new Dimension(0, 5)));
 		panel.add(createOperation("Clone"));
 		panel.add(Box.createVerticalGlue());
-//		pane.add(panel);
+		// pane.add(panel);
 		this.add(panel);
 		setVisible(true);
 		setResizable(false);
@@ -98,7 +97,6 @@ public class ToolBar extends JFrame {
 
 	}
 
-	
 	private MouseAdapter colorListener = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {
 			JPanel p = (JPanel) e.getSource();
@@ -106,15 +104,12 @@ public class ToolBar extends JFrame {
 			c = JColorChooser.showDialog(null, "Select a color", c);
 			// TODO Manage the color change
 
-		/*	if (selection == null) {
-				p.setBackground(c);
-			} else if (p == outline) {
-				p.setBackground(c);
-				selection.setOutlineColor(c);
-			} else if (p == fill) {
-				p.setBackground(c);
-				selection.setFillColor(c);
-			}*/
+			/*
+			 * if (selection == null) { p.setBackground(c); } else if (p ==
+			 * outline) { p.setBackground(c); selection.setOutlineColor(c); }
+			 * else if (p == fill) { p.setBackground(c);
+			 * selection.setFillColor(c); }
+			 */
 			repaint();
 		}
 
@@ -132,18 +127,18 @@ public class ToolBar extends JFrame {
 	// Listen the action on the button
 	private ActionListener operationListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-//			if (selection == null)
-//				return;
+			// if (selection == null)
+			// return;
 
 			String op = e.getActionCommand();
 			if (op.equals("Delete")) {
-//				canvas.removeItem(selection);
+				// canvas.removeItem(selection);
 			} else if (op.equals("Clone")) {
-//				CanvasItem clone = selection.duplicate();
-//				clone.move(10, 10);
-//				canvas.addItem(clone);
+				// CanvasItem clone = selection.duplicate();
+				// clone.move(10, 10);
+				// canvas.addItem(clone);
 
-//				select(clone);
+				// select(clone);
 			}
 		}
 	};
