@@ -15,12 +15,9 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
 import modele.CanvasItem;
@@ -117,7 +114,6 @@ public class GraphicalEditor extends JFrame {
 						item = new PathItem(canvas, o, f, p);
 					}
 					canvas.addItem(item);
-					for(Rectangle rect : item.mo)
 					select(item);
 				}
 				mousepos = p;
