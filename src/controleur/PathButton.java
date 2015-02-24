@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,28 +18,16 @@ public class PathButton extends JButton {
 
 	
 	private static final long serialVersionUID = 1L;
-	File file = new File("./Images/path.gif");
-	BufferedImage img;
+	private static ImageIcon icon = new ImageIcon("ImagesMain/Path.png");
 
 	public PathButton() {
 		this.setSize(30, 30);
-		try {
-			img = ImageIO.read(file);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.setIcon(icon);
 
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		g2.drawRect(7, 0, 20, 7);
-		g2.drawString("this is a test ", 20, 20);
-		g2.drawImage(img, 0, 0, null);
-		
-		
-		
 	}
 }
