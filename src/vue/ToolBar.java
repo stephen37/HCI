@@ -19,6 +19,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import modele.CanvasItem;
+import modele.PersistentCanvas;
 import controleur.EllipseButton;
 import controleur.LineButton;
 import controleur.PathButton;
@@ -27,48 +29,89 @@ import controleur.SelectMoveButton;
 
 public class ToolBar extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String mode;
 	JPanel fill;
 	JPanel outline;
 	ArrayList<JButton> operations;
 
+	PersistentCanvas canvas;
+	private CanvasItem selection;
+
 	// CanvasItem selection = ge.getSelection();
 	// PersistentCanvas canvas = ge.getCanvas();
 
 	public ToolBar() {
-		// TODO Auto-generated constructor stub
 
 		Container pane = getContentPane();
 		pane.setLayout(new BoxLayout(pane, BoxLayout.X_AXIS));
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		selection = null;
 		// panel.setBackground(Color.red);
 
 		// Create the mode selection button list
 		mode = "Rectangle";
 
-		// ButtonGroup group = new ButtonGroup();
-		/*
-		 * panel.add(createMode("Select/Move", group));
-		 * panel.add(createMode("Rectangle", group));
-		 * panel.add(createMode("Ellipse", group)); panel.add(createMode("Line",
-		 * group)); panel.add(createMode("Path", group));
-		 */
+		// Bouton select/Move
 		SelectMoveButton selectMoveButton = new SelectMoveButton();
 		selectMoveButton.setPreferredSize(new Dimension(100, 20));
+		selectMoveButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GraphicalEditor.mode = "Select/Move";
+
+			}
+		});
+		// Bouton permettant de dessiner des rectangles.
 		RectangleButton rectangleButton = new RectangleButton();
 		rectangleButton.setPreferredSize(new Dimension(100, 20));
+		rectangleButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GraphicalEditor.mode = "Rectangle";
+			}
+		});
+		// Bouton permettant de dessiner des ellipses
 		EllipseButton ellipseButton = new EllipseButton();
 		ellipseButton.setPreferredSize(new Dimension(100, 20));
+		ellipseButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GraphicalEditor.mode = "Ellipse";
+			}
+		});
+		// /bouton permettant de dessiner des lignes droites.
 		LineButton lineButton = new LineButton();
 		lineButton.setPreferredSize(new Dimension(100, 20));
+		lineButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GraphicalEditor.mode = "Line";
+
+			}
+		});
+		// Bouton permettant de dessiner des lignes.
+		// ButtonGroup group = new ButtonGroup();
+
 		PathButton pathButton = new PathButton();
 		pathButton.setPreferredSize(new Dimension(100, 20));
+		pathButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GraphicalEditor.mode = "Path";
+			}
+		});
 
 		panel.add(selectMoveButton);
 		panel.add(rectangleButton);
@@ -88,6 +131,9 @@ public class ToolBar extends JFrame {
 		panel.add(Box.createRigidArea(new Dimension(0, 5)));
 		panel.add(createOperation("Clone"));
 		panel.add(Box.createVerticalGlue());
+
+		pane.add(panel);
+		// this.add(panel);
 		// pane.add(panel);
 		this.add(panel);
 		setVisible(true);
@@ -102,7 +148,15 @@ public class ToolBar extends JFrame {
 			JPanel p = (JPanel) e.getSource();
 			Color c = p.getBackground();
 			c = JColorChooser.showDialog(null, "Select a color", c);
-			// TODO Manage the color change
+			if (GraphicalEditor.selection == null) {
+				p.setBackground(c);
+			} else if (p == outline) {
+				p.setBackground(c);
+				GraphicalEditor.selection.setOutlineColor(c);
+			} else if (p == fill) {
+				p.setBackground(c);
+				GraphicalEditor.selection.setFillColor(c);
+			}
 
 			/*
 			 * if (selection == null) { p.setBackground(c); } else if (p ==
@@ -115,12 +169,11 @@ public class ToolBar extends JFrame {
 
 	};
 
-	// Listen the mode changes and update the Title
+	// Listen the mode changes
 	private ActionListener modeListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			// TODO you can use the function updateTitle();
 			mode = e.getActionCommand();
-
+			
 		}
 	};
 
@@ -132,13 +185,13 @@ public class ToolBar extends JFrame {
 
 			String op = e.getActionCommand();
 			if (op.equals("Delete")) {
-				// canvas.removeItem(selection);
+				GraphicalEditor.canvas.removeItem(GraphicalEditor.selection);
+				GraphicalEditor.selection.deselect();
 			} else if (op.equals("Clone")) {
-				// CanvasItem clone = selection.duplicate();
-				// clone.move(10, 10);
-				// canvas.addItem(clone);
-
-				// select(clone);
+				CanvasItem clone = GraphicalEditor.selection.duplicate();
+				clone.move(10, 10);
+				GraphicalEditor.canvas.addItem(clone);
+				// canvas.removeItem(selection);
 			}
 		}
 	};
@@ -151,6 +204,15 @@ public class ToolBar extends JFrame {
 		rbtn.addActionListener(modeListener);
 		group.add(rbtn);
 		return rbtn;
+	}
+
+	private JButton createModeButton(String description) {
+		JButton btn = new JButton();
+		if (mode == description) {
+			btn.setSelected(true);
+		}
+		btn.addActionListener(modeListener);
+		return btn;
 	}
 
 	private JButton createOperation(String description) {
@@ -170,5 +232,39 @@ public class ToolBar extends JFrame {
 		p.setMaximumSize(new Dimension(100, 150));
 		p.addMouseListener(colorListener);
 		return p;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public Color getOutlineColor() {
+		return outline.getBackground();
+	}
+
+	public JPanel getOutlinePanel() {
+		return outline;
+	}
+
+	public Color getFillColor() {
+		return fill.getBackground();
+	}
+
+	public JPanel getFillPanel() {
+		return fill;
+	}
+
+	public ArrayList<JButton> getOperations() {
+		return operations;
+	}
+
+	public void setCanvas(PersistentCanvas can) {
+		canvas = can;
+
+	}
+
+	public void setSelection(CanvasItem select) {
+		selection = select;
+		System.out.println(select);
 	}
 }

@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import vue.ToolBar;
+
 public class PathButton extends JButton {
 
 	
@@ -22,14 +24,6 @@ public class PathButton extends JButton {
 		this.setSize(30, 30);
 		try {
 			img = ImageIO.read(file);
-			JFrame frame = new JFrame();
-			JPanel panel = new JPanel();
-			panel.add(this);
-//			panel.add(new JButton("sdqsd"));
-			frame.add(panel);
-		
-			frame.setVisible(true);
-			frame.setSize(400, 400);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -9,6 +9,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 
+import vue.ToolBar;
+
 public class LineButton extends JButton{
 
 	
@@ -20,6 +22,7 @@ public class LineButton extends JButton{
 		this.setSize(30, 30);
 		try {
 			img = ImageIO.read(file);
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -9,6 +9,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 
+import vue.ToolBar;
+
 public class EllipseButton extends JButton{
 
 	
