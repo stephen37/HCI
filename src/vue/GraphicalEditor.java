@@ -125,6 +125,7 @@ public class GraphicalEditor extends JFrame {
 						item = new PathItem(canvas, o, f, p);
 					}
 					canvas.addItem(item);
+					for(Rectangle rect : item.mo)
 					select(item);
 				}
 				mousepos = p;
