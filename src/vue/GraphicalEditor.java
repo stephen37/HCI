@@ -22,6 +22,7 @@ import javax.swing.SwingUtilities;
 
 import modele.CanvasItem;
 import modele.CercleItem;
+import modele.ImageTransferHandler;
 import modele.LineItem;
 import modele.PathItem;
 import modele.PersistentCanvas;
@@ -35,7 +36,7 @@ import modele.RectangleItem;
 public class GraphicalEditor extends JFrame {
 
 	// Graphical Interface
-	public static  ArrayList<JButton> operations;
+	public static ArrayList<JButton> operations;
 
 	private Point mousepos; // Stores the previous mouse position
 
@@ -69,7 +70,8 @@ public class GraphicalEditor extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
+		
+		
 		// Create the canvas for drawing
 		canvas = new PersistentCanvas();
 		canvas.setBackground(Color.WHITE);
@@ -152,8 +154,6 @@ public class GraphicalEditor extends JFrame {
 
 		}
 	};
-
-
 
 	private KeyListener keyboardListener = new KeyListener() {
 

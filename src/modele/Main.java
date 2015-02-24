@@ -1,9 +1,6 @@
 package modele;
 
-import javax.swing.JFrame;
-
 import vue.GraphicalEditor;
-import vue.MainPanel;
 import vue.ToolBar;
 
 public class Main {
