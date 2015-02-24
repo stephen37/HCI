@@ -199,10 +199,7 @@ public class ToolBar extends JFrame {
 			} else if (op.equals("Clone")) {
 				CanvasItem clone = GraphicalEditor.selection.duplicate();
 				clone.move(10, 10);
-				GraphicalEditor.deselect(GraphicalEditor.selection);
 				GraphicalEditor.select(clone);
-				//GraphicalEditor.canvas.addItem(clone);
-				// canvas.removeItem(selection);
 			}
 		}
 	};
