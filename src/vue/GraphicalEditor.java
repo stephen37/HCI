@@ -38,7 +38,7 @@ import modele.RectangleItem;
 public class GraphicalEditor extends JFrame {
 
 	// Graphical Interface
-	private ArrayList<JButton> operations;
+	public static  ArrayList<JButton> operations;
 
 	private Point mousepos; // Stores the previous mouse position
 
@@ -188,7 +188,7 @@ public class GraphicalEditor extends JFrame {
 	}
 
 	// Deselect an Itam
-	private void deselect(CanvasItem item) {
+	public void deselect(CanvasItem item) {
 		if (selection != null) {
 			selection.deselect();
 		}

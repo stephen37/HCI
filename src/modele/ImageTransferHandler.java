@@ -42,6 +42,7 @@ public class ImageTransferHandler extends TransferHandler {
 							&& fileList.toArray() instanceof File[]) {
 						File[] files = (File[]) fileList.toArray();
 						mainPanel.addFiles(files);
+						System.out.println("taille de Files :  " +files.length);
 					}
 					return true;
 				} catch (IOException e) {

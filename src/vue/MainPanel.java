@@ -27,6 +27,7 @@ public class MainPanel extends JPanel {
 		for (File file : files) {
 			try {
 				image = ImageIO.read(file);
+				System.out.println("chemin : " +file.getAbsolutePath());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

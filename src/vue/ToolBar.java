@@ -143,6 +143,15 @@ public class ToolBar extends JFrame {
 
 	}
 
+	// Deselect an Itam
+		public void deselect(CanvasItem item) {
+			if (GraphicalEditor.selection != null) {
+				GraphicalEditor.selection.deselect();
+			}
+			for (JButton op : GraphicalEditor.operations) {
+				op.setEnabled(false);
+			}
+		}
 	private MouseAdapter colorListener = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {
 			JPanel p = (JPanel) e.getSource();
