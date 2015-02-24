@@ -117,7 +117,6 @@ public class GraphicalEditor extends JFrame {
 						item = new PathItem(canvas, o, f, p);
 					}
 					canvas.addItem(item);
-					for(Rectangle rect : item.mo)
 					select(item);
 				}
 				mousepos = p;
@@ -188,8 +187,8 @@ public class GraphicalEditor extends JFrame {
 		setTitle(title + " - " + mode);
 	}
 
-	// Deselect an Itam
-	public void deselect(CanvasItem item) {
+	// Deselect an Item
+	public static void deselect(CanvasItem item) {
 		if (selection != null) {
 			selection.deselect();
 		}
@@ -199,7 +198,7 @@ public class GraphicalEditor extends JFrame {
 	}
 
 	// Select an Item
-	private void select(CanvasItem item) {
+	public static void select(CanvasItem item) {
 		if (selection != null)
 			selection.deselect();
 

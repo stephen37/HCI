@@ -195,11 +195,13 @@ public class ToolBar extends JFrame {
 			String op = e.getActionCommand();
 			if (op.equals("Delete")) {
 				GraphicalEditor.canvas.removeItem(GraphicalEditor.selection);
-				GraphicalEditor.selection.deselect();
+				GraphicalEditor.deselect(GraphicalEditor.selection);
 			} else if (op.equals("Clone")) {
 				CanvasItem clone = GraphicalEditor.selection.duplicate();
 				clone.move(10, 10);
-				GraphicalEditor.canvas.addItem(clone);
+				GraphicalEditor.deselect(GraphicalEditor.selection);
+				GraphicalEditor.select(clone);
+				//GraphicalEditor.canvas.addItem(clone);
 				// canvas.removeItem(selection);
 			}
 		}
