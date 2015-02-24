@@ -3,7 +3,18 @@ package vue;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -11,18 +22,22 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import modele.CanvasItem;
 import modele.CercleItem;
-import modele.ImageTransferHandler;
 import modele.LineItem;
 import modele.PathItem;
 import modele.PersistentCanvas;
@@ -33,7 +48,7 @@ import modele.RectangleItem;
  *         (cfleury@lri.fr) - 18.10.2013
  */
 @SuppressWarnings("serial")
-public class GraphicalEditor extends JFrame {
+public class GraphicalEditor extends JFrame implements DropTargetListener {
 
 	// Graphical Interface
 	public static ArrayList<JButton> operations;
@@ -46,6 +61,11 @@ public class GraphicalEditor extends JFrame {
 	public static CanvasItem selection; // Stores the selected item
 	ToolBar toolbar;
 	public static String mode;
+	Image image;
+	JMenuBar menu;
+	JMenu fileMenu, editMenu;
+
+	File file;
 
 	// JPanel outline;
 	// JPanel fill;
@@ -55,7 +75,6 @@ public class GraphicalEditor extends JFrame {
 	public GraphicalEditor(String theTitle, int width, int height, ToolBar tool) {
 
 		// Constructor of the Graphical Editor
-
 		title = theTitle;
 		selection = null;
 		toolbar = tool;
@@ -63,6 +82,15 @@ public class GraphicalEditor extends JFrame {
 		// outline = toolbar.getOutlinePanel();
 		// fill = toolbar.getFillPanel();
 		operations = toolbar.getOperations();
+		// JPanel menuPanel = new JPanel();
+		// menu = new JMenuBar();
+		// fileMenu = new JMenu("File");
+		// editMenu = new JMenu("Edit");
+		// menu.add(fileMenu);
+		// menu.add(editMenu);
+		// menuPanel.add(menu);
+		// this.setLayout(new BorderLayout());
+		// this.add(menuPanel, BorderLayout.NORTH);
 
 		Container pane = getContentPane();
 		pane.setLayout(new BoxLayout(pane, BoxLayout.LINE_AXIS));
@@ -70,13 +98,13 @@ public class GraphicalEditor extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		
-		
+
 		// Create the canvas for drawing
 		canvas = new PersistentCanvas();
 		canvas.setBackground(Color.WHITE);
 		canvas.setPreferredSize(new Dimension(width, height));
 		pane.add(canvas);
+		new DropTarget(canvas, this);
 
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -84,7 +112,6 @@ public class GraphicalEditor extends JFrame {
 				Color o = toolbar.getOutlineColor();
 				Color f = toolbar.getFillColor();
 				CanvasItem item = null;
-
 				if (mode.equals("Select/Move")
 						&& SwingUtilities.isLeftMouseButton(e)) {
 					// TODO you can use the function select(CanvasItem item);
@@ -220,4 +247,85 @@ public class GraphicalEditor extends JFrame {
 	public PersistentCanvas getCanvas() {
 		return canvas;
 	}
+
+	/************************************* DROPTARGETLISTENER *****************************************/
+
+	@Override
+	public void drop(DropTargetDropEvent event) {
+
+		// Accept copy drops
+		event.acceptDrop(DnDConstants.ACTION_COPY);
+
+		// Get the transfer which can provide the dropped item data
+		Transferable transferable = event.getTransferable();
+
+		// Get the data formats of the dropped item
+		DataFlavor[] flavors = transferable.getTransferDataFlavors();
+
+		// Loop through the flavors
+		for (DataFlavor flavor : flavors) {
+
+			try {
+
+				// If the drop items are files
+				if (flavor.isFlavorJavaFileListType()) {
+
+					// Get all of the dropped files
+					List<File> files = (List<File>) transferable
+							.getTransferData(flavor);
+
+					// Loop them through
+					for (File file : files) {
+
+						// Print out the file path
+						System.out.println("File path is '" + file.getPath()
+								+ "'.");
+						this.file = file;
+						image = ImageIO.read(file);
+						paintComponents((Graphics2D) getGraphics());
+
+					}
+
+				}
+
+			} catch (Exception e) {
+
+				// Print out the error stack
+				e.printStackTrace();
+
+			}
+		}
+
+		// Inform that the drop is complete
+		event.dropComplete(true);
+
+	}
+
+	@Override
+	public void dragEnter(DropTargetDragEvent event) {
+	}
+
+	@Override
+	public void dragExit(DropTargetEvent event) {
+	}
+
+	@Override
+	public void dragOver(DropTargetDragEvent event) {
+	}
+
+	@Override
+	public void dropActionChanged(DropTargetDragEvent event) {
+	}
+
+	@Override
+	public void paintComponents(Graphics g) {
+		// TODO Auto-generated method stub
+		super.paintComponents(g);
+
+		if (image != null) {
+			g.drawImage(image, 0, 0, null);
+			System.out.println("Le dessin c'est cool !");
+		}
+	}
+
 }
