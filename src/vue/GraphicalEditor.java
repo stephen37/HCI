@@ -25,11 +25,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-<<<<<<< HEAD
+
 import java.awt.event.MouseMotionListener;
-=======
+
 import java.io.BufferedReader;
->>>>>>> 370ab8d809811e188e9b8d4fd757f69569e904d2
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -76,11 +75,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 	private Point mousepos; // Stores the previous mouse position
 
-<<<<<<< HEAD
 	protected static String title; // Changes according to the mode
-=======
-	public static String title; // Changes according to the mode
->>>>>>> 370ab8d809811e188e9b8d4fd757f69569e904d2
 
 	public static PersistentCanvas canvas; // Stores the created items
 	public static CanvasItem selection; // Stores the selected item
@@ -175,30 +170,30 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 						deselect(selection);
 						canvas.getItemAt(p).animated();
 					}
-					
-//					for (CanvasItem itemCanvas : canvas.items) {
-//						if (itemCanvas.isAnimated) {
-//							// CanvasItem test = itemCanvas;
-//							// while (itemCanvas.isAnimated) {
-//							// canvas.items.remove(itemCanvas);
-//							// canvas.addItem(test);
-//							// }
-//							
-//							select(itemCanvas);
-//							System.out.println("Item " + itemCanvas);
-//							for (int i = 0; i < 5; i++) {
-//								itemCanvas.move(i, i);
-//								System.out.println(i);
-//								try {
-//									Thread.sleep(1000);
-//								} catch (InterruptedException e1) {
-//									// TODO Auto-generated catch block
-//									e1.printStackTrace();
-//								}
-//							}
-//
-//						}
-//					}
+
+					// for (CanvasItem itemCanvas : canvas.items) {
+					// if (itemCanvas.isAnimated) {
+					// // CanvasItem test = itemCanvas;
+					// // while (itemCanvas.isAnimated) {
+					// // canvas.items.remove(itemCanvas);
+					// // canvas.addItem(test);
+					// // }
+					//
+					// select(itemCanvas);
+					// System.out.println("Item " + itemCanvas);
+					// for (int i = 0; i < 5; i++) {
+					// itemCanvas.move(i, i);
+					// System.out.println(i);
+					// try {
+					// Thread.sleep(1000);
+					// } catch (InterruptedException e1) {
+					// // TODO Auto-generated catch block
+					// e1.printStackTrace();
+					// }
+					// }
+					//
+					// }
+					// }
 				}
 				mousepos = p;
 
@@ -230,7 +225,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(150, 0);
 	}
-	
+
 	// Listen the mode changes and update the Title
 	public ActionListener modeListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
@@ -433,14 +428,13 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		}
 	}
 
-<<<<<<< HEAD
 	// Toolkit tk = Toolkit.getDefaultToolkit();
 	// Image imgSelect = tk.getImage("ImagesSouris/Select");
 	// Image imgRectangle = tk.getImage("ImagesSouris/Rectangle");
 	// Image imgEllipse = tk.getImage("ImagesSouris/Ellipse");
 	// Cursor monCurseur = tk.createCustomCursor(imgSelect, new Point(0, 0),
 	// "Select Cursor");
-=======
+
 	/************************************* KEYLISTENER *****************************/
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -476,7 +470,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-	}
->>>>>>> 370ab8d809811e188e9b8d4fd757f69569e904d2
 
+	}
 }
