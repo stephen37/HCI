@@ -9,6 +9,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javafx.animation.Animation;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,11 +18,15 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import com.sun.javafx.geom.Rectangle;
+
 import modele.CanvasItem;
 import modele.PersistentCanvas;
+import controleur.AnimationButton;
 import controleur.EllipseButton;
 import controleur.LineButton;
 import controleur.PathButton;
@@ -63,7 +69,14 @@ public class ToolBar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GraphicalEditor.mode = "Select/Move";
-
+//				System.out.println(GraphicalEditor.title + " - "
+//						+ GraphicalEditor.mode);
+//				System.out.println(GraphicalEditor.title + " - "
+//						+ GraphicalEditor.newMode);
+//				if (GraphicalEditor.mode != GraphicalEditor.newMode) {
+//					System.out.println("trololo");
+//					GraphicalEditor.newMode = GraphicalEditor.mode;
+//				}
 			}
 		});
 		// Bouton permettant de dessiner des rectangles.
@@ -75,6 +88,14 @@ public class ToolBar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GraphicalEditor.mode = "Rectangle";
+//				System.out.println(GraphicalEditor.title + " - "
+//						+ GraphicalEditor.mode);
+//				System.out.println(GraphicalEditor.title + " - "
+//						+ GraphicalEditor.newMode);
+//				if (GraphicalEditor.mode != GraphicalEditor.newMode) {
+//					System.out.println("trololo");
+//					GraphicalEditor.newMode = GraphicalEditor.mode;
+//				}
 			}
 		});
 		// Bouton permettant de dessiner des ellipses
@@ -86,6 +107,14 @@ public class ToolBar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GraphicalEditor.mode = "Ellipse";
+				// System.out.println(GraphicalEditor.title + " - " +
+				// GraphicalEditor.mode);
+				// System.out.println(GraphicalEditor.title + " - " +
+				// GraphicalEditor.newMode);
+				// if(GraphicalEditor.mode != GraphicalEditor.newMode){
+				// System.out.println("trololo");
+				// GraphicalEditor.newMode = GraphicalEditor.mode;
+				// }
 			}
 		});
 		// /bouton permettant de dessiner des lignes droites.
@@ -96,7 +125,14 @@ public class ToolBar extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				GraphicalEditor.mode = "Line";
-
+				// System.out.println(GraphicalEditor.title + " - " +
+				// GraphicalEditor.mode);
+				// System.out.println(GraphicalEditor.title + " - " +
+				// GraphicalEditor.newMode);
+				// if(GraphicalEditor.mode != GraphicalEditor.newMode){
+				// System.out.println("trololo");
+				// GraphicalEditor.newMode = GraphicalEditor.mode;
+				// }
 			}
 		});
 		// Bouton permettant de dessiner des lignes.
@@ -110,6 +146,35 @@ public class ToolBar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GraphicalEditor.mode = "Path";
+				// System.out.println(GraphicalEditor.title + " - " +
+				// GraphicalEditor.mode);
+				// System.out.println(GraphicalEditor.title + " - " +
+				// GraphicalEditor.newMode);
+				// if(GraphicalEditor.mode != GraphicalEditor.newMode){
+				// System.out.println("trololo");
+				// GraphicalEditor.newMode = GraphicalEditor.mode;
+				// }
+			}
+		});
+
+		// Bouton permettant de faire clignoter un item
+		AnimationButton animationButton = new AnimationButton();
+		animationButton.setPreferredSize(new Dimension(100, 20));
+		animationButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				GraphicalEditor.mode = "Animation";
+				GraphicalEditor.deselect(GraphicalEditor.selection);
+				// System.out.println(GraphicalEditor.title + " - " +
+				// GraphicalEditor.mode);
+				// System.out.println(GraphicalEditor.title + " - " +
+				// GraphicalEditor.newMode);
+				// if(GraphicalEditor.mode != GraphicalEditor.newMode){
+				// System.out.println("trololo");
+				// GraphicalEditor.newMode = GraphicalEditor.mode;
+				// }
 			}
 		});
 
@@ -118,10 +183,19 @@ public class ToolBar extends JFrame {
 		panel.add(ellipseButton);
 		panel.add(lineButton);
 		panel.add(pathButton);
+		panel.add(animationButton);
 
+		JLabel couleurInterieure = new JLabel("Intérieure");
+		JLabel couleurExterieure = new JLabel("Extérieure");
+		
+		couleurExterieure.setBackground(Color.blue);
+		couleurInterieure.setBackground(Color.red);
+		
+		panel.add(couleurInterieure);
 		panel.add(Box.createVerticalStrut(30));
 		fill = createColorSample(Color.LIGHT_GRAY);
 		panel.add(fill);
+		panel.add(couleurExterieure);
 		panel.add(Box.createVerticalStrut(10));
 		outline = createColorSample(Color.BLACK);
 		panel.add(outline);
@@ -143,15 +217,16 @@ public class ToolBar extends JFrame {
 
 	}
 
-	// Deselect an Itam
-		public void deselect(CanvasItem item) {
-			if (GraphicalEditor.selection != null) {
-				GraphicalEditor.selection.deselect();
-			}
-			for (JButton op : GraphicalEditor.operations) {
-				op.setEnabled(false);
-			}
+	// Deselect an Item
+	public void deselect(CanvasItem item) {
+		if (GraphicalEditor.selection != null) {
+			GraphicalEditor.selection.deselect();
 		}
+		for (JButton op : GraphicalEditor.operations) {
+			op.setEnabled(false);
+		}
+	}
+
 	private MouseAdapter colorListener = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {
 			JPanel p = (JPanel) e.getSource();
@@ -182,7 +257,7 @@ public class ToolBar extends JFrame {
 	private ActionListener modeListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			mode = e.getActionCommand();
-			
+
 		}
 	};
 

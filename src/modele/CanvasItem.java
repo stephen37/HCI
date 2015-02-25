@@ -20,6 +20,8 @@ public abstract class CanvasItem {
 	protected Shape shape;
 	protected Boolean isSelected;
 	
+	public Boolean isAnimated;
+	
 	protected ArrayList<Rectangle> modifRect;
 
 	public CanvasItem(PersistentCanvas c, Color o, Color f) {
@@ -29,7 +31,8 @@ public abstract class CanvasItem {
 		shape = null;
 		isSelected = false;
 		
-		modifRect = new ArrayList<Rectangle>();
+		isAnimated = false;
+	//	modifRect = new ArrayList<Rectangle>();
 	}
 
 	public void setOutlineColor(Color c) {
@@ -52,6 +55,16 @@ public abstract class CanvasItem {
 		canvas.repaint();
 	}
 
+	public void animated(){
+		isAnimated = true;
+		canvas.repaint();
+	}
+	
+	public void unanimated(){
+		isAnimated = false;
+		canvas.repaint();
+	}
+	
 	protected void fillShape(Graphics2D g) {
 		g.setColor(fill);
 		g.fill(shape);
