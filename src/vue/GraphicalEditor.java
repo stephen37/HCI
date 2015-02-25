@@ -25,11 +25,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -80,9 +82,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	JMenu fileMenu, editMenu;
 
 	File file;
-	ObjectOutputStream oos;
-	FileOutputStream fileOutput;
-	FileInputStream fileInput;
+	BufferedWriter writer;
+	BufferedReader reader;
 	File fileSelected;
 	ObjectInputStream ois;
 	ArrayList<CanvasItem> listSelection = new ArrayList<CanvasItem>();
@@ -324,19 +325,19 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	public void save() {
 		System.out.println("Saving !");
 		try {
-			fileOutput = new FileOutputStream("graph.txt");
-			oos = new ObjectOutputStream(fileOutput);
-			oos.writeChars("qsdsqd ");
-			// for (CanvasItem item : canvas.getItems()) {
-			// Iterator<Integer> iterator = item.getPoints().iterator();
-			// while (iterator.hasNext()) {
-			// oos.writeChars(" test ");
-			// System.out.println("Writing value " + iterator.next());
-			// }
-			// }
-			oos.flush();
-			oos.close();
-			fileOutput.close();
+			writer = new BufferedWriter(new FileWriter("graph.txt"));
+
+			for (CanvasItem item : canvas.getItems()) {
+				Iterator<Integer> iterator = item.getPoints().iterator();
+				while (iterator.hasNext()) {
+					writer.write(iterator.next()+ "; ");
+					System.out.println("Writing value " + iterator.next());
+				}
+			}
+
+//			writer.flush();
+//			writer.close();
+
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -345,11 +346,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			e1.printStackTrace();
 		} finally {
 			try {
-				if (oos != null) {
-					oos.flush();
-					oos.close();
-				}
-				fileOutput.close();
+				writer.flush();
+				writer.close();
 			} catch (IOException e2) {
 				// TODO: handle exception
 				e2.printStackTrace();
@@ -362,15 +360,14 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			try {
 				fileSelected = filechooser.getSelectedFile();
-				BufferedReader br = new BufferedReader(new FileReader(
-						fileSelected));
+				reader = new BufferedReader(new FileReader(fileSelected));
 
 				// for (CanvasItem item : canvas.getItems()) {
 				// canvas.addItem(item);
 				// canvas.addItem(item.duplicate());
 				// }
 				// fileInput = new FileInputStream("graph.txt");
-				ois = new ObjectInputStream(fileInput);
+
 				CanvasItem item = (CanvasItem) ois.readObject();
 				canvas.addItem(item);
 			} catch (ClassNotFoundException | IOException e) {
@@ -378,8 +375,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				e.printStackTrace();
 			} finally {
 				try {
-					fileInput.close();
-					ois.close();
+					reader.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
