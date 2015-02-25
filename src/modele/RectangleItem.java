@@ -4,16 +4,22 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author Nicolas Roussel (roussel@lri.fr)
  * 
  */
-public class RectangleItem extends CanvasItem {
+public class RectangleItem extends CanvasItem implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Point firstpoint;
-
+	Point lastPoint;
+	
 	public RectangleItem(PersistentCanvas c, Color o, Color f, Point p) {
 		super(c, o, f);
 		shape = new Rectangle(p.x, p.y, 0, 0);
@@ -37,6 +43,7 @@ public class RectangleItem extends CanvasItem {
 	public void update(Point p) {
 		((Rectangle) shape).setFrameFromDiagonal(firstpoint, p);
 		canvas.repaint();
+		lastPoint = p;
 	}
 
 	public void modifSelect(){
@@ -50,6 +57,16 @@ public class RectangleItem extends CanvasItem {
 		((Rectangle) shape).x += dx;
 		((Rectangle) shape).y += dy;
 		canvas.repaint();
+	}
+	
+	@Override
+	public ArrayList<Integer> getPoints() {
+		// TODO Auto-generated method stub
+		
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		list.add(firstpoint.x);
+		list.add(firstpoint.y);
+		return list;
 	}
 
 }

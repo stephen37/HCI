@@ -63,7 +63,6 @@ public class ToolBar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GraphicalEditor.mode = "Select/Move";
-
 			}
 		});
 		// Bouton permettant de dessiner des rectangles.

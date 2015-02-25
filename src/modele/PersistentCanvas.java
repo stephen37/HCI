@@ -57,4 +57,7 @@ public class PersistentCanvas extends Component {
 			item.paint(g);
 	}
 
+	public ArrayList<CanvasItem> getItems() {
+		return items;
+	}
 }
