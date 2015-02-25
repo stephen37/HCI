@@ -3,6 +3,7 @@ package modele;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 
 public class LineItem extends CanvasItem {
 
@@ -40,6 +41,12 @@ public class LineItem extends CanvasItem {
 		((Line2D.Float) shape).x2 += dy;
 		((Line2D.Float) shape).y2 += dy;
 		canvas.repaint();
+	}
+
+	@Override
+	public ArrayList<Integer> getPoints() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

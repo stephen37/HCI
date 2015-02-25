@@ -18,20 +18,36 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
+<<<<<<< HEAD
 import java.awt.event.MouseMotionListener;
+=======
+import java.io.BufferedReader;
+>>>>>>> 370ab8d809811e188e9b8d4fd757f69569e904d2
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -52,14 +68,19 @@ import modele.RectangleItem;
  *         (cfleury@lri.fr) - 18.10.2013
  */
 @SuppressWarnings("serial")
-public class GraphicalEditor extends JFrame implements DropTargetListener {
+public class GraphicalEditor extends JFrame implements DropTargetListener,
+		Serializable, KeyListener {
 
 	// Graphical Interface
 	public static ArrayList<JButton> operations;
 
 	private Point mousepos; // Stores the previous mouse position
 
+<<<<<<< HEAD
 	protected static String title; // Changes according to the mode
+=======
+	public static String title; // Changes according to the mode
+>>>>>>> 370ab8d809811e188e9b8d4fd757f69569e904d2
 
 	public static PersistentCanvas canvas; // Stores the created items
 	public static CanvasItem selection; // Stores the selected item
@@ -71,9 +92,12 @@ public class GraphicalEditor extends JFrame implements DropTargetListener {
 	JMenu fileMenu, editMenu;
 
 	File file;
-
-	// JPanel outline;
-	// JPanel fill;
+	ObjectOutputStream oos;
+	FileOutputStream fileOutput;
+	FileInputStream fileInput;
+	File fileSelected;
+	ObjectInputStream ois;
+	ArrayList<CanvasItem> listSelection = new ArrayList<CanvasItem>();
 
 	// Constructor of the Graphical Editor
 
@@ -85,8 +109,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener {
 		toolbar = tool;
 		newMode = "Rectangle";
 		mode = toolbar.getMode();
-		// outline = toolbar.getOutlinePanel();
-		// fill = toolbar.getFillPanel();
 		operations = toolbar.getOperations();
 		// JPanel menuPanel = new JPanel();
 		// menu = new JMenuBar();
@@ -111,9 +133,9 @@ public class GraphicalEditor extends JFrame implements DropTargetListener {
 		canvas.setPreferredSize(new Dimension(width, height));
 		pane.add(canvas);
 		new DropTarget(canvas, this);
-
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+
 				Point p = e.getPoint();
 				Color o = toolbar.getOutlineColor();
 				Color f = toolbar.getFillColor();
@@ -124,7 +146,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener {
 					select(canvas.getItemAt(p));
 
 					// SELECTION RECTANGLE
-					// SELECTION RECTANGLE
 					/*
 					 * } else if (mode.equals("Select/Move") &&
 					 * SwingUtilities.isRightMouseButton(e)) {
@@ -133,7 +154,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener {
 					 * System.out.println(canvas.addItem(item)); select(item);
 					 * // FIN
 					 */
-					// FIN
 				} else {
 
 					if (mode.equals("Rectangle")) {
@@ -191,6 +211,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener {
 				if (selection == null)
 					return;
 				if (mode.equals("Select/Move")) {
+
 					// TODO move the selected object
 					selection.move(e.getX() - mousepos.x, e.getY() - mousepos.y);
 				} else {
@@ -199,6 +220,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener {
 				mousepos = e.getPoint();
 			}
 		});
+		this.addKeyListener(this);
 
 		// pane.addKeyListener(keyboardListener);
 		pack();
@@ -210,37 +232,14 @@ public class GraphicalEditor extends JFrame implements DropTargetListener {
 	}
 	
 	// Listen the mode changes and update the Title
-	private ActionListener modeListener = new ActionListener() {
+	public ActionListener modeListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			// TODO you can use the function updateTitle();
 			mode = e.getActionCommand();
 			updateTitle();
 
 		}
-	};
 
-	private KeyListener keyboardListener = new KeyListener() {
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-			System.out.println("Touche : " + e.getKeyChar());
-
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			System.out.println("Touche : " + e.getKeyChar());
-
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-			System.out.println("Touche : " + e.getKeyChar());
-
-		}
 	};
 
 	// Update the Title
@@ -287,6 +286,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener {
 
 	/************************************* DROPTARGETLISTENER *****************************************/
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void drop(DropTargetDropEvent event) {
 
@@ -326,8 +326,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener {
 				}
 
 			} catch (Exception e) {
-
-				// Print out the error stack
 				e.printStackTrace();
 
 			}
@@ -361,15 +359,124 @@ public class GraphicalEditor extends JFrame implements DropTargetListener {
 
 		if (image != null) {
 			g.drawImage(image, 0, 0, null);
-			System.out.println("Le dessin c'est cool !");
+			System.out.println("Le DnD c'est cool !");
 		}
 	}
 
+	/********************************** SERIALIZATION *****************************/
+
+	public void save() {
+		System.out.println("Saving !");
+		try {
+			fileOutput = new FileOutputStream("graph.txt");
+			oos = new ObjectOutputStream(fileOutput);
+			oos.writeChars("qsdsqd ");
+			// for (CanvasItem item : canvas.getItems()) {
+			// Iterator<Integer> iterator = item.getPoints().iterator();
+			// while (iterator.hasNext()) {
+			// oos.writeChars(" test ");
+			// System.out.println("Writing value " + iterator.next());
+			// }
+			// }
+			oos.flush();
+			oos.close();
+			fileOutput.close();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} finally {
+			try {
+				if (oos != null) {
+					oos.flush();
+					oos.close();
+				}
+				fileOutput.close();
+			} catch (IOException e2) {
+				// TODO: handle exception
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	public void open() {
+		JFileChooser filechooser = new JFileChooser(".");
+		if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			try {
+				fileSelected = filechooser.getSelectedFile();
+				BufferedReader br = new BufferedReader(new FileReader(
+						fileSelected));
+
+				// for (CanvasItem item : canvas.getItems()) {
+				// canvas.addItem(item);
+				// canvas.addItem(item.duplicate());
+				// }
+				// fileInput = new FileInputStream("graph.txt");
+				ois = new ObjectInputStream(fileInput);
+				CanvasItem item = (CanvasItem) ois.readObject();
+				canvas.addItem(item);
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				try {
+					fileInput.close();
+					ois.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		}
+	}
+
+<<<<<<< HEAD
 	// Toolkit tk = Toolkit.getDefaultToolkit();
 	// Image imgSelect = tk.getImage("ImagesSouris/Select");
 	// Image imgRectangle = tk.getImage("ImagesSouris/Rectangle");
 	// Image imgEllipse = tk.getImage("ImagesSouris/Ellipse");
 	// Cursor monCurseur = tk.createCustomCursor(imgSelect, new Point(0, 0),
 	// "Select Cursor");
+=======
+	/************************************* KEYLISTENER *****************************/
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+	// /In order to know if the ctrl key has been pressed, we can use the method
+	// event.isControlDown();
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		// System.out.println(e.getKeyChar());
+		if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+			canvas.removeItem(selection);
+			deselect(selection);
+		}
+
+		if ((e.getKeyCode() == KeyEvent.VK_S)
+				&& ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+			save();
+		}
+		if ((e.getKeyCode() == KeyEvent.VK_O)
+				&& ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+			open();
+		}
+		if ((e.getKeyCode() == KeyEvent.VK_V)
+				&& ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+			CanvasItem clone = selection.duplicate();
+			clone.move(10, 10);
+			select(clone);
+		}
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+	}
+>>>>>>> 370ab8d809811e188e9b8d4fd757f69569e904d2
 
 }

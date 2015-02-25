@@ -3,6 +3,7 @@ package modele;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 public class CercleItem extends CanvasItem {
 
@@ -42,5 +43,11 @@ public class CercleItem extends CanvasItem {
 		((Ellipse2D.Float) shape).x += dx;
 		((Ellipse2D.Float) shape).y += dy;
 		canvas.repaint();
+	}
+
+	@Override
+	public ArrayList<Integer> getPoints() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

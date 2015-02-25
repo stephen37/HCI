@@ -24,6 +24,8 @@ public abstract class CanvasItem {
 	
 	protected ArrayList<Rectangle> modifRect;
 
+	Point firstPoint;
+	Point lastPoint;
 	public CanvasItem(PersistentCanvas c, Color o, Color f) {
 		canvas = c;
 		fill = f;
@@ -90,7 +92,8 @@ public abstract class CanvasItem {
 	public Boolean contains(Point p) {
 		return shape.contains(p);
 	}
-
+	
+	
 	public abstract void modifSelect();
 	
 	public abstract CanvasItem duplicate();
@@ -99,6 +102,6 @@ public abstract class CanvasItem {
 
 	public abstract void move(int dx, int dy);
 
-	
+	public abstract ArrayList<Integer> getPoints();
 	
 }
