@@ -21,7 +21,7 @@ public class LineItem extends CanvasItem {
 		isSelected = false;
 		firstPoint = other.firstPoint;
 	}
-
+	
 	public CanvasItem duplicate() {
 		return canvas.addItem(new LineItem(this));
 	}

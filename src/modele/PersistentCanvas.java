@@ -14,7 +14,7 @@ import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class PersistentCanvas extends Component {
 
-	private ArrayList<CanvasItem> items;
+	public ArrayList<CanvasItem> items;
 
 	public PersistentCanvas() {
 		items = new ArrayList<CanvasItem>();
