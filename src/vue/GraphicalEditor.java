@@ -490,7 +490,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getColorExterieur();
 			} else if (item.getType() == "Path") {
 				PathItem newItem = (PathItem) item;
-<<<<<<< HEAD
 				data += "4";
 				data += " ";
 				for (Point point : newItem.getListPoint()) {
@@ -502,12 +501,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getColorInterieur();
 				data += " ";
 				data += newItem.getColorExterieur();
-=======
-				System.out.println(newItem.getPath()); // data += "4"; // //
-														// data += " ";
-				// data += newItem.getColorInterieur(); // data += " "; // data
-				// +=
-				newItem.getColorExterieur();
 			}
 			data += "\t";
 		}
@@ -586,14 +579,17 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getColorExterieur();
 			} else if (item.getType() == "Path") {
 				PathItem newItem = (PathItem) item;
-				System.out.println(newItem.getPath());
-				// data += "4";
-				//
-				// data += " ";
-				// data += newItem.getColorInterieur();
-				// data += " ";
-				// data += newItem.getColorExterieur();
->>>>>>> 1f225b69678491f5e83bc4dbcfb17f2b6432a6bb
+				data += "4";
+				data += " ";
+				for (Point point : newItem.getListPoint()) {
+					data += (int) point.getX();
+					data += " ";
+					data += (int) point.getY();
+					data += " ";
+				}
+				data += newItem.getColorInterieur();
+				data += " ";
+				data += newItem.getColorExterieur();
 			}
 			data += "\t";
 		}
