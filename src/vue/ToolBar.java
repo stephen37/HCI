@@ -76,14 +76,14 @@ public class ToolBar extends JFrame {
 				// TODO Auto-generated method stub
 				GraphicalEditor.mode = "Select/Move";
 
-//				System.out.println(GraphicalEditor.title + " - "
-//						+ GraphicalEditor.mode);
-//				System.out.println(GraphicalEditor.title + " - "
-//						+ GraphicalEditor.newMode);
-//				if (GraphicalEditor.mode != GraphicalEditor.newMode) {
-//					System.out.println("trololo");
-//					GraphicalEditor.newMode = GraphicalEditor.mode;
-//				}
+				// System.out.println(GraphicalEditor.title + " - "
+				// + GraphicalEditor.mode);
+				// System.out.println(GraphicalEditor.title + " - "
+				// + GraphicalEditor.newMode);
+				// if (GraphicalEditor.mode != GraphicalEditor.newMode) {
+				// System.out.println("trololo");
+				// GraphicalEditor.newMode = GraphicalEditor.mode;
+				// }
 
 			}
 		});
@@ -96,14 +96,14 @@ public class ToolBar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GraphicalEditor.mode = "Rectangle";
-//				System.out.println(GraphicalEditor.title + " - "
-//						+ GraphicalEditor.mode);
-//				System.out.println(GraphicalEditor.title + " - "
-//						+ GraphicalEditor.newMode);
-//				if (GraphicalEditor.mode != GraphicalEditor.newMode) {
-//					System.out.println("trololo");
-//					GraphicalEditor.newMode = GraphicalEditor.mode;
-//				}
+				// System.out.println(GraphicalEditor.title + " - "
+				// + GraphicalEditor.mode);
+				// System.out.println(GraphicalEditor.title + " - "
+				// + GraphicalEditor.newMode);
+				// if (GraphicalEditor.mode != GraphicalEditor.newMode) {
+				// System.out.println("trololo");
+				// GraphicalEditor.newMode = GraphicalEditor.mode;
+				// }
 			}
 		});
 		// Bouton permettant de dessiner des ellipses
@@ -174,83 +174,79 @@ public class ToolBar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GraphicalEditor.mode = "Animation";
-				GraphicalEditor.deselect(GraphicalEditor.selection);
-				// System.out.println(GraphicalEditor.title + " - " +
-				// GraphicalEditor.mode);
-				// System.out.println(GraphicalEditor.title + " - " +
-				// GraphicalEditor.newMode);
-				// if(GraphicalEditor.mode != GraphicalEditor.newMode){
-				// System.out.println("trololo");
-				// GraphicalEditor.newMode = GraphicalEditor.mode;
-				// }
+				if (GraphicalEditor.selection.isAnimated) {
+					GraphicalEditor.selection.unanimated();
+				} else {
+					GraphicalEditor.selection.animated();
+				}
+				// GraphicalEditor.deselect(GraphicalEditor.selection);
+
 			}
 		});
-		
+
 		// Spinner a rajouté afin de modifier la taille des bordures
 		SpinnerNumberModel model = new SpinnerNumberModel(1, 1, 10, 1);
 		JSpinner spinner = new JSpinner(model);
-		spinner.setSize(new Dimension(30,30));
-//		spinner.setPreferredSize(new Dimension(100,20));
+		spinner.setSize(new Dimension(30, 30));
+		// spinner.setPreferredSize(new Dimension(100,20));
 		spinner.addChangeListener(new ChangeListener() {
-			
+
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Value has changed ");
-			//	System.out.println("Graphics ! " +getGraphics().toString());
+				// System.out.println("Graphics ! " +getGraphics().toString());
 				CanvasItem.value = (int) spinner.getValue();
 			}
 		});
 		JCheckBox start = new JCheckBox("start", false);
 		JCheckBox stop = new JCheckBox("stop", true);
-//		check.add(start);
-//		check.add(stop);
-		
+
 		start.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(start.isSelected()){
+				if (start.isSelected()) {
 					stop.setSelected(false);
 					GraphicalEditor.anim.start();
-				}else{
+				} else {
 					GraphicalEditor.anim.stop();
 					stop.setSelected(true);
 				}
 			}
 		});
-		
+
 		stop.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(stop.isSelected()){
+				if (stop.isSelected()) {
 					start.setSelected(false);
 					GraphicalEditor.anim.stop();
-					
+
 					PersistentCanvas.resumeAnimations();
 				}
 			}
 		});
-		
+
 		panel.add(selectMoveButton);
 		panel.add(rectangleButton);
 		panel.add(ellipseButton);
 		panel.add(lineButton);
 		panel.add(pathButton);
 		panel.add(animationButton);
-//		panel.add(spinner);
+		// panel.add(spinner);
 		panel.add(start);
 		panel.add(stop);
 
 		JLabel couleurInterieure = new JLabel("Int�rieure");
 		JLabel couleurExterieure = new JLabel("Ext�rieure");
-		
+
 		couleurExterieure.setBackground(Color.blue);
 		couleurInterieure.setBackground(Color.red);
-		
+
 		panel.add(couleurInterieure);
 		panel.add(Box.createVerticalStrut(30));
 		fill = createColorSample(Color.LIGHT_GRAY);
