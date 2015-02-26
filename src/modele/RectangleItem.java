@@ -59,6 +59,26 @@ public class RectangleItem extends CanvasItem implements Serializable{
 		canvas.repaint();
 	}
 	
+	public String getType(){
+		return "Rectangle";
+	}
+	
+	public int getP1X(){
+		return (int)((Rectangle)shape).getMinX();
+	}
+	
+	public int getP1Y(){
+		return (int)((Rectangle)shape).getMinY();
+	}
+	
+	public int getP2X(){
+		return (int)((Rectangle)shape).getMaxX();
+	}
+	
+	public int getP2Y(){
+		return (int)((Rectangle)shape).getMaxY();
+	}
+	
 	@Override
 	public ArrayList<Integer> getPoints() {
 		// TODO Auto-generated method stub

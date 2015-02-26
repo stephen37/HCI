@@ -93,6 +93,13 @@ public abstract class CanvasItem {
 		return shape.contains(p);
 	}
 	
+	public String getColorInterieur(){
+		return outline.getRed() + " " + outline.getGreen() + " " + outline.getBlue();
+	}
+	
+	public String getColorExterieur(){
+		return fill.getRed() + " " + fill.getGreen() + " " + fill.getBlue();
+	}
 	
 	public abstract void modifSelect();
 	
@@ -101,7 +108,9 @@ public abstract class CanvasItem {
 	public abstract void update(Point p);
 
 	public abstract void move(int dx, int dy);
-
+	
+	public abstract String getType();
+	
 	public abstract ArrayList<Integer> getPoints();
 	
 }

@@ -44,7 +44,27 @@ public class CercleItem extends CanvasItem {
 		((Ellipse2D.Float) shape).y += dy;
 		canvas.repaint();
 	}
-
+	
+	public String getType(){
+		return "Ellipse";
+	}
+	
+	public int getPetitRayon(){
+		return (int)((Ellipse2D.Float) shape).getMaxX();
+	}
+	
+	public int getGrandRayon(){
+		return (int)((Ellipse2D.Float) shape).getMaxY();
+	}
+	
+	public int getX(){
+		return (int)((Ellipse2D.Float) shape).getX();
+	}
+	
+	public int getY(){
+		return (int)((Ellipse2D.Float) shape).getY();
+	}
+	
 	@Override
 	public ArrayList<Integer> getPoints() {
 		// TODO Auto-generated method stub

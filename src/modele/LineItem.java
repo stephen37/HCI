@@ -43,6 +43,26 @@ public class LineItem extends CanvasItem {
 		canvas.repaint();
 	}
 
+	public String getType(){
+		return "Line";
+	}
+	
+	public int getP1X(){
+		return (int)((Line2D.Float) shape).x1;
+	}
+	
+	public int getP1Y(){
+		return (int)((Line2D.Float) shape).y1;
+	}
+	
+	public int getP2X(){
+		return (int)((Line2D.Float) shape).x2;
+	}
+	
+	public int getP2Y(){
+		return (int)((Line2D.Float) shape).y2;
+	}
+	
 	@Override
 	public ArrayList<Integer> getPoints() {
 		// TODO Auto-generated method stub

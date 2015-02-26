@@ -56,6 +56,11 @@ public class PersistentCanvas extends Component {
 		for (CanvasItem item : items)
 			item.paint(g);
 	}
+	
+	public void removeAll(){
+		items.clear();
+		repaint();
+	}
 
 	public ArrayList<CanvasItem> getItems() {
 		return items;

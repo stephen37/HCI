@@ -9,10 +9,11 @@ import java.util.ArrayList;
 
 public class PathItem extends CanvasItem {
 	int x, y;
+	protected GeneralPath path;
 
 	public PathItem(PersistentCanvas c, Color o, Color f, Point p) {
 		super(c, o, f);
-		GeneralPath path = new GeneralPath();
+		path = new GeneralPath();
 		path.moveTo(p.x, p.y);
 		shape = path;
 		x = p.x;
@@ -47,6 +48,14 @@ public class PathItem extends CanvasItem {
 
 	public void paint(Graphics2D g) {
 		drawShape(g);
+	}
+	
+	public String getType(){
+		return "Path";
+	}
+	
+	public GeneralPath getPath(){
+		return this.path;
 	}
 
 	@Override
