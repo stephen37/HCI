@@ -403,6 +403,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		}
 	}
 
+	
 	public void open() {
 		JFileChooser filechooser = new JFileChooser(".");
 		if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
@@ -432,7 +433,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			}
 		}
 	}
-
+	
+	
 	// Toolkit tk = Toolkit.getDefaultToolkit();
 	// Image imgSelect = tk.getImage("ImagesSouris/Select");
 	// Image imgRectangle = tk.getImage("ImagesSouris/Rectangle");
