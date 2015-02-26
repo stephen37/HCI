@@ -45,6 +45,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import com.sun.glass.events.WindowEvent;
+
 import modele.CanvasItem;
 import modele.CercleItem;
 import modele.LineItem;
@@ -82,11 +84,13 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	File fileSelected;
 	ObjectInputStream ois;
 	ArrayList<CanvasItem> listSelection = new ArrayList<CanvasItem>();
+	File fileChoosen;
+	JFrame frame;
 
 	// Constructor of the Graphical Editor
 
 	public GraphicalEditor(String theTitle, int width, int height, ToolBar tool) {
-
+		frame = this;
 		// Constructor of the Graphical Editor
 		title = theTitle;
 		selection = null;
@@ -177,7 +181,10 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					// }
 				}
 				mousepos = p;
-
+				if (e.isMetaDown()) {
+					
+					System.out.println("Clique droit !!!!");
+				}
 			}
 
 		});
@@ -231,6 +238,72 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 		JMenuItem pasteItem = new JMenuItem("Paste");
 		editMenu.add(pasteItem);
+
+		/************ Listeners ***********/
+
+		openItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					open();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		saveItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					save();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		saveAsItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					saveAs();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		exitItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				// frame.setVisible(false);
+				frame.dispose();
+				toolbar.dispose();
+			}
+		});
+
+		pasteItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				CanvasItem clone = selection.duplicate();
+				clone.move(10, 10);
+				select(clone);
+			}
+		});
 	}
 
 	// Listen the mode changes and update the Title
@@ -366,42 +439,91 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	}
 
 	/********************************** SERIALIZATION *****************************/
-
-	// public void save() {
-	// System.out.println("Saving !");
-	// try {
-	// writer = new BufferedWriter(new FileWriter("graph.txt"));
-	//
-	// for (CanvasItem item : canvas.getItems()) {
-	// Iterator<Integer> iterator = item.getPoints().iterator();
-	// while (iterator.hasNext()) {
-	// writer.write(iterator.next() + "; ");
-	// System.out.println("Writing value " + iterator.next());
-	// }
-	// }
-	//
-	// // writer.flush();
-	// // writer.close();
-	//
-	// } catch (FileNotFoundException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// } catch (IOException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// } finally {
-	// try {
-	// writer.flush();
-	// writer.close();
-	// } catch (IOException e2) {
-	// // TODO: handle exception
-	// e2.printStackTrace();
-	// }
-	// }
-	// }
-
 	public void save() throws IOException {
 		System.out.println("sauvegarde debut");
+		String data = "";
+		for (CanvasItem item : canvas.items) {
+			if (item.getType() == "Rectangle") {
+				RectangleItem newItem = (RectangleItem) item;
+				data += "1";
+				data += " ";
+				data += newItem.getP1X();
+				data += " ";
+				data += newItem.getP1Y();
+				data += " ";
+				data += newItem.getP2X();
+				data += " ";
+				data += newItem.getP2Y();
+				data += " ";
+				data += newItem.getColorInterieur();
+				data += " ";
+				data += newItem.getColorExterieur();
+			} else if (item.getType() == "Ellipse") {
+				CercleItem newItem = (CercleItem) item;
+				data += "2";
+				data += " ";
+				data += newItem.getX();
+				data += " ";
+				data += newItem.getY();
+				data += " ";
+				data += newItem.getGrandRayon();
+				data += " ";
+				data += newItem.getPetitRayon();
+				data += " ";
+				data += newItem.getColorInterieur();
+				data += " ";
+				data += newItem.getColorExterieur();
+			} else if (item.getType() == "Line") {
+				LineItem newItem = (LineItem) item;
+				data += "3";
+				data += " ";
+				data += newItem.getP1X();
+				data += " ";
+				data += newItem.getP1Y();
+				data += " ";
+				data += newItem.getP2X();
+				data += " ";
+				data += newItem.getP2Y();
+				data += " ";
+				data += newItem.getColorInterieur();
+				data += " ";
+				data += newItem.getColorExterieur();
+			} else if (item.getType() == "Path") {
+				PathItem newItem = (PathItem) item;
+				System.out.println(newItem.getPath()); // data += "4"; // //
+														// data += " ";
+				// data += newItem.getColorInterieur(); // data += " "; // data
+				// +=
+				newItem.getColorExterieur();
+			}
+			data += "\t";
+		}
+		System.out.println(data);
+		if (fileChoosen != null) {
+			BufferedWriter saveBuff;
+			saveBuff = new BufferedWriter(new FileWriter(fileChoosen));
+			saveBuff.write(data);
+			saveBuff.close();
+		} else {
+			saveAs();
+		}
+		System.out.println("sauvegarde fin");
+	}
+
+	public void saveAs() throws IOException {
+
+		JFileChooser fileChooser = new JFileChooser(".");
+		int retrieval = fileChooser.showSaveDialog(null);
+		fileChoosen = fileChooser.getSelectedFile();
+		if (retrieval == JFileChooser.APPROVE_OPTION) {
+			try {
+				FileWriter fileWriter = new FileWriter(fileChoosen);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		System.out.println("Beginning of Save As...");
 		String data = "";
 		for (CanvasItem item : canvas.items) {
 			if (item.getType() == "Rectangle") {
@@ -462,11 +584,12 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			data += "\t";
 		}
 		System.out.println(data);
-		BufferedWriter saveBuff = new BufferedWriter(new FileWriter(
-				"Sauvegarde.txt"));
+		BufferedWriter saveBuff;
+		saveBuff = new BufferedWriter(new FileWriter(fileChoosen));
 		saveBuff.write(data);
 		saveBuff.close();
-		System.out.println("sauvegarde fin");
+		// fileWriter.close();
+		System.out.println("End of Save As...");
 	}
 
 	public void open() throws IOException {
@@ -478,6 +601,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		String fileName = fichier.getName();
 		BufferedReader readFile = new BufferedReader(new FileReader(fileName));
 		String line = readFile.readLine();
+		fileChoosen = fichier;
+
 		while (line != null) {
 			String[] itemList = line.split("\t");
 			line = readFile.readLine();
@@ -533,41 +658,10 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					canvas.addItem(canvasItem);
 				}
 			}
-
 		}
 		readFile.close();
 		System.out.println("open fin");
 	}
-
-	// public void open() {
-	// JFileChooser filechooser = new JFileChooser(".");
-	// if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-	// try {
-	// fileSelected = filechooser.getSelectedFile();
-	// reader = new BufferedReader(new FileReader(fileSelected));
-	//
-	// // for (CanvasItem item : canvas.getItems()) {
-	// // canvas.addItem(item);
-	// // canvas.addItem(item.duplicate());
-	// // }
-	// // fileInput = new FileInputStream("graph.txt");
-	//
-	// CanvasItem item = (CanvasItem) ois.readObject();
-	// canvas.addItem(item);
-	// } catch (ClassNotFoundException | IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// } finally {
-	// try {
-	// reader.close();
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	//
-	// }
-	// }
-	// }
 
 	// Toolkit tk = Toolkit.getDefaultToolkit();
 	// Image imgSelect = tk.getImage("ImagesSouris/Select");
@@ -617,6 +711,14 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			select(clone);
 		}
 
+		if (e.isShiftDown() && e.isControlDown()
+				&& e.getKeyCode() == KeyEvent.VK_S) {
+			try {
+				saveAs();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 
 	@Override
