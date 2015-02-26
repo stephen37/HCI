@@ -1,5 +1,6 @@
 package vue;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -7,7 +8,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -18,30 +18,21 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-
-import java.awt.event.MouseMotionListener;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -52,10 +43,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
-import com.sun.glass.ui.Cursor;
 
 import modele.CanvasItem;
 import modele.CercleItem;
@@ -87,7 +77,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	Image image;
 	JMenuBar menu;
 	JMenu fileMenu, editMenu;
-
+	JPanel menuPanel;
 	File file;
 	BufferedWriter writer;
 	BufferedReader reader;
@@ -106,28 +96,21 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		newMode = "Rectangle";
 		mode = toolbar.getMode();
 		operations = toolbar.getOperations();
-		// JPanel menuPanel = new JPanel();
-		// menu = new JMenuBar();
-		// fileMenu = new JMenu("File");
-		// editMenu = new JMenu("Edit");
-		// menu.add(fileMenu);
-		// menu.add(editMenu);
-		// menuPanel.add(menu);
-		// this.setLayout(new BorderLayout());
-		// this.add(menuPanel, BorderLayout.NORTH);
+		initMenu();
+		this.setLayout(new BorderLayout());
+		this.add(menuPanel, BorderLayout.NORTH);
 
-		Container pane = getContentPane();
-		pane.setLayout(new BoxLayout(pane, BoxLayout.LINE_AXIS));
+		// Container pane = getContentPane();
+		// pane.setLayout(new BoxLayout(pane, BoxLayout.LINE_AXIS));
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
 		// Create the canvas for drawing
 		canvas = new PersistentCanvas();
 		canvas.setBackground(Color.WHITE);
 		canvas.setPreferredSize(new Dimension(width, height));
-		pane.add(canvas);
+		this.add(canvas);
 		new DropTarget(canvas, this);
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -225,6 +208,31 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(150, 0);
+	}
+
+	public void initMenu() {
+		menuPanel = new JPanel();
+		menu = new JMenuBar();
+		fileMenu = new JMenu("File");
+		editMenu = new JMenu("Edit");
+		menu.add(fileMenu);
+		menu.add(editMenu);
+		menuPanel.add(menu);
+		JMenuItem newItem = new JMenuItem("New");
+		fileMenu.add(newItem);
+		JMenuItem openItem = new JMenuItem("Open ...");
+		fileMenu.add(openItem);
+		fileMenu.addSeparator();
+		JMenuItem saveItem = new JMenuItem("Save");
+		fileMenu.add(saveItem);
+		JMenuItem saveAsItem = new JMenuItem("Save As ...");
+		fileMenu.add(saveAsItem);
+		fileMenu.addSeparator();
+		JMenuItem exitItem = new JMenuItem("Exit");
+		fileMenu.add(exitItem);
+
+		JMenuItem pasteItem = new JMenuItem("Paste");
+		editMenu.add(pasteItem);
 	}
 
 	// Listen the mode changes and update the Title
@@ -367,15 +375,16 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			writer = new BufferedWriter(new FileWriter("graph.txt"));
 
 			for (CanvasItem item : canvas.getItems()) {
-				Iterator<Integer> iterator = item.getPoints().iterator();
-				while (iterator.hasNext()) {
-					writer.write(iterator.next()+ "; ");
-					System.out.println("Writing value " + iterator.next());
-				}
+				// writer.write(item.);
+				// Iterator<Integer> iterator = item.getPoints().iterator();
+				// while (iterator.hasNext()) {
+				// writer.write(iterator.next()+ "; ");
+				// System.out.println("Writing value " + iterator.next());
+				// }
 			}
 
-//			writer.flush();
-//			writer.close();
+			// writer.flush();
+			// writer.close();
 
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
