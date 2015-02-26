@@ -217,12 +217,16 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 	public void initMenu() {
 		menuPanel = new JPanel();
+		menuPanel.setLayout(new BorderLayout());
+		
 		menu = new JMenuBar();
 		fileMenu = new JMenu("File");
 		editMenu = new JMenu("Edit");
+		
 		menu.add(fileMenu);
 		menu.add(editMenu);
-		menuPanel.add(menu);
+		menuPanel.add(menu,BorderLayout.WEST);
+		
 		JMenuItem newItem = new JMenuItem("New");
 		fileMenu.add(newItem);
 		JMenuItem openItem = new JMenuItem("Open ...");
@@ -235,9 +239,24 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		fileMenu.addSeparator();
 		JMenuItem exitItem = new JMenuItem("Exit");
 		fileMenu.add(exitItem);
-
+		
 		JMenuItem pasteItem = new JMenuItem("Paste");
 		editMenu.add(pasteItem);
+		menuPanel.setBackground(Color.lightGray);
+		menu.setBackground(Color.lightGray);
+		fileMenu.setBackground(Color.lightGray);
+		editMenu.setBackground(Color.lightGray);
+//		newItem.setBackground(Color.lightGray.brighter());
+//		openItem.setBackground(Color.lightGray.brighter());
+//		saveItem.setBackground(Color.lightGray.brighter());
+//		saveAsItem.setBackground(Color.lightGray.brighter());
+//		exitItem.setBackground(Color.lightGray.brighter());
+//		pasteItem.setBackground(Color.lightGray.brighter());
+
+	//	System.out.println(menu.);
+		
+		
+		
 
 		/************ Listeners ***********/
 
