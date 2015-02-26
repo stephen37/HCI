@@ -7,6 +7,8 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
 
+import controleur.PositionAnimation;
+
 /**
  * @author Nicolas Roussel (roussel@lri.fr)
  * 
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class PersistentCanvas extends Component {
 
-	public ArrayList<CanvasItem> items;
+	public static ArrayList<CanvasItem> items;
 
 	public PersistentCanvas() {
 		items = new ArrayList<CanvasItem>();
@@ -24,7 +26,7 @@ public class PersistentCanvas extends Component {
 		// TODO pick the 2D item under the Point p
 		// You can use the function contain(Point p) of each CanvasItem
 		CanvasItem res = null;
-		for(CanvasItem item : items) {
+		for (CanvasItem item : items) {
 			if (item.contains(p)) {
 				res = item;
 			}
@@ -56,13 +58,28 @@ public class PersistentCanvas extends Component {
 		for (CanvasItem item : items)
 			item.paint(g);
 	}
-	
-	public void removeAll(){
+
+	public void removeAll() {
 		items.clear();
 		repaint();
 	}
 
 	public ArrayList<CanvasItem> getItems() {
 		return items;
+	}
+
+	public static void processAnimation() {
+		for (CanvasItem item : items) {
+			PositionAnimation anim = new PositionAnimation(item);
+			anim.process();
+		}
+	}
+
+	public static void resumeAnimations() {
+		for (CanvasItem item : items) {
+			PositionAnimation anim = new PositionAnimation(item);
+			// We have to resume at his origin position.
+			// anim.resume(10,10);
+		}
 	}
 }

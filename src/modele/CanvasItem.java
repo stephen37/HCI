@@ -19,22 +19,24 @@ public abstract class CanvasItem {
 	protected Color outline, fill;
 	protected Shape shape;
 	protected Boolean isSelected;
-	
+
 	public Boolean isAnimated;
-	
+	public static int value = 1;
+
 	protected ArrayList<Rectangle> modifRect;
 
 	Point firstPoint;
 	Point lastPoint;
+
 	public CanvasItem(PersistentCanvas c, Color o, Color f) {
 		canvas = c;
 		fill = f;
 		outline = o;
 		shape = null;
 		isSelected = false;
-		
+
 		isAnimated = false;
-	//	modifRect = new ArrayList<Rectangle>();
+		// modifRect = new ArrayList<Rectangle>();
 	}
 
 	public void setOutlineColor(Color c) {
@@ -57,17 +59,18 @@ public abstract class CanvasItem {
 		canvas.repaint();
 	}
 
-	public void animated(){
+	public void animated() {
 		isAnimated = true;
 		canvas.repaint();
 	}
-	
-	public void unanimated(){
+
+	public void unanimated() {
 		isAnimated = false;
 		canvas.repaint();
 	}
-	
+
 	protected void fillShape(Graphics2D g) {
+		// g.setStroke(new BasicStroke(value));
 		g.setColor(fill);
 		g.fill(shape);
 	}
@@ -77,6 +80,7 @@ public abstract class CanvasItem {
 		if (isSelected) {
 			oldstrk = g.getStroke();
 			g.setStroke(new BasicStroke(2));
+			// setStroke(value, g);
 		}
 		g.setColor(outline);
 		g.draw(shape);
@@ -92,25 +96,26 @@ public abstract class CanvasItem {
 	public Boolean contains(Point p) {
 		return shape.contains(p);
 	}
-	
-	public String getColorInterieur(){
-		return outline.getRed() + " " + outline.getGreen() + " " + outline.getBlue();
+
+	public String getColorInterieur() {
+		return outline.getRed() + " " + outline.getGreen() + " "
+				+ outline.getBlue();
 	}
-	
-	public String getColorExterieur(){
+
+	public String getColorExterieur() {
 		return fill.getRed() + " " + fill.getGreen() + " " + fill.getBlue();
 	}
-	
+
 	public abstract void modifSelect();
-	
+
 	public abstract CanvasItem duplicate();
 
 	public abstract void update(Point p);
 
 	public abstract void move(int dx, int dy);
-	
+
 	public abstract String getType();
-	
+
 	public abstract ArrayList<Integer> getPoints();
-	
+
 }

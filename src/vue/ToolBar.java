@@ -3,6 +3,7 @@ package vue;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -16,11 +17,16 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import com.sun.javafx.geom.Rectangle;
 
@@ -179,16 +185,68 @@ public class ToolBar extends JFrame {
 				// }
 			}
 		});
-
+		
+		// Spinner a rajoutÃ© afin de modifier la taille des bordures
+		SpinnerNumberModel model = new SpinnerNumberModel(1, 1, 10, 1);
+		JSpinner spinner = new JSpinner(model);
+		spinner.setSize(new Dimension(30,30));
+//		spinner.setPreferredSize(new Dimension(100,20));
+		spinner.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Value has changed ");
+			//	System.out.println("Graphics ! " +getGraphics().toString());
+				CanvasItem.value = (int) spinner.getValue();
+			}
+		});
+		JCheckBox start = new JCheckBox("start", false);
+		JCheckBox stop = new JCheckBox("stop", true);
+//		check.add(start);
+//		check.add(stop);
+		
+		start.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(start.isSelected()){
+					stop.setSelected(false);
+					GraphicalEditor.anim.start();
+				}else{
+					GraphicalEditor.anim.stop();
+					stop.setSelected(true);
+				}
+			}
+		});
+		
+		stop.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(stop.isSelected()){
+					start.setSelected(false);
+					GraphicalEditor.anim.stop();
+					
+					PersistentCanvas.resumeAnimations();
+				}
+			}
+		});
+		
 		panel.add(selectMoveButton);
 		panel.add(rectangleButton);
 		panel.add(ellipseButton);
 		panel.add(lineButton);
 		panel.add(pathButton);
 		panel.add(animationButton);
+//		panel.add(spinner);
+		panel.add(start);
+		panel.add(stop);
 
-		JLabel couleurInterieure = new JLabel("Intérieure");
-		JLabel couleurExterieure = new JLabel("Extérieure");
+		JLabel couleurInterieure = new JLabel("Intï¿½rieure");
+		JLabel couleurExterieure = new JLabel("Extï¿½rieure");
 		
 		couleurExterieure.setBackground(Color.blue);
 		couleurInterieure.setBackground(Color.red);

@@ -47,6 +47,7 @@ import javax.swing.SwingUtilities;
 
 import com.sun.glass.events.WindowEvent;
 
+import controleur.Animator;
 import modele.CanvasItem;
 import modele.CercleItem;
 import modele.LineItem;
@@ -86,6 +87,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	ArrayList<CanvasItem> listSelection = new ArrayList<CanvasItem>();
 	File fileChoosen;
 	JFrame frame;
+	public static Animator anim;
 
 	// Constructor of the Graphical Editor
 
@@ -98,6 +100,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		newMode = "Rectangle";
 		mode = toolbar.getMode();
 		operations = toolbar.getOperations();
+		anim = new Animator(canvas);
 		initMenu();
 		this.setLayout(new BorderLayout());
 		this.add(menuPanel, BorderLayout.NORTH);
