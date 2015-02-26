@@ -1,4 +1,5 @@
 package controleur;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,8 +9,7 @@ import modele.PersistentCanvas;
 
 /**
  * 
- * @author David Bonnet
- * Modifications J�r�mie Garcia (15-01-2015)
+ * @author David Bonnet Modifications J�r�mie Garcia (15-01-2015)
  *
  */
 public class Animator implements ActionListener {
@@ -21,10 +21,10 @@ public class Animator implements ActionListener {
 	public static int y;
 
 	public Animator(PersistentCanvas canvas) {
-		this(250);
+		this(50);
 		this.canvas = canvas;
-//		x = canvas.getX();
-//		y = canvas.getY();
+		// x = canvas.getX();
+		// y = canvas.getY();
 	}
 
 	public Animator(int delay) {
