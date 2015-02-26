@@ -2,7 +2,6 @@ package vue;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -23,20 +22,14 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-<<<<<<< HEAD
-import java.awt.event.MouseMotionListener;
-=======
->>>>>>> c3c781caa114d349252238bd2f61f5c82d1e1c43
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -374,39 +367,38 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 	/********************************** SERIALIZATION *****************************/
 
-<<<<<<< HEAD
-//	public void save() {
-//		System.out.println("Saving !");
-//		try {
-//			writer = new BufferedWriter(new FileWriter("graph.txt"));
-//
-//			for (CanvasItem item : canvas.getItems()) {
-//				Iterator<Integer> iterator = item.getPoints().iterator();
-//				while (iterator.hasNext()) {
-//					writer.write(iterator.next() + "; ");
-//					System.out.println("Writing value " + iterator.next());
-//				}
-//			}
-//
-//			// writer.flush();
-//			// writer.close();
-//
-//		} catch (FileNotFoundException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		} finally {
-//			try {
-//				writer.flush();
-//				writer.close();
-//			} catch (IOException e2) {
-//				// TODO: handle exception
-//				e2.printStackTrace();
-//			}
-//		}
-//	}
+	// public void save() {
+	// System.out.println("Saving !");
+	// try {
+	// writer = new BufferedWriter(new FileWriter("graph.txt"));
+	//
+	// for (CanvasItem item : canvas.getItems()) {
+	// Iterator<Integer> iterator = item.getPoints().iterator();
+	// while (iterator.hasNext()) {
+	// writer.write(iterator.next() + "; ");
+	// System.out.println("Writing value " + iterator.next());
+	// }
+	// }
+	//
+	// // writer.flush();
+	// // writer.close();
+	//
+	// } catch (FileNotFoundException e1) {
+	// // TODO Auto-generated catch block
+	// e1.printStackTrace();
+	// } catch (IOException e1) {
+	// // TODO Auto-generated catch block
+	// e1.printStackTrace();
+	// } finally {
+	// try {
+	// writer.flush();
+	// writer.close();
+	// } catch (IOException e2) {
+	// // TODO: handle exception
+	// e2.printStackTrace();
+	// }
+	// }
+	// }
 
 	public void save() throws IOException {
 		System.out.println("sauvegarde debut");
@@ -460,44 +452,12 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			} else if (item.getType() == "Path") {
 				PathItem newItem = (PathItem) item;
 				System.out.println(newItem.getPath());
-//				data += "4";
-//				
-//				data += " ";
-//				data += newItem.getColorInterieur();
-//				data += " ";
-//				data += newItem.getColorExterieur();
-=======
-	public void save() {
-		System.out.println("Saving !");
-		try {
-			writer = new BufferedWriter(new FileWriter("graph.txt"));
-
-			for (CanvasItem item : canvas.getItems()) {
-				// writer.write(item.);
-				// Iterator<Integer> iterator = item.getPoints().iterator();
-				// while (iterator.hasNext()) {
-				// writer.write(iterator.next()+ "; ");
-				// System.out.println("Writing value " + iterator.next());
-				// }
-			}
-
-			// writer.flush();
-			// writer.close();
-
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} finally {
-			try {
-				writer.flush();
-				writer.close();
-			} catch (IOException e2) {
-				// TODO: handle exception
-				e2.printStackTrace();
->>>>>>> c3c781caa114d349252238bd2f61f5c82d1e1c43
+				// data += "4";
+				//
+				// data += " ";
+				// data += newItem.getColorInterieur();
+				// data += " ";
+				// data += newItem.getColorExterieur();
 			}
 			data += "\t";
 		}
@@ -536,10 +496,10 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 									Integer.parseInt(paramList[paramList.length - 1])),
 							new Point(Integer.parseInt(paramList[1]), Integer
 									.parseInt(paramList[2])));
-					canvasItem.update(new Point(Integer.parseInt(paramList[3]), Integer
-									.parseInt(paramList[4])));
+					canvasItem.update(new Point(Integer.parseInt(paramList[3]),
+							Integer.parseInt(paramList[4])));
 					canvas.addItem(canvasItem);
-				} else if(Integer.parseInt(paramList[0]) == 2){
+				} else if (Integer.parseInt(paramList[0]) == 2) {
 					CercleItem canvasItem = new CercleItem(
 							canvas,
 							new Color(
@@ -552,10 +512,10 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 									Integer.parseInt(paramList[paramList.length - 1])),
 							new Point(Integer.parseInt(paramList[1]), Integer
 									.parseInt(paramList[2])));
-					canvasItem.update(new Point(Integer.parseInt(paramList[4]), Integer
-									.parseInt(paramList[3])));
+					canvasItem.update(new Point(Integer.parseInt(paramList[4]),
+							Integer.parseInt(paramList[3])));
 					canvas.addItem(canvasItem);
-				} else if(Integer.parseInt(paramList[0]) == 3){
+				} else if (Integer.parseInt(paramList[0]) == 3) {
 					LineItem canvasItem = new LineItem(
 							canvas,
 							new Color(
@@ -568,46 +528,46 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 									Integer.parseInt(paramList[paramList.length - 1])),
 							new Point(Integer.parseInt(paramList[1]), Integer
 									.parseInt(paramList[2])));
-					canvasItem.update(new Point(Integer.parseInt(paramList[3]), Integer
-									.parseInt(paramList[4])));
+					canvasItem.update(new Point(Integer.parseInt(paramList[3]),
+							Integer.parseInt(paramList[4])));
 					canvas.addItem(canvasItem);
 				}
 			}
-			
+
 		}
 		readFile.close();
 		System.out.println("open fin");
 	}
 
-//	public void open() {
-//		JFileChooser filechooser = new JFileChooser(".");
-//		if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-//			try {
-//				fileSelected = filechooser.getSelectedFile();
-//				reader = new BufferedReader(new FileReader(fileSelected));
-//
-//				// for (CanvasItem item : canvas.getItems()) {
-//				// canvas.addItem(item);
-//				// canvas.addItem(item.duplicate());
-//				// }
-//				// fileInput = new FileInputStream("graph.txt");
-//
-//				CanvasItem item = (CanvasItem) ois.readObject();
-//				canvas.addItem(item);
-//			} catch (ClassNotFoundException | IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} finally {
-//				try {
-//					reader.close();
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//
-//			}
-//		}
-//	}
+	// public void open() {
+	// JFileChooser filechooser = new JFileChooser(".");
+	// if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+	// try {
+	// fileSelected = filechooser.getSelectedFile();
+	// reader = new BufferedReader(new FileReader(fileSelected));
+	//
+	// // for (CanvasItem item : canvas.getItems()) {
+	// // canvas.addItem(item);
+	// // canvas.addItem(item.duplicate());
+	// // }
+	// // fileInput = new FileInputStream("graph.txt");
+	//
+	// CanvasItem item = (CanvasItem) ois.readObject();
+	// canvas.addItem(item);
+	// } catch (ClassNotFoundException | IOException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// } finally {
+	// try {
+	// reader.close();
+	// } catch (IOException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	//
+	// }
+	// }
+	// }
 
 	// Toolkit tk = Toolkit.getDefaultToolkit();
 	// Image imgSelect = tk.getImage("ImagesSouris/Select");
