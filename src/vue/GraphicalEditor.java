@@ -451,13 +451,17 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getColorExterieur();
 			} else if (item.getType() == "Path") {
 				PathItem newItem = (PathItem) item;
-				System.out.println(newItem.getPath());
-				// data += "4";
-				//
-				// data += " ";
-				// data += newItem.getColorInterieur();
-				// data += " ";
-				// data += newItem.getColorExterieur();
+				data += "4";
+				data += " ";
+				for (Point point : newItem.getListPoint()) {
+					data += (int) point.getX();
+					data += " ";
+					data += (int) point.getY();
+					data += " ";
+				}
+				data += newItem.getColorInterieur();
+				data += " ";
+				data += newItem.getColorExterieur();
 			}
 			data += "\t";
 		}
@@ -531,7 +535,27 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					canvasItem.update(new Point(Integer.parseInt(paramList[3]),
 							Integer.parseInt(paramList[4])));
 					canvas.addItem(canvasItem);
+				} else if (Integer.parseInt(paramList[0]) == 4) {
+					PathItem canvasItem = new PathItem(
+							canvas,
+							new Color(
+									Integer.parseInt(paramList[paramList.length - 1 - 5]),
+									Integer.parseInt(paramList[paramList.length - 1 - 4]),
+									Integer.parseInt(paramList[paramList.length - 1 - 3])),
+							new Color(
+									Integer.parseInt(paramList[paramList.length - 1 - 2]),
+									Integer.parseInt(paramList[paramList.length - 1 - 1]),
+									Integer.parseInt(paramList[paramList.length - 1])),
+							new Point(Integer.parseInt(paramList[1]), Integer
+									.parseInt(paramList[2])));
+					for (int i = 5; i < paramList.length - 1 - 5; i += 2) {
+						canvasItem.update(new Point(Integer
+								.parseInt(paramList[i]), Integer
+								.parseInt(paramList[i + 1])));
+					}
+					canvas.addItem(canvasItem);
 				}
+
 			}
 
 		}
