@@ -7,7 +7,13 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.Timer;
+
+import vue.GraphicalEditor;
 
 /**
  * @author Nicolas Roussel (roussel@lri.fr)
@@ -27,6 +33,8 @@ public abstract class CanvasItem {
 
 	Point firstPoint;
 	Point lastPoint;
+	Timer timer;
+	Timer timer2;
 
 	public CanvasItem(PersistentCanvas c, Color o, Color f) {
 		canvas = c;
@@ -62,11 +70,37 @@ public abstract class CanvasItem {
 	public void animated() {
 		isAnimated = true;
 		canvas.repaint();
+		this.blink();
 	}
 
 	public void unanimated() {
 		isAnimated = false;
 		canvas.repaint();
+		timer.stop();
+		timer2.stop();
+	}
+
+	public void blink() {
+		timer = new Timer(500, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				canvas.removeItem(GraphicalEditor.selection);
+
+			}
+		});
+		timer2 = new Timer(700, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				canvas.addItem(GraphicalEditor.selection);
+
+			}
+		});
+		timer.start();
+		timer2.start();
+		// canvas.removeItem(this);
 	}
 
 	protected void fillShape(Graphics2D g) {

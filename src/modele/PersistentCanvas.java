@@ -55,10 +55,13 @@ public class PersistentCanvas extends Component {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setColor(getBackground());
 		g.fillRect(0, 0, getWidth(), getHeight());
-		for (CanvasItem item : items) {
+		for (CanvasItem item : items)
 			item.paint(g);
+<<<<<<< HEAD
 		}
 
+=======
+>>>>>>> 5a17d42e74755fc0e33a6c88f5eb12de1b7ce6e8
 	}
 
 	public void removeAll() {
@@ -83,5 +86,20 @@ public class PersistentCanvas extends Component {
 
 	public ArrayList<CanvasItem> getItems() {
 		return items;
+	}
+
+	public static void processAnimation() {
+		for (CanvasItem item : items) {
+			PositionAnimation anim = new PositionAnimation(item);
+			anim.process();
+		}
+	}
+
+	public static void resumeAnimations() {
+		for (CanvasItem item : items) {
+			PositionAnimation anim = new PositionAnimation(item);
+			// We have to resume at his origin position.
+			// anim.resume(10,10);
+		}
 	}
 }
