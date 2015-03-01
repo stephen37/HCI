@@ -204,13 +204,8 @@ public class ToolBar extends JFrame {
 				// TODO Auto-generated method stub
 				if (start.isSelected()) {
 					stop.setSelected(false);
-<<<<<<< HEAD
 				GraphicalEditor.anim.start();
-				}else{
-=======
-					GraphicalEditor.anim.start();
 				} else {
->>>>>>> 5a17d42e74755fc0e33a6c88f5eb12de1b7ce6e8
 					GraphicalEditor.anim.stop();
 					stop.setSelected(true);
 				}
@@ -241,15 +236,10 @@ public class ToolBar extends JFrame {
 		panel.add(start);
 		panel.add(stop);
 
-<<<<<<< HEAD
+
 		JLabel couleurInterieure = new JLabel("Interieure");
 		JLabel couleurExterieure = new JLabel("Exterieure");
-		
-=======
-		JLabel couleurInterieure = new JLabel("Int�rieure");
-		JLabel couleurExterieure = new JLabel("Ext�rieure");
 
->>>>>>> 5a17d42e74755fc0e33a6c88f5eb12de1b7ce6e8
 		couleurExterieure.setBackground(Color.blue);
 		couleurInterieure.setBackground(Color.red);
 
@@ -333,6 +323,7 @@ public class ToolBar extends JFrame {
 			if (op.equals("Delete")) {
 				GraphicalEditor.canvas.removeItem(GraphicalEditor.selection);
 				GraphicalEditor.deselect(GraphicalEditor.selection);
+				GraphicalEditor.repaintUndo();
 			} else if (op.equals("Clone")) {
 				CanvasItem clone = GraphicalEditor.selection.duplicate();
 				clone.move(10, 10);

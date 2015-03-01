@@ -35,11 +35,18 @@ public class LineItem extends CanvasItem {
 		
 	}
 	
+	@Override
+	public Boolean contains(Point p) {
+		Line2D.Float l = (Line2D.Float) shape;
+		return (l.ptSegDist(p) < 4);
+	}
+	
 	public void move(int dx, int dy) {
-		((Line2D.Float) shape).x1 += dx;
-		((Line2D.Float) shape).y1 += dx;
-		((Line2D.Float) shape).x2 += dy;
-		((Line2D.Float) shape).y2 += dy;
+		Line2D.Float l = (Line2D.Float) shape;
+		l.x1 += dx;
+		l.x2 += dx;
+		l.y1 += dy;
+		l.y2 += dy;
 		canvas.repaint();
 	}
 
