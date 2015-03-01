@@ -473,11 +473,14 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	public void paintComponents(Graphics g) {
 		// TODO Auto-generated method stub
 		super.paintComponents(g);
+<<<<<<< HEAD
 
 		// if (image != null) {
 		// g.drawImage(image, 0, 0, null);
 		// System.out.println("Le DnD c'est cool !");
 		// }
+=======
+>>>>>>> 807b5ff78efc9e56f1466154a4daf8ed32d8eaaf
 	}
 
 	/********************************** SERIALIZATION *****************************/
@@ -813,6 +816,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				}
 			}
 		}
+		deselect(selection);
+		selection = null;
 		System.out.println("OpenUndo fin");
 		readFile.close();
 	}
@@ -978,6 +983,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_Z) {
 			try {
 				undo();
+				repaintUndo();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
