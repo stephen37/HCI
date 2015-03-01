@@ -48,6 +48,7 @@ import javax.swing.SwingUtilities;
 
 import modele.CanvasItem;
 import modele.CercleItem;
+import modele.ImageItem;
 import modele.LineItem;
 import modele.PathItem;
 import modele.PersistentCanvas;
@@ -466,7 +467,9 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 						paintComponents((Graphics2D) getGraphics());
 
 					}
-
+					ImageItem item = new ImageItem(canvas, Color.black, null, new Point(0,0), image);
+					canvas.items.add(item);
+					repaint();
 				}
 
 			} catch (Exception e) {
@@ -501,10 +504,10 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		// TODO Auto-generated method stub
 		super.paintComponents(g);
 
-		if (image != null) {
-			g.drawImage(image, 0, 0, null);
-			System.out.println("Le DnD c'est cool !");
-		}
+//		if (image != null) {
+//			g.drawImage(image, 0, 0, null);
+//			System.out.println("Le DnD c'est cool !");
+//		}
 	}
 
 	/********************************** SERIALIZATION *****************************/

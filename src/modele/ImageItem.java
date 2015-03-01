@@ -39,7 +39,6 @@ public class ImageItem extends CanvasItem{
 	}
 
 	public void update(Point p) {
-		
 		canvas.repaint();
 		lastPoint = p;
 	}

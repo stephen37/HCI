@@ -3,6 +3,7 @@ package modele;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
@@ -26,6 +27,8 @@ public abstract class CanvasItem {
 	protected Shape shape;
 	protected Boolean isSelected;
 
+	protected Image background;
+
 	public Boolean isAnimated;
 	public static int value = 1;
 
@@ -42,7 +45,7 @@ public abstract class CanvasItem {
 		outline = o;
 		shape = null;
 		isSelected = false;
-
+		background = null;
 		isAnimated = false;
 		// modifRect = new ArrayList<Rectangle>();
 	}
@@ -123,8 +126,14 @@ public abstract class CanvasItem {
 	}
 
 	public void paint(Graphics2D g) {
-		fillShape(g);
-		drawShape(g);
+		if (background == null) {
+			fillShape(g);
+			drawShape(g);
+		} else {
+			g.drawImage(background, (int) shape.getBounds().getMinX(),
+					(int) shape.getBounds().getMinY(), null);
+			drawShape(g);
+		}
 	}
 
 	public Boolean contains(Point p) {
@@ -155,7 +164,7 @@ public abstract class CanvasItem {
 	public abstract int getMinX();
 
 	public abstract int getMinY();
-	
+
 	public abstract int getWidth();
 
 }
