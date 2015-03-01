@@ -1,5 +1,6 @@
 package controleur;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -14,6 +15,8 @@ public class AnimationButton extends JButton {
 	public AnimationButton() {
 		this.setSize(30, 30);
 		this.setIcon(icon);
+		this.setBackground(Color.WHITE);
+
 	}
 
 	public void paintComponent(Graphics g) {

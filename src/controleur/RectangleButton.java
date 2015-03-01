@@ -1,5 +1,6 @@
 package controleur;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -17,6 +18,7 @@ public class RectangleButton extends JButton {
 	public RectangleButton() {
 		this.setSize(30, 30);
 		this.setIcon(icon);
+		this.setBackground(Color.WHITE);
 
 	}
 
