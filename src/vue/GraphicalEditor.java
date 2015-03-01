@@ -21,7 +21,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -76,6 +78,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	Image image;
 	JMenuBar menu;
 	JMenu fileMenu, editMenu;
+	public static JMenuItem undoItem;
 	JPanel menuPanel;
 	File file;
 	BufferedWriter writer;
@@ -84,7 +87,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	ObjectInputStream ois;
 	ArrayList<CanvasItem> listSelection = new ArrayList<CanvasItem>();
 	File fileChoosen;
-	JFrame frame;
+	static JFrame frame;
 	public static Animator anim;
 	public static int widthWindow;
 	public static int heightWindow;
@@ -126,7 +129,12 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-
+				try {
+					saveUndo();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				Point p = e.getPoint();
 				Color o = toolbar.getOutlineColor();
 				Color f = toolbar.getFillColor();
@@ -162,6 +170,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					canvas.addItem(item);
 					select(item);
 					updateTitle();
+					repaintUndo();
 					if (mode.equals("Animation")) {
 						deselect(selection);
 						canvas.getItemAt(p).animated();
@@ -225,6 +234,15 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		setLocation(150, 0);
 	}
 
+	public static void repaintUndo() {
+		if (!canvas.items.isEmpty()) {
+			undoItem.setEnabled(true);
+		} else {
+			undoItem.setEnabled(false);
+		}
+		frame.repaint();
+	}
+
 	public void initMenu() {
 		menuPanel = new JPanel();
 		menuPanel.setLayout(new BorderLayout());
@@ -256,6 +274,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		menu.setBackground(Color.lightGray);
 		fileMenu.setBackground(Color.lightGray);
 		editMenu.setBackground(Color.lightGray);
+
+		undoItem = new JMenuItem("Undo");
+		undoItem.setBackground(Color.lightGray);
+		undoItem.setEnabled(false);
+		menu.add(undoItem);
 		// newItem.setBackground(Color.lightGray.brighter());
 		// openItem.setBackground(Color.lightGray.brighter());
 		// saveItem.setBackground(Color.lightGray.brighter());
@@ -278,6 +301,27 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			}
+		});
+
+		undoItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				if(canvas.items.isEmpty()){
+					undoItem.setEnabled(false);
+					frame.repaint();
+				} else {
+					try {
+						undo();
+						repaintUndo();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
 			}
 		});
 
@@ -338,7 +382,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			// TODO you can use the function updateTitle();
 			mode = e.getActionCommand();
 			updateTitle();
-
 		}
 
 	};
@@ -529,6 +572,21 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getColorExterieur();
 			}
 			data += "\t";
+			deselect(selection);
+			selection = null;
+
+			menuPanel.setVisible(false);
+			menu.setVisible(false);
+
+			BufferedImage image = new BufferedImage(this.getSize().width,
+					this.getSize().height, BufferedImage.TYPE_INT_ARGB);
+			Graphics g = image.createGraphics();
+			this.paint(g);
+			g.dispose();
+			try {
+				ImageIO.write(image, "png", new File("test.png"));
+			} catch (Exception e) {
+			}
 		}
 		System.out.println(data);
 		if (fileChoosen != null) {
@@ -539,7 +597,81 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		} else {
 			saveAs();
 		}
+
+		menuPanel.setVisible(true);
 		System.out.println("sauvegarde fin");
+	}
+
+	public void saveUndo() throws IOException {
+		System.out.println("SaveUndo debut");
+		String data = "";
+		for (CanvasItem item : canvas.items) {
+			if (item.getType() == "Rectangle") {
+				RectangleItem newItem = (RectangleItem) item;
+				data += "1";
+				data += " ";
+				data += newItem.getP1X();
+				data += " ";
+				data += newItem.getP1Y();
+				data += " ";
+				data += newItem.getP2X();
+				data += " ";
+				data += newItem.getP2Y();
+				data += " ";
+				data += newItem.getColorInterieur();
+				data += " ";
+				data += newItem.getColorExterieur();
+			} else if (item.getType() == "Ellipse") {
+				CercleItem newItem = (CercleItem) item;
+				data += "2";
+				data += " ";
+				data += newItem.getX();
+				data += " ";
+				data += newItem.getY();
+				data += " ";
+				data += newItem.getGrandRayon();
+				data += " ";
+				data += newItem.getPetitRayon();
+				data += " ";
+				data += newItem.getColorInterieur();
+				data += " ";
+				data += newItem.getColorExterieur();
+			} else if (item.getType() == "Line") {
+				LineItem newItem = (LineItem) item;
+				data += "3";
+				data += " ";
+				data += newItem.getP1X();
+				data += " ";
+				data += newItem.getP1Y();
+				data += " ";
+				data += newItem.getP2X();
+				data += " ";
+				data += newItem.getP2Y();
+				data += " ";
+				data += newItem.getColorInterieur();
+				data += " ";
+				data += newItem.getColorExterieur();
+			} else if (item.getType() == "Path") {
+				PathItem newItem = (PathItem) item;
+				data += "4";
+				data += " ";
+				for (Point point : newItem.getListPoint()) {
+					data += (int) point.getX();
+					data += " ";
+					data += (int) point.getY();
+					data += " ";
+				}
+				data += newItem.getColorInterieur();
+				data += " ";
+				data += newItem.getColorExterieur();
+			}
+			data += "\t";
+		}
+		BufferedWriter saveBuff;
+		saveBuff = new BufferedWriter(new FileWriter("tmp.txt"));
+		saveBuff.write(data);
+		saveBuff.close();
+		System.out.println("SaveUndo fin");
 	}
 
 	public void saveAs() throws IOException {
@@ -626,6 +758,90 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		saveBuff.close();
 		// fileWriter.close();
 		System.out.println("End of Save As...");
+	}
+
+	public void undo() throws IOException {
+		BufferedReader readFile = new BufferedReader(new FileReader("tmp.txt"));
+		String line = readFile.readLine();
+		System.out.println("OpenUndo debut");
+		canvas.removeAll();
+		while (line != null) {
+			String[] itemList = line.split("\t");
+			line = readFile.readLine();
+			for (String item : itemList) {
+				String[] paramList = item.split(" ");
+				if (Integer.parseInt(paramList[0]) == 1) {
+					RectangleItem canvasItem = new RectangleItem(
+							canvas,
+							new Color(
+									Integer.parseInt(paramList[paramList.length - 1 - 5]),
+									Integer.parseInt(paramList[paramList.length - 1 - 4]),
+									Integer.parseInt(paramList[paramList.length - 1 - 3])),
+							new Color(
+									Integer.parseInt(paramList[paramList.length - 1 - 2]),
+									Integer.parseInt(paramList[paramList.length - 1 - 1]),
+									Integer.parseInt(paramList[paramList.length - 1])),
+							new Point(Integer.parseInt(paramList[1]), Integer
+									.parseInt(paramList[2])));
+					canvasItem.update(new Point(Integer.parseInt(paramList[3]),
+							Integer.parseInt(paramList[4])));
+					canvas.addItem(canvasItem);
+				} else if (Integer.parseInt(paramList[0]) == 2) {
+					CercleItem canvasItem = new CercleItem(
+							canvas,
+							new Color(
+									Integer.parseInt(paramList[paramList.length - 1 - 5]),
+									Integer.parseInt(paramList[paramList.length - 1 - 4]),
+									Integer.parseInt(paramList[paramList.length - 1 - 3])),
+							new Color(
+									Integer.parseInt(paramList[paramList.length - 1 - 2]),
+									Integer.parseInt(paramList[paramList.length - 1 - 1]),
+									Integer.parseInt(paramList[paramList.length - 1])),
+							new Point(Integer.parseInt(paramList[1]), Integer
+									.parseInt(paramList[2])));
+					canvasItem.update(new Point(Integer.parseInt(paramList[4]),
+							Integer.parseInt(paramList[3])));
+					canvas.addItem(canvasItem);
+				} else if (Integer.parseInt(paramList[0]) == 3) {
+					LineItem canvasItem = new LineItem(
+							canvas,
+							new Color(
+									Integer.parseInt(paramList[paramList.length - 1 - 5]),
+									Integer.parseInt(paramList[paramList.length - 1 - 4]),
+									Integer.parseInt(paramList[paramList.length - 1 - 3])),
+							new Color(
+									Integer.parseInt(paramList[paramList.length - 1 - 2]),
+									Integer.parseInt(paramList[paramList.length - 1 - 1]),
+									Integer.parseInt(paramList[paramList.length - 1])),
+							new Point(Integer.parseInt(paramList[1]), Integer
+									.parseInt(paramList[2])));
+					canvasItem.update(new Point(Integer.parseInt(paramList[3]),
+							Integer.parseInt(paramList[4])));
+					canvas.addItem(canvasItem);
+				} else if (Integer.parseInt(paramList[0]) == 4) {
+					PathItem canvasItem = new PathItem(
+							canvas,
+							new Color(
+									Integer.parseInt(paramList[paramList.length - 1 - 5]),
+									Integer.parseInt(paramList[paramList.length - 1 - 4]),
+									Integer.parseInt(paramList[paramList.length - 1 - 3])),
+							new Color(
+									Integer.parseInt(paramList[paramList.length - 1 - 2]),
+									Integer.parseInt(paramList[paramList.length - 1 - 1]),
+									Integer.parseInt(paramList[paramList.length - 1])),
+							new Point(Integer.parseInt(paramList[1]), Integer
+									.parseInt(paramList[2])));
+					for (int i = 5; i < paramList.length - 1 - 5; i += 2) {
+						canvasItem.update(new Point(Integer
+								.parseInt(paramList[i]), Integer
+								.parseInt(paramList[i + 1])));
+					}
+					canvas.addItem(canvasItem);
+				}
+			}
+		}
+		System.out.println("OpenUndo fin");
+		readFile.close();
 	}
 
 	public void open() throws IOException {
@@ -740,6 +956,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		if (e.getKeyCode() == KeyEvent.VK_DELETE) {
 			canvas.removeItem(selection);
 			deselect(selection);
+			if (!canvas.items.isEmpty()) {
+				undoItem.setEnabled(true);
+			} else {
+				undoItem.setEnabled(false);
+			}
 		}
 
 		if ((e.getKeyCode() == KeyEvent.VK_S)
@@ -758,6 +979,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+				if (!canvas.items.isEmpty()) {
+					undoItem.setEnabled(true);
+				} else {
+					undoItem.setEnabled(false);
+				}
 			}
 		}
 		if ((e.getKeyCode() == KeyEvent.VK_V)

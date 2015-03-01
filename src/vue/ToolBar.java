@@ -3,14 +3,11 @@ package vue;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
-import javafx.animation.Animation;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -27,8 +24,6 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import com.sun.javafx.geom.Rectangle;
 
 import modele.CanvasItem;
 import modele.PersistentCanvas;
@@ -213,7 +208,7 @@ public class ToolBar extends JFrame {
 				// TODO Auto-generated method stub
 				if (start.isSelected()) {
 					stop.setSelected(false);
-					GraphicalEditor.anim.start();
+				GraphicalEditor.anim.start();
 				} else {
 					GraphicalEditor.anim.stop();
 					stop.setSelected(true);
@@ -245,6 +240,9 @@ public class ToolBar extends JFrame {
 
 //		JLabel couleurInterieure = new JLabel("Interieure");
 //		JLabel couleurExterieure = new JLabel("Exte	rieure");
+
+		JLabel couleurInterieure = new JLabel("Interieure");
+		JLabel couleurExterieure = new JLabel("Exterieure");
 
 //		couleurExterieure.setBackground(Color.blue);
 //		couleurInterieure.setBackground(Color.red);
@@ -332,6 +330,7 @@ public class ToolBar extends JFrame {
 			if (op.equals("Delete")) {
 				GraphicalEditor.canvas.removeItem(GraphicalEditor.selection);
 				GraphicalEditor.deselect(GraphicalEditor.selection);
+				GraphicalEditor.repaintUndo();
 			} else if (op.equals("Clone")) {
 				CanvasItem clone = GraphicalEditor.selection.duplicate();
 				clone.move(10, 10);
