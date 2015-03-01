@@ -86,11 +86,15 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	File fileChoosen;
 	JFrame frame;
 	public static Animator anim;
+	public static int widthWindow;
+	public static int heightWindow;
 
 	// Constructor of the Graphical Editor
 
 	public GraphicalEditor(String theTitle, int width, int height, ToolBar tool) {
 		frame = this;
+		widthWindow = width;
+		heightWindow = height;
 		// Constructor of the Graphical Editor
 		title = theTitle;
 		selection = null;
@@ -115,11 +119,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		canvas.setPreferredSize(new Dimension(width, height));
 		this.add(canvas);
 		new DropTarget(canvas, this);
-		
-		//AJOUT DE L'ANIMATION !!!
+
+		// AJOUT DE L'ANIMATION !!!
 		panel.add(anim);
-		//////////////////////////////
-		
+		// ////////////////////////////
+
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 
@@ -188,7 +192,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				}
 				mousepos = p;
 				if (e.isMetaDown()) {
-					
+
 					System.out.println("Clique droit !!!!");
 				}
 			}
@@ -224,15 +228,15 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	public void initMenu() {
 		menuPanel = new JPanel();
 		menuPanel.setLayout(new BorderLayout());
-		
+
 		menu = new JMenuBar();
 		fileMenu = new JMenu("File");
 		editMenu = new JMenu("Edit");
-		
+
 		menu.add(fileMenu);
 		menu.add(editMenu);
-		menuPanel.add(menu,BorderLayout.WEST);
-		
+		menuPanel.add(menu, BorderLayout.WEST);
+
 		JMenuItem newItem = new JMenuItem("New");
 		fileMenu.add(newItem);
 		JMenuItem openItem = new JMenuItem("Open ...");
@@ -245,24 +249,21 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		fileMenu.addSeparator();
 		JMenuItem exitItem = new JMenuItem("Exit");
 		fileMenu.add(exitItem);
-		
+
 		JMenuItem pasteItem = new JMenuItem("Paste");
 		editMenu.add(pasteItem);
 		menuPanel.setBackground(Color.lightGray);
 		menu.setBackground(Color.lightGray);
 		fileMenu.setBackground(Color.lightGray);
 		editMenu.setBackground(Color.lightGray);
-//		newItem.setBackground(Color.lightGray.brighter());
-//		openItem.setBackground(Color.lightGray.brighter());
-//		saveItem.setBackground(Color.lightGray.brighter());
-//		saveAsItem.setBackground(Color.lightGray.brighter());
-//		exitItem.setBackground(Color.lightGray.brighter());
-//		pasteItem.setBackground(Color.lightGray.brighter());
+		// newItem.setBackground(Color.lightGray.brighter());
+		// openItem.setBackground(Color.lightGray.brighter());
+		// saveItem.setBackground(Color.lightGray.brighter());
+		// saveAsItem.setBackground(Color.lightGray.brighter());
+		// exitItem.setBackground(Color.lightGray.brighter());
+		// pasteItem.setBackground(Color.lightGray.brighter());
 
-	//	System.out.println(menu.);
-		
-		
-		
+		// System.out.println(menu.);
 
 		/************ Listeners ***********/
 

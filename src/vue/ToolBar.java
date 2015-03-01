@@ -62,11 +62,13 @@ public class ToolBar extends JFrame {
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		selection = null;
 		// panel.setBackground(Color.red);
-
+		JLabel formesLabel = new JLabel("Formes");
+		panel.add(formesLabel);
 		// Create the mode selection button list
 		mode = "Rectangle";
 
 		// Bouton select/Move
+
 		SelectMoveButton selectMoveButton = new SelectMoveButton();
 		selectMoveButton.setPreferredSize(new Dimension(100, 20));
 		selectMoveButton.addActionListener(new ActionListener() {
@@ -176,7 +178,7 @@ public class ToolBar extends JFrame {
 				GraphicalEditor.mode = "Animation";
 				if (GraphicalEditor.selection.isAnimated) {
 					GraphicalEditor.selection.unanimated();
-//					GraphicalEditor.selection.
+					// GraphicalEditor.selection.
 				} else {
 					GraphicalEditor.selection.animated();
 				}
@@ -200,6 +202,7 @@ public class ToolBar extends JFrame {
 				CanvasItem.value = (int) spinner.getValue();
 			}
 		});
+
 		JCheckBox start = new JCheckBox("start", false);
 		JCheckBox stop = new JCheckBox("stop", true);
 
@@ -239,20 +242,18 @@ public class ToolBar extends JFrame {
 		panel.add(pathButton);
 		panel.add(animationButton);
 		// panel.add(spinner);
-		panel.add(start);
-		panel.add(stop);
 
-		JLabel couleurInterieure = new JLabel("Int�rieure");
-		JLabel couleurExterieure = new JLabel("Ext�rieure");
+//		JLabel couleurInterieure = new JLabel("Interieure");
+//		JLabel couleurExterieure = new JLabel("Exte	rieure");
 
-		couleurExterieure.setBackground(Color.blue);
-		couleurInterieure.setBackground(Color.red);
+//		couleurExterieure.setBackground(Color.blue);
+//		couleurInterieure.setBackground(Color.red);
 
-		panel.add(couleurInterieure);
+//		panel.add(couleurInterieure);
 		panel.add(Box.createVerticalStrut(30));
 		fill = createColorSample(Color.LIGHT_GRAY);
 		panel.add(fill);
-		panel.add(couleurExterieure);
+//		panel.add(couleurExterieure);
 		panel.add(Box.createVerticalStrut(10));
 		outline = createColorSample(Color.BLACK);
 		panel.add(outline);
@@ -262,6 +263,9 @@ public class ToolBar extends JFrame {
 		panel.add(Box.createRigidArea(new Dimension(0, 5)));
 		panel.add(createOperation("Clone"));
 		panel.add(Box.createVerticalGlue());
+
+		panel.add(start);
+		panel.add(stop);
 
 		pane.add(panel);
 		// this.add(panel);

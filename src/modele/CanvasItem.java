@@ -152,4 +152,10 @@ public abstract class CanvasItem {
 
 	public abstract ArrayList<Integer> getPoints();
 
+	public abstract int getMinX();
+
+	public abstract int getMinY();
+	
+	public abstract int getWidth();
+
 }
