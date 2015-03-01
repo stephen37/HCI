@@ -21,7 +21,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -89,11 +88,15 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	File fileChoosen;
 	static JFrame frame;
 	public static Animator anim;
+	public static int widthWindow;
+	public static int heightWindow;
 
 	// Constructor of the Graphical Editor
 
 	public GraphicalEditor(String theTitle, int width, int height, ToolBar tool) {
 		frame = this;
+		widthWindow = width;
+		heightWindow = height;
 		// Constructor of the Graphical Editor
 		title = theTitle;
 		selection = null;
@@ -118,11 +121,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		canvas.setPreferredSize(new Dimension(width, height));
 		this.add(canvas);
 		new DropTarget(canvas, this);
-		
-		//AJOUT DE L'ANIMATION !!!
+
+		// AJOUT DE L'ANIMATION !!!
 		panel.add(anim);
-		//////////////////////////////
-		
+		// ////////////////////////////
+
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				try {
@@ -173,7 +176,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					}
 					// for (CanvasItem itemCanvas : canvas.items) {
 					// if (itemCanvas.isAnimated) {
-					// // CanvasItem test = itemCanvas;
+					// // CanvasIt em test = itemCanvas;
 					// // while (itemCanvas.isAnimated) {
 					// // canvas.items.remove(itemCanvas);
 					// // canvas.addItem(test);
@@ -231,7 +234,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	}
 
 	public static void repaintUndo() {
-		if (!canvas.items.isEmpty()) {
+		if (!canvas.items.isEmpty() && selection != null) {
 			undoItem.setEnabled(true);
 		} else {
 			undoItem.setEnabled(false);
@@ -252,6 +255,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		menuPanel.add(menu, BorderLayout.WEST);
 
 		JMenuItem newItem = new JMenuItem("New");
+//		newItem.setMnemonic(KeyEvent.CTRL_MASK && KeyEvent.VK_N);
 		fileMenu.add(newItem);
 		JMenuItem openItem = new JMenuItem("Open ...");
 		fileMenu.add(openItem);
@@ -305,7 +309,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				if(canvas.items.isEmpty()){
+				if (canvas.items.isEmpty()) {
 					undoItem.setEnabled(false);
 					frame.repaint();
 				} else {
@@ -317,7 +321,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 						e.printStackTrace();
 					}
 				}
-				
+
 			}
 		});
 
@@ -955,7 +959,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			if (!canvas.items.isEmpty()) {
 				undoItem.setEnabled(true);
 			} else {
-				undoItem.setEnabled(false);
+				if (selection != null)
+					undoItem.setEnabled(false);
 			}
 		}
 
@@ -993,6 +998,14 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				&& e.getKeyCode() == KeyEvent.VK_S) {
 			try {
 				saveAs();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		if (e.isControlDown()
+				&& e.getKeyCode() == KeyEvent.VK_Z) {
+			try {
+				undo();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

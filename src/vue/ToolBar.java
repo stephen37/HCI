@@ -57,11 +57,16 @@ public class ToolBar extends JFrame {
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		selection = null;
 		// panel.setBackground(Color.red);
-
+		// panel.setLayout(new BorderLayout());
+		JLabel formesLabel = new JLabel(" Formes");
+		formesLabel.setForeground(Color.GRAY);
+		panel.add(formesLabel);
+		panel.add(Box.createVerticalStrut(10));
 		// Create the mode selection button list
 		mode = "Rectangle";
 
 		// Bouton select/Move
+
 		SelectMoveButton selectMoveButton = new SelectMoveButton();
 		selectMoveButton.setPreferredSize(new Dimension(100, 20));
 		selectMoveButton.addActionListener(new ActionListener() {
@@ -70,15 +75,6 @@ public class ToolBar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GraphicalEditor.mode = "Select/Move";
-
-				// System.out.println(GraphicalEditor.title + " - "
-				// + GraphicalEditor.mode);
-				// System.out.println(GraphicalEditor.title + " - "
-				// + GraphicalEditor.newMode);
-				// if (GraphicalEditor.mode != GraphicalEditor.newMode) {
-				// System.out.println("trololo");
-				// GraphicalEditor.newMode = GraphicalEditor.mode;
-				// }
 
 			}
 		});
@@ -91,14 +87,6 @@ public class ToolBar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GraphicalEditor.mode = "Rectangle";
-				// System.out.println(GraphicalEditor.title + " - "
-				// + GraphicalEditor.mode);
-				// System.out.println(GraphicalEditor.title + " - "
-				// + GraphicalEditor.newMode);
-				// if (GraphicalEditor.mode != GraphicalEditor.newMode) {
-				// System.out.println("trololo");
-				// GraphicalEditor.newMode = GraphicalEditor.mode;
-				// }
 			}
 		});
 		// Bouton permettant de dessiner des ellipses
@@ -110,14 +98,7 @@ public class ToolBar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GraphicalEditor.mode = "Ellipse";
-				// System.out.println(GraphicalEditor.title + " - " +
-				// GraphicalEditor.mode);
-				// System.out.println(GraphicalEditor.title + " - " +
-				// GraphicalEditor.newMode);
-				// if(GraphicalEditor.mode != GraphicalEditor.newMode){
-				// System.out.println("trololo");
-				// GraphicalEditor.newMode = GraphicalEditor.mode;
-				// }
+				
 			}
 		});
 		// /bouton permettant de dessiner des lignes droites.
@@ -128,14 +109,7 @@ public class ToolBar extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				GraphicalEditor.mode = "Line";
-				// System.out.println(GraphicalEditor.title + " - " +
-				// GraphicalEditor.mode);
-				// System.out.println(GraphicalEditor.title + " - " +
-				// GraphicalEditor.newMode);
-				// if(GraphicalEditor.mode != GraphicalEditor.newMode){
-				// System.out.println("trololo");
-				// GraphicalEditor.newMode = GraphicalEditor.mode;
-				// }
+				
 			}
 		});
 		// Bouton permettant de dessiner des lignes.
@@ -149,14 +123,7 @@ public class ToolBar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GraphicalEditor.mode = "Path";
-				// System.out.println(GraphicalEditor.title + " - " +
-				// GraphicalEditor.mode);
-				// System.out.println(GraphicalEditor.title + " - " +
-				// GraphicalEditor.newMode);
-				// if(GraphicalEditor.mode != GraphicalEditor.newMode){
-				// System.out.println("trololo");
-				// GraphicalEditor.newMode = GraphicalEditor.mode;
-				// }
+				
 			}
 		});
 
@@ -171,7 +138,7 @@ public class ToolBar extends JFrame {
 				GraphicalEditor.mode = "Animation";
 				if (GraphicalEditor.selection.isAnimated) {
 					GraphicalEditor.selection.unanimated();
-//					GraphicalEditor.selection.
+					// GraphicalEditor.selection.
 				} else {
 					GraphicalEditor.selection.animated();
 				}
@@ -195,6 +162,7 @@ public class ToolBar extends JFrame {
 				CanvasItem.value = (int) spinner.getValue();
 			}
 		});
+
 		JCheckBox start = new JCheckBox("start", false);
 		JCheckBox stop = new JCheckBox("stop", true);
 
@@ -205,7 +173,7 @@ public class ToolBar extends JFrame {
 				// TODO Auto-generated method stub
 				if (start.isSelected()) {
 					stop.setSelected(false);
-				GraphicalEditor.anim.start();
+					GraphicalEditor.anim.start();
 				} else {
 					GraphicalEditor.anim.stop();
 					stop.setSelected(true);
@@ -227,37 +195,52 @@ public class ToolBar extends JFrame {
 			}
 		});
 
+		JLabel labelCouleurs = new JLabel("Couleurs");
+		labelCouleurs.setForeground(Color.gray);
 		panel.add(selectMoveButton);
 		panel.add(rectangleButton);
 		panel.add(ellipseButton);
 		panel.add(lineButton);
 		panel.add(pathButton);
 		panel.add(animationButton);
-		// panel.add(spinner);
-		panel.add(start);
-		panel.add(stop);
 
+		panel.add(Box.createVerticalStrut(10));
+		// JSeparator separator = new JSeparator();
+		// panel.add(separator);
+		panel.add(labelCouleurs);
+		panel.add(Box.createVerticalStrut(10));
+		// panel.add(spinner);
+
+		// JLabel couleurInterieure = new JLabel("Interieure");
+		// JLabel couleurExterieure = new JLabel("Exte	rieure");
 
 		JLabel couleurInterieure = new JLabel("Interieure");
 		JLabel couleurExterieure = new JLabel("Exterieure");
 
-		couleurExterieure.setBackground(Color.blue);
-		couleurInterieure.setBackground(Color.red);
+		// couleurExterieure.setBackground(Color.blue);
+		// couleurInterieure.setBackground(Color.red);
 
-		panel.add(couleurInterieure);
-		panel.add(Box.createVerticalStrut(30));
+		// panel.add(couleurInterieure);
+		// panel.add(Box.createVerticalStrut(30));
 		fill = createColorSample(Color.LIGHT_GRAY);
+		fill.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 		panel.add(fill);
-		panel.add(couleurExterieure);
+		// panel.add(couleurExterieure);
 		panel.add(Box.createVerticalStrut(10));
 		outline = createColorSample(Color.BLACK);
 		panel.add(outline);
-		panel.add(Box.createVerticalStrut(30));
+		panel.add(Box.createVerticalStrut(10));
 		operations = new ArrayList<JButton>();
+		JLabel actionsLabel = new JLabel(" Actions");
+		actionsLabel.setForeground(Color.GRAY);
+		panel.add(actionsLabel);
+		panel.add(Box.createVerticalStrut(7));
 		panel.add(createOperation("Delete"));
 		panel.add(Box.createRigidArea(new Dimension(0, 5)));
-		panel.add(createOperation("Clone"));
-		panel.add(Box.createVerticalGlue());
+		panel.add(createOperation(" Clone "));
+		panel.add(start);
+		panel.add(stop);
+		panel.add(Box.createVerticalStrut(150));
 
 		pane.add(panel);
 		// this.add(panel);
@@ -265,8 +248,8 @@ public class ToolBar extends JFrame {
 		this.add(panel);
 		setVisible(true);
 		setResizable(false);
-		setSize(100, 600);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(110, 600);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	}
 
@@ -355,6 +338,7 @@ public class ToolBar extends JFrame {
 	private JButton createOperation(String description) {
 		JButton btn = new JButton(description);
 		btn.setActionCommand(description);
+		btn.setBackground(Color.white);
 		btn.addActionListener(operationListener);
 		operations.add(btn);
 		return btn;

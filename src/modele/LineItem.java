@@ -17,11 +17,12 @@ public class LineItem extends CanvasItem {
 
 	public LineItem(LineItem other) {
 		super(other.canvas, other.outline, other.fill);
-		shape = new Line2D.Float(((Line2D.Float) other.shape).getP1(), ((Line2D.Float)other.shape).getP2());
+		shape = new Line2D.Float(((Line2D.Float) other.shape).getP1(),
+				((Line2D.Float) other.shape).getP2());
 		isSelected = false;
 		firstPoint = other.firstPoint;
 	}
-	
+
 	public CanvasItem duplicate() {
 		return canvas.addItem(new LineItem(this));
 	}
@@ -31,16 +32,16 @@ public class LineItem extends CanvasItem {
 		canvas.repaint();
 	}
 
-	public void modifSelect(){
-		
+	public void modifSelect() {
+
 	}
-	
+
 	@Override
 	public Boolean contains(Point p) {
 		Line2D.Float l = (Line2D.Float) shape;
 		return (l.ptSegDist(p) < 4);
 	}
-	
+
 	public void move(int dx, int dy) {
 		Line2D.Float l = (Line2D.Float) shape;
 		l.x1 += dx;
@@ -50,26 +51,41 @@ public class LineItem extends CanvasItem {
 		canvas.repaint();
 	}
 
-	public String getType(){
+	public String getType() {
 		return "Line";
 	}
-	
-	public int getP1X(){
-		return (int)((Line2D.Float) shape).x1;
+
+	public int getP1X() {
+		return (int) ((Line2D.Float) shape).x1;
 	}
-	
-	public int getP1Y(){
-		return (int)((Line2D.Float) shape).y1;
+
+	public int getP1Y() {
+		return (int) ((Line2D.Float) shape).y1;
 	}
-	
-	public int getP2X(){
-		return (int)((Line2D.Float) shape).x2;
+
+	public int getP2X() {
+		return (int) ((Line2D.Float) shape).x2;
 	}
-	
-	public int getP2Y(){
-		return (int)((Line2D.Float) shape).y2;
+
+	public int getP2Y() {
+		return (int) ((Line2D.Float) shape).y2;
 	}
-	
+
+	public int getMinX() {
+		return (int) Math.min(((Line2D.Float) shape).x1,
+				((Line2D.Float) shape).x2);
+	}
+
+	public int getMinY() {
+		return (int) Math.min(((Line2D.Float) shape).y1,
+				((Line2D.Float) shape).y2);
+	}
+
+	public int getWidth() {
+		return ((int) ((Line2D.Float) shape).getX2() - (int) ((Line2D.Float) shape)
+				.getX1());
+	}
+
 	@Override
 	public ArrayList<Integer> getPoints() {
 		// TODO Auto-generated method stub

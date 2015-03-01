@@ -21,6 +21,10 @@ import vue.Plane;
  */
 public class Animator extends JPanel implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5323355458759714979L;
 	private Timer timer;
 	private int delay;
 	private PersistentCanvas canvas;
