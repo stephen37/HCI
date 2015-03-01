@@ -45,15 +45,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import com.sun.glass.events.WindowEvent;
-
-import controleur.Animator;
 import modele.CanvasItem;
 import modele.CercleItem;
 import modele.LineItem;
 import modele.PathItem;
 import modele.PersistentCanvas;
 import modele.RectangleItem;
+import controleur.Animator;
 
 /**
  * @author Nicolas Roussel (roussel@lri.fr) Modified by Cedric Fleury
@@ -117,6 +115,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		canvas.setPreferredSize(new Dimension(width, height));
 		this.add(canvas);
 		new DropTarget(canvas, this);
+		
+		//AJOUT DE L'ANIMATION !!!
+		panel.add(anim);
+		//////////////////////////////
+		
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 

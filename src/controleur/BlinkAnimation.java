@@ -11,9 +11,10 @@ public class BlinkAnimation extends ItemAnimation {
 	}
 
 	@Override
-	public void process() {
+	public boolean process() {
 		// TODO Auto-generated method stub
 		item.blink();
+		return true;
 	}
 
 	@Override

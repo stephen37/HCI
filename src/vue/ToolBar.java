@@ -176,6 +176,7 @@ public class ToolBar extends JFrame {
 				GraphicalEditor.mode = "Animation";
 				if (GraphicalEditor.selection.isAnimated) {
 					GraphicalEditor.selection.unanimated();
+//					GraphicalEditor.selection.
 				} else {
 					GraphicalEditor.selection.animated();
 				}
