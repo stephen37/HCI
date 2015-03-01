@@ -256,7 +256,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		menuPanel.add(menu, BorderLayout.WEST);
 
 		JMenuItem newItem = new JMenuItem("New");
-//		newItem.setMnemonic(KeyEvent.CTRL_MASK && KeyEvent.VK_N);
+		// newItem.setMnemonic(KeyEvent.CTRL_MASK && KeyEvent.VK_N);
 		fileMenu.add(newItem);
 		JMenuItem openItem = new JMenuItem("Open ...");
 		fileMenu.add(openItem);
@@ -310,7 +310,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				if (canvas.items.isEmpty()) {
+				if (canvas.items.isEmpty() && selection == null) {
 					undoItem.setEnabled(false);
 					frame.repaint();
 				} else {
@@ -467,7 +467,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 						paintComponents((Graphics2D) getGraphics());
 
 					}
-					ImageItem item = new ImageItem(canvas, Color.black, null, new Point(0,0), image);
+					ImageItem item = new ImageItem(canvas, Color.black, null,
+							new Point(0, 0), image);
 					canvas.items.add(item);
 					repaint();
 				}
@@ -503,11 +504,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	public void paintComponents(Graphics g) {
 		// TODO Auto-generated method stub
 		super.paintComponents(g);
-
-//		if (image != null) {
-//			g.drawImage(image, 0, 0, null);
-//			System.out.println("Le DnD c'est cool !");
-//		}
 	}
 
 	/********************************** SERIALIZATION *****************************/
@@ -843,6 +839,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				}
 			}
 		}
+		deselect(selection);
+		selection = null;
 		System.out.println("OpenUndo fin");
 		readFile.close();
 	}
@@ -1005,10 +1003,10 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				e1.printStackTrace();
 			}
 		}
-		if (e.isControlDown()
-				&& e.getKeyCode() == KeyEvent.VK_Z) {
+		if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_Z) {
 			try {
 				undo();
+				repaintUndo();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
