@@ -14,7 +14,7 @@ public abstract class ItemAnimation {
 	}
 
 	//call this method to animate
-	public abstract void process();
+	public abstract boolean process();
 	
 	//call this method to restore parameters
 	public abstract void resume(int x, int y);
