@@ -144,15 +144,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					// TODO you can use the function select(CanvasItem item);
 					select(canvas.getItemAt(p));
 
-					// SELECTION RECTANGLE
-					/*
-					 * } else if (mode.equals("Select/Move") &&
-					 * SwingUtilities.isRightMouseButton(e)) {
-					 * select(canvas.getItemAt(p)); item = new
-					 * RectangleItem(canvas, o, f, p);
-					 * System.out.println(canvas.addItem(item)); select(item);
-					 * // FIN
-					 */
+					
 				} else {
 
 					if (mode.equals("Rectangle")) {
@@ -175,29 +167,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 						deselect(selection);
 						canvas.getItemAt(p).animated();
 					}
-					// for (CanvasItem itemCanvas : canvas.items) {
-					// if (itemCanvas.isAnimated) {
-					// // CanvasIt em test = itemCanvas;
-					// // while (itemCanvas.isAnimated) {
-					// // canvas.items.remove(itemCanvas);
-					// // canvas.addItem(test);
-					// // }
-					//
-					// select(itemCanvas);
-					// System.out.println("Item " + itemCanvas);
-					// for (int i = 0; i < 5; i++) {
-					// itemCanvas.move(i, i);
-					// System.out.println(i);
-					// try {
-					// Thread.sleep(1000);
-					// } catch (InterruptedException e1) {
-					// // TODO Auto-generated catch block
-					// e1.printStackTrace();
-					// }
-					// }
-					//
-					// }
-					// }
 				}
 				mousepos = p;
 				if (e.isMetaDown()) {
@@ -231,7 +200,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		setVisible(true);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocation(150, 0);
+		setLocation(160, 0);
 	}
 
 	public static void repaintUndo() {
@@ -504,6 +473,14 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	public void paintComponents(Graphics g) {
 		// TODO Auto-generated method stub
 		super.paintComponents(g);
+<<<<<<< HEAD
+
+		// if (image != null) {
+		// g.drawImage(image, 0, 0, null);
+		// System.out.println("Le DnD c'est cool !");
+		// }
+=======
+>>>>>>> 807b5ff78efc9e56f1466154a4daf8ed32d8eaaf
 	}
 
 	/********************************** SERIALIZATION *****************************/
