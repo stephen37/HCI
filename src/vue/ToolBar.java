@@ -261,6 +261,7 @@ public class ToolBar extends JFrame {
 		panel.add(Box.createVerticalStrut(150));
 
 		pane.add(panel);
+		
 		// this.add(panel);
 		// pane.add(panel);
 		this.add(panel);
