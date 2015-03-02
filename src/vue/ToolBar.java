@@ -166,8 +166,8 @@ public class ToolBar extends JFrame {
 			}
 		});
 
-		JCheckBox startHorizontale = new JCheckBox("start", false);
-		JCheckBox stopHorizontale = new JCheckBox("stop", true);
+		JCheckBox startHorizontale = new JCheckBox("Start", false);
+		JCheckBox stopHorizontale = new JCheckBox("Stop", true);
 
 		startHorizontale.addActionListener(new ActionListener() {
 
@@ -211,40 +211,37 @@ public class ToolBar extends JFrame {
 		// panel.add(separator);
 		panel.add(labelCouleurs);
 		panel.add(Box.createVerticalStrut(10));
-		panel.add(spinner);
+		// panel.add(spinner);
 
 		// panel.add(Box.createVerticalStrut(30));
-		
+
 		JPanel couleur = new JPanel();
 		couleur.setLayout(new BoxLayout(couleur, BoxLayout.Y_AXIS));
-		//couleur.setBackground(Color.BLACK);
-		
+		// couleur.setBackground(Color.BLACK);
+
 		JPanel fillPan = new JPanel();
 		fillPan.setMaximumSize(new Dimension(80, 50));
 		fillPan.setLayout(new BorderLayout());
-		
+
 		fill = createColorSample(Color.LIGHT_GRAY);
 		fill.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-		
+
 		fillPan.add(fill, BorderLayout.CENTER);
-		
+
 		JPanel outPan = new JPanel();
 		outPan.setMaximumSize(new Dimension(80, 50));
 		outPan.setLayout(new BorderLayout());
-		
+
 		outline = createColorSample(Color.BLACK);
 		outline.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-		
+
 		outPan.add(outline, BorderLayout.CENTER);
-		
-	
+
 		couleur.add(outPan);
 		couleur.add(Box.createVerticalStrut(10));
 		couleur.add(fillPan);
-		
-		panel.add(couleur);
 
-		
+		panel.add(couleur);
 
 		panel.add(Box.createVerticalStrut(10));
 		operations = new ArrayList<JButton>();
@@ -260,30 +257,65 @@ public class ToolBar extends JFrame {
 		JTabbedPane tabbedPanel = new JTabbedPane();
 		tabbedPanel.addTab("Actions", null);
 		tabbedPanel.addTab("Anim", null);
-//		tabPanel.add(tabbedPanel);
-//		panel.add(tabPanel);
+		// tabPanel.add(tabbedPanel);
+		// panel.add(tabPanel);
+		panel.add(Box.createVerticalStrut(10));
 		JLabel animHorizontaleLabel = new JLabel(" Horizontale");
 		animHorizontaleLabel.setForeground(Color.LIGHT_GRAY);
 		panel.add(animHorizontaleLabel);
 		panel.add(startHorizontale);
 		panel.add(stopHorizontale);
+		panel.add(Box.createVerticalStrut(10));
 		JLabel animVerticaleLabel = new JLabel(" Verticale");
 		animVerticaleLabel.setForeground(Color.LIGHT_GRAY);
 		panel.add(animVerticaleLabel);
-		
-		
-		
-		
-		panel.add(Box.createVerticalStrut(150));
+		JCheckBox startVertical = new JCheckBox("Start", false);
+		JCheckBox stopVertical = new JCheckBox("Stop", true);
+		JPanel verticalAnimationsPanel = new JPanel();
+		startVertical.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (startVertical.isSelected()) {
+					stopVertical.setSelected(false);
+					GraphicalEditor.anim.start();
+				} else {
+					GraphicalEditor.anim.stop();
+					stopVertical.setSelected(true);
+				}
+			}
+		});
+		stopVertical.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+		verticalAnimationsPanel.setLayout(new BoxLayout(
+				verticalAnimationsPanel, BoxLayout.Y_AXIS));
+		verticalAnimationsPanel.add(startVertical);
+		verticalAnimationsPanel.add(stopVertical);
+		panel.add(verticalAnimationsPanel);
+		panel.add(Box.createVerticalStrut(10));
+		JLabel blinkLabel = new JLabel("Clignotement");
+		blinkLabel.setForeground(Color.LIGHT_GRAY);
+		panel.add(blinkLabel);
+		JCheckBox blinkCheckBox = new JCheckBox("Start", false);
+		panel.add(blinkCheckBox);
+		// panel.add(stopVertical);
+		panel.add(Box.createVerticalGlue());
 
 		pane.add(panel);
-		
+
 		// this.add(panel);
 		// pane.add(panel);
 		this.add(panel);
 		setVisible(true);
 		setResizable(false);
-		setSize(110, 600);
+		setSize(120, 600);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	}

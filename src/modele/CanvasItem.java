@@ -63,17 +63,7 @@ public abstract class CanvasItem {
 		canvas.repaint();
 	}
 
-	public void setStroke(int s, Graphics2D g) {
-		System.out
-				.println("Nous sommes dans le stroke MA GUEULE !!! La value du stroke est "
-						+ s);
-		g.setStroke(new BasicStroke(s));
-		value = s;
-		g.drawString("YOLO SWAG CLUB ", 200, 200);
-		canvas.repaint();
-		canvas.revalidate();
-	}
-
+	
 	public void select() {
 		isSelected = true;
 		canvas.repaint();
@@ -130,8 +120,8 @@ public abstract class CanvasItem {
 		Stroke oldstrk = null;
 		if (isSelected) {
 			oldstrk = g.getStroke();
-			// g.setStroke(new BasicStroke(2));
-			 g.setStroke(new BasicStroke(value));
+			 g.setStroke(new BasicStroke(2));
+//			 g.setStroke(new BasicStroke(value));
 //			 setStroke(value, g);
 		}
 		g.setColor(outline);
