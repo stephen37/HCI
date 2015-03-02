@@ -1,5 +1,6 @@
 package vue;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -196,7 +197,7 @@ public class ToolBar extends JFrame {
 			}
 		});
 
-		JLabel labelCouleurs = new JLabel("Couleurs");
+		JLabel labelCouleurs = new JLabel(" Couleurs");
 		labelCouleurs.setForeground(Color.gray);
 		panel.add(selectMoveButton);
 		panel.add(rectangleButton);
@@ -212,24 +213,39 @@ public class ToolBar extends JFrame {
 		panel.add(Box.createVerticalStrut(10));
 		panel.add(spinner);
 
-		// JLabel couleurInterieure = new JLabel("Interieure");
-		// JLabel couleurExterieure = new JLabel("Exte	rieure");
-
-		JLabel couleurInterieure = new JLabel("Interieure");
-		JLabel couleurExterieure = new JLabel("Exterieure");
-
-		// couleurExterieure.setBackground(Color.blue);
-		// couleurInterieure.setBackground(Color.red);
-
-		// panel.add(couleurInterieure);
 		// panel.add(Box.createVerticalStrut(30));
+		
+		JPanel couleur = new JPanel();
+		couleur.setLayout(new BoxLayout(couleur, BoxLayout.Y_AXIS));
+		//couleur.setBackground(Color.BLACK);
+		
+		JPanel fillPan = new JPanel();
+		fillPan.setMaximumSize(new Dimension(80, 50));
+		fillPan.setLayout(new BorderLayout());
+		
 		fill = createColorSample(Color.LIGHT_GRAY);
 		fill.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-		panel.add(fill);
-		// panel.add(couleurExterieure);
-		panel.add(Box.createVerticalStrut(10));
+		
+		fillPan.add(fill, BorderLayout.CENTER);
+		
+		JPanel outPan = new JPanel();
+		outPan.setMaximumSize(new Dimension(80, 50));
+		outPan.setLayout(new BorderLayout());
+		
 		outline = createColorSample(Color.BLACK);
-		panel.add(outline);
+		outline.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+		
+		outPan.add(outline, BorderLayout.CENTER);
+		
+	
+		couleur.add(outPan);
+		couleur.add(Box.createVerticalStrut(10));
+		couleur.add(fillPan);
+		
+		panel.add(couleur);
+
+		
+
 		panel.add(Box.createVerticalStrut(10));
 		operations = new ArrayList<JButton>();
 		JLabel actionsLabel = new JLabel(" Actions");
@@ -358,6 +374,7 @@ public class ToolBar extends JFrame {
 		JButton btn = new JButton(description);
 		btn.setActionCommand(description);
 		btn.setBackground(Color.white);
+		btn.setEnabled(false);
 		btn.addActionListener(operationListener);
 		operations.add(btn);
 		return btn;
