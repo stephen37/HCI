@@ -87,7 +87,7 @@ public class PersistentCanvas extends Component {
 	public static void processAnimation() {
 		for (CanvasItem item : items) {
 			PositionAnimation anim = new PositionAnimation(item);
-			anim.process();
+			anim.processHorizontal();
 		}
 	}
 

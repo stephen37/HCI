@@ -141,10 +141,10 @@ public class ToolBar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				GraphicalEditor.mode = "Animation";
-				if (GraphicalEditor.selection.isAnimated) {
-					GraphicalEditor.selection.unanimated();
+				if (GraphicalEditor.selection.blinkAnimate) {
+					GraphicalEditor.selection.blickUnanimated();
 				} else {
-					GraphicalEditor.selection.animated();
+					GraphicalEditor.selection.blinkAnimated();
 				}
 			}
 		});
@@ -211,7 +211,7 @@ public class ToolBar extends JFrame {
 		// panel.add(separator);
 		panel.add(labelCouleurs);
 		panel.add(Box.createVerticalStrut(10));
-		panel.add(spinner);
+	//	panel.add(spinner);
 
 		// panel.add(Box.createVerticalStrut(30));
 		

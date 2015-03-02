@@ -109,4 +109,15 @@ public class PathItem extends CanvasItem {
 		}
 		return maxX - getMinX();
 	}
+	
+	public int getHeight() {
+		int maxY;
+		Iterator<Point> iter = getListPoint().iterator();
+		maxY = iter.next().y;
+		while (iter.hasNext()) {
+			if (iter.next().y > maxY)
+				maxY = iter.next().y;
+		}
+		return maxY - getMinX();
+	}
 }

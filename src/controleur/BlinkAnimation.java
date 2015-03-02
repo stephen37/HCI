@@ -11,7 +11,7 @@ public class BlinkAnimation extends ItemAnimation {
 	}
 
 	@Override
-	public boolean process() {
+	public boolean processHorizontal() {
 		// TODO Auto-generated method stub
 		item.blink();
 		return true;
@@ -22,5 +22,10 @@ public class BlinkAnimation extends ItemAnimation {
 		// TODO Auto-generated method stub
 		
 	}
-
+ 
+@Override
+	public boolean processVertical() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

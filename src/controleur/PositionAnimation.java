@@ -19,9 +19,8 @@ public class PositionAnimation extends ItemAnimation {
 	double speed = 3;
 
 	@Override
-	public boolean process() {
+	public boolean processHorizontal() {
 		// TODO Auto-generated method stub
-		CanvasItem item2 = item;
 		if (item.getMinX() < GraphicalEditor.widthWindow) {
 			item.move(10, 0);
 
@@ -45,6 +44,15 @@ public class PositionAnimation extends ItemAnimation {
 		 * Math.sin(angle) * speed + location.getY(); location.setLocation(x,
 		 * y); return false; }
 		 */
+	}@Override
+	public boolean processVertical() {
+		// TODO Auto-generated method stub
+		if(item.getMinY() < GraphicalEditor.heightWindow) {
+			item.move(0,10);
+		} else {
+			item.move(0, -(GraphicalEditor.heightWindow + item.getHeight()));
+		}
+		return false;
 	}
 
 	@Override

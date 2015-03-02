@@ -77,6 +77,11 @@ public class CercleItem extends CanvasItem {
 	public int getWidth() {
 		return (int) ((Ellipse2D.Float) shape).getWidth();
 	}
+	@Override
+	public int getHeight() {
+		// TODO Auto-generated method stub
+		return (int) ((Ellipse2D.Float) shape).getHeight();
+	}
 
 	
 	@Override
