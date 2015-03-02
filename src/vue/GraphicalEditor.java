@@ -132,13 +132,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				if (GraphicalEditor.selection != null) {
-					GraphicalEditor.selection.setStroke(
-							(int) toolbar.spinner.getValue(),
-							(Graphics2D) getGraphics());
-					System.out.println("Value du spinner pour le dessin "
-							+ Integer.valueOf(toolbar.spinner.getValue() + ""));
-				}
 				try {
 					try {
 						saveUndo();
@@ -215,7 +208,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		setVisible(true);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocation(160, 0);
+		setLocation(170, 0);
 	}
 
 	public static void repaintUndo() {
