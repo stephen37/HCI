@@ -129,6 +129,13 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+				if (GraphicalEditor.selection != null) {
+					GraphicalEditor.selection.setStroke(
+							(int) toolbar.spinner.getValue(),
+							(Graphics2D) getGraphics());
+					System.out.println("Value du spinner pour le dessin "
+							+ Integer.valueOf(toolbar.spinner.getValue() + ""));
+				}
 				try {
 					saveUndo();
 				} catch (IOException e1) {
@@ -144,7 +151,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					// TODO you can use the function select(CanvasItem item);
 					select(canvas.getItemAt(p));
 
-					
 				} else {
 
 					if (mode.equals("Rectangle")) {
@@ -173,6 +179,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 					System.out.println("Clique droit !!!!");
 				}
+				repaint();
 			}
 
 		});
@@ -227,6 +234,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		JMenuItem newItem = new JMenuItem("New");
 		// newItem.setMnemonic(KeyEvent.CTRL_MASK && KeyEvent.VK_N);
 		fileMenu.add(newItem);
+		JMenuItem toolbarItem = new JMenuItem("Toolbar");
+		fileMenu.add(toolbarItem);
 		JMenuItem openItem = new JMenuItem("Open ...");
 		fileMenu.add(openItem);
 		fileMenu.addSeparator();
@@ -342,6 +351,15 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				CanvasItem clone = selection.duplicate();
 				clone.move(10, 10);
 				select(clone);
+			}
+		});
+
+		toolbarItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				toolbar = new ToolBar();
 			}
 		});
 	}
@@ -473,14 +491,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	public void paintComponents(Graphics g) {
 		// TODO Auto-generated method stub
 		super.paintComponents(g);
-<<<<<<< HEAD
 
-		// if (image != null) {
-		// g.drawImage(image, 0, 0, null);
-		// System.out.println("Le DnD c'est cool !");
-		// }
-=======
->>>>>>> 807b5ff78efc9e56f1466154a4daf8ed32d8eaaf
 	}
 
 	/********************************** SERIALIZATION *****************************/

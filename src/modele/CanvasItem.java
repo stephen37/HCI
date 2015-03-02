@@ -30,7 +30,7 @@ public abstract class CanvasItem {
 	protected Image background;
 
 	public Boolean isAnimated;
-	public static int value = 1;
+	public static int value = 2;
 
 	protected ArrayList<Rectangle> modifRect;
 
@@ -38,6 +38,7 @@ public abstract class CanvasItem {
 	Point lastPoint;
 	Timer timer;
 	Timer timer2;
+	Integer stroke;
 
 	public CanvasItem(PersistentCanvas c, Color o, Color f) {
 		canvas = c;
@@ -47,6 +48,7 @@ public abstract class CanvasItem {
 		isSelected = false;
 		background = null;
 		isAnimated = false;
+		stroke = null;
 		// modifRect = new ArrayList<Rectangle>();
 	}
 
@@ -57,7 +59,19 @@ public abstract class CanvasItem {
 
 	public void setFillColor(Color c) {
 		fill = c;
+		System.out.println("setFillColor !!! ");
 		canvas.repaint();
+	}
+
+	public void setStroke(int s, Graphics2D g) {
+		System.out
+				.println("Nous sommes dans le stroke MA GUEULE !!! La value du stroke est "
+						+ s);
+		g.setStroke(new BasicStroke(s));
+		value = s;
+		g.drawString("YOLO SWAG CLUB ", 200, 200);
+		canvas.repaint();
+		canvas.revalidate();
 	}
 
 	public void select() {
@@ -81,10 +95,11 @@ public abstract class CanvasItem {
 		canvas.repaint();
 		timer.stop();
 		timer2.stop();
+		canvas.addItem(GraphicalEditor.selection);
 	}
 
 	public void blink() {
-		timer = new Timer(500, new ActionListener() {
+		timer = new Timer(1000, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -92,7 +107,7 @@ public abstract class CanvasItem {
 
 			}
 		});
-		timer2 = new Timer(700, new ActionListener() {
+		timer2 = new Timer(1100, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -103,11 +118,10 @@ public abstract class CanvasItem {
 		});
 		timer.start();
 		timer2.start();
-		// canvas.removeItem(this);
 	}
 
 	protected void fillShape(Graphics2D g) {
-		// g.setStroke(new BasicStroke(value));
+//		g.setStroke(new BasicStroke(value));
 		g.setColor(fill);
 		g.fill(shape);
 	}
@@ -116,8 +130,9 @@ public abstract class CanvasItem {
 		Stroke oldstrk = null;
 		if (isSelected) {
 			oldstrk = g.getStroke();
-			g.setStroke(new BasicStroke(2));
-			// setStroke(value, g);
+			// g.setStroke(new BasicStroke(2));
+			 g.setStroke(new BasicStroke(value));
+//			 setStroke(value, g);
 		}
 		g.setColor(outline);
 		g.draw(shape);
@@ -134,6 +149,7 @@ public abstract class CanvasItem {
 					(int) shape.getBounds().getMinY(), null);
 			drawShape(g);
 		}
+		
 	}
 
 	public Boolean contains(Point p) {
