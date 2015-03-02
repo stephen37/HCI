@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -17,11 +18,13 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -45,6 +48,7 @@ public class ToolBar extends JFrame {
 
 	PersistentCanvas canvas;
 	private CanvasItem selection;
+	public JSpinner spinner;
 
 	// CanvasItem selection = ge.getSelection();
 	// PersistentCanvas canvas = ge.getCanvas();
@@ -139,19 +143,17 @@ public class ToolBar extends JFrame {
 				GraphicalEditor.mode = "Animation";
 				if (GraphicalEditor.selection.isAnimated) {
 					GraphicalEditor.selection.unanimated();
-					// GraphicalEditor.selection.
 				} else {
 					GraphicalEditor.selection.animated();
 				}
-				// GraphicalEditor.deselect(GraphicalEditor.selection);
-
 			}
 		});
 
 		// Spinner a rajouté afin de modifier la taille des bordures
 		SpinnerNumberModel model = new SpinnerNumberModel(1, 1, 10, 1);
-		JSpinner spinner = new JSpinner(model);
+		spinner = new JSpinner(model);
 		spinner.setSize(new Dimension(30, 30));
+		spinner.setMaximumSize(new Dimension(100, 30));
 		// spinner.setPreferredSize(new Dimension(100,20));
 		spinner.addChangeListener(new ChangeListener() {
 
@@ -160,37 +162,36 @@ public class ToolBar extends JFrame {
 				// TODO Auto-generated method stub
 				System.out.println("Value has changed ");
 				// System.out.println("Graphics ! " +getGraphics().toString());
-				CanvasItem.value = (int) spinner.getValue();
+				// CanvasItem.value = (int) spinner.getValue();
 			}
 		});
 
-		JCheckBox start = new JCheckBox("start", false);
-		JCheckBox stop = new JCheckBox("stop", true);
+		JCheckBox startHorizontale = new JCheckBox("start", false);
+		JCheckBox stopHorizontale = new JCheckBox("stop", true);
 
-		start.addActionListener(new ActionListener() {
+		startHorizontale.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if (start.isSelected()) {
-					stop.setSelected(false);
+				if (startHorizontale.isSelected()) {
+					stopHorizontale.setSelected(false);
 					GraphicalEditor.anim.start();
 				} else {
 					GraphicalEditor.anim.stop();
-					stop.setSelected(true);
+					stopHorizontale.setSelected(true);
 				}
 			}
 		});
 
-		stop.addActionListener(new ActionListener() {
+		stopHorizontale.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if (stop.isSelected()) {
-					start.setSelected(false);
+				if (stopHorizontale.isSelected()) {
+					startHorizontale.setSelected(false);
 					GraphicalEditor.anim.stop();
-
 					PersistentCanvas.resumeAnimations();
 				}
 			}
@@ -210,7 +211,7 @@ public class ToolBar extends JFrame {
 		// panel.add(separator);
 		panel.add(labelCouleurs);
 		panel.add(Box.createVerticalStrut(10));
-		// panel.add(spinner);
+		panel.add(spinner);
 
 		// panel.add(Box.createVerticalStrut(30));
 		
@@ -254,8 +255,25 @@ public class ToolBar extends JFrame {
 		panel.add(createOperation("Delete"));
 		panel.add(Box.createRigidArea(new Dimension(0, 5)));
 		panel.add(createOperation(" Clone "));
-		panel.add(start);
-		panel.add(stop);
+		JPanel tabPanel = new JPanel();
+		tabPanel.setLayout(new BoxLayout(tabPanel, BoxLayout.X_AXIS));
+		JTabbedPane tabbedPanel = new JTabbedPane();
+		tabbedPanel.addTab("Actions", null);
+		tabbedPanel.addTab("Anim", null);
+//		tabPanel.add(tabbedPanel);
+//		panel.add(tabPanel);
+		JLabel animHorizontaleLabel = new JLabel(" Horizontale");
+		animHorizontaleLabel.setForeground(Color.LIGHT_GRAY);
+		panel.add(animHorizontaleLabel);
+		panel.add(startHorizontale);
+		panel.add(stopHorizontale);
+		JLabel animVerticaleLabel = new JLabel(" Verticale");
+		animVerticaleLabel.setForeground(Color.LIGHT_GRAY);
+		panel.add(animVerticaleLabel);
+		
+		
+		
+		
 		panel.add(Box.createVerticalStrut(150));
 
 		pane.add(panel);

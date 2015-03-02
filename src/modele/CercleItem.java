@@ -13,6 +13,7 @@ public class CercleItem extends CanvasItem {
 		super(c, o, f);
 		shape = new Ellipse2D.Float(p.x, p.y, 0, 0);
 		firstPoint = p;
+		
 	}
 
 	public CercleItem(CercleItem other) {
@@ -77,6 +78,7 @@ public class CercleItem extends CanvasItem {
 		return (int) ((Ellipse2D.Float) shape).getWidth();
 	}
 
+	
 	@Override
 	public ArrayList<Integer> getPoints() {
 		// TODO Auto-generated method stub
