@@ -46,6 +46,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
+
 import modele.CanvasItem;
 import modele.CercleItem;
 import modele.ImageItem;
@@ -91,6 +93,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	public static Animator anim;
 	public static int widthWindow;
 	public static int heightWindow;
+	String dataByte = "";
 
 	// Constructor of the Graphical Editor
 
@@ -130,7 +133,12 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				try {
-					saveUndo();
+					try {
+						saveUndo();
+					} catch (Base64DecodingException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -144,7 +152,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					// TODO you can use the function select(CanvasItem item);
 					select(canvas.getItemAt(p));
 
-					
 				} else {
 
 					if (mode.equals("Rectangle")) {
@@ -301,7 +308,12 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				try {
-					save();
+					try {
+						save();
+					} catch (Base64DecodingException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -315,7 +327,12 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				try {
-					saveAs();
+					try {
+						saveAs();
+					} catch (Base64DecodingException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -420,7 +437,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 				// If the drop items are files
 				if (flavor.isFlavorJavaFileListType()) {
-
+					String imagePath = "";
 					// Get all of the dropped files
 					List<File> files = (List<File>) transferable
 							.getTransferData(flavor);
@@ -434,10 +451,10 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 						this.file = file;
 						image = ImageIO.read(file);
 						paintComponents((Graphics2D) getGraphics());
-
+						imagePath = file.getPath();
 					}
 					ImageItem item = new ImageItem(canvas, Color.black, null,
-							new Point(0, 0), image);
+							new Point(0, 0), image, imagePath);
 					canvas.items.add(item);
 					repaint();
 				}
@@ -473,18 +490,14 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	public void paintComponents(Graphics g) {
 		// TODO Auto-generated method stub
 		super.paintComponents(g);
-<<<<<<< HEAD
-
-		// if (image != null) {
-		// g.drawImage(image, 0, 0, null);
-		// System.out.println("Le DnD c'est cool !");
-		// }
-=======
->>>>>>> 807b5ff78efc9e56f1466154a4daf8ed32d8eaaf
 	}
 
-	/********************************** SERIALIZATION *****************************/
-	public void save() throws IOException {
+	/**********************************
+	 * SERIALIZATION
+	 * 
+	 * @throws Base64DecodingException
+	 *****************************/
+	public void save() throws IOException, Base64DecodingException {
 		System.out.println("sauvegarde debut");
 		String data = "";
 		for (CanvasItem item : canvas.items) {
@@ -546,6 +559,20 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getColorInterieur();
 				data += " ";
 				data += newItem.getColorExterieur();
+			} else if (item.getType() == "Image") {
+				ImageItem newItem = (ImageItem) item;
+				dataByte = "";
+				data += "5";
+				data += " ";
+				data += newItem.getP1X();
+				data += " ";
+				data += newItem.getP1Y();
+				data += " ";
+				for (byte temp : newItem.getByte()) {
+					data += (char) temp;
+					data += " ";
+					dataByte += (char) temp;
+				}
 			}
 			data += "\t";
 			deselect(selection);
@@ -564,7 +591,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			} catch (Exception e) {
 			}
 		}
-		System.out.println(data);
+		// System.out.println(data);
 		if (fileChoosen != null) {
 			BufferedWriter saveBuff;
 			saveBuff = new BufferedWriter(new FileWriter(fileChoosen));
@@ -578,7 +605,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		System.out.println("sauvegarde fin");
 	}
 
-	public void saveUndo() throws IOException {
+	public void saveUndo() throws IOException, Base64DecodingException {
 		System.out.println("SaveUndo debut");
 		String data = "";
 		for (CanvasItem item : canvas.items) {
@@ -640,6 +667,20 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getColorInterieur();
 				data += " ";
 				data += newItem.getColorExterieur();
+			} else if (item.getType() == "Image") {
+				ImageItem newItem = (ImageItem) item;
+				dataByte = "";
+				data += "5";
+				data += " ";
+				data += newItem.getP1X();
+				data += " ";
+				data += newItem.getP1Y();
+				data += " ";
+				for (byte temp : newItem.getByte()) {
+					data += (char) temp;
+					data += " ";
+					dataByte += (char) temp;
+				}
 			}
 			data += "\t";
 		}
@@ -650,7 +691,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		System.out.println("SaveUndo fin");
 	}
 
-	public void saveAs() throws IOException {
+	public void saveAs() throws IOException, Base64DecodingException {
 
 		JFileChooser fileChooser = new JFileChooser(".");
 		int retrieval = fileChooser.showSaveDialog(null);
@@ -724,7 +765,22 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getColorInterieur();
 				data += " ";
 				data += newItem.getColorExterieur();
+			} else if (item.getType() == "Image") {
+				ImageItem newItem = (ImageItem) item;
+				dataByte = "";
+				data += "5";
+				data += " ";
+				data += newItem.getP1X();
+				data += " ";
+				data += newItem.getP1Y();
+				data += " ";
+				for (byte temp : newItem.getByte()) {
+					data += (char) temp;
+					data += " ";
+					dataByte += (char) temp;
+				}
 			}
+
 			data += "\t";
 		}
 		System.out.println(data);
@@ -905,8 +961,19 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 								.parseInt(paramList[i + 1])));
 					}
 					canvas.addItem(canvasItem);
+				} else if (Integer.parseInt(paramList[0]) == 5) {
+					String data = "";
+					for (int i = 3; i < paramList.length; i++) {
+						data += paramList[i];
+					}
+					byte[] bytes = dataByte.getBytes("UTF-8");
+					ImageItem canvasItem = new ImageItem(canvas, Color.black,
+							Color.black, new Point(
+									Integer.parseInt(paramList[1]),
+									Integer.parseInt(paramList[2])), null, null);
+					// canvasItem.setByte(bytes);
+					canvas.addItem(canvasItem);
 				}
-
 			}
 		}
 		readFile.close();
@@ -945,7 +1012,12 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		if ((e.getKeyCode() == KeyEvent.VK_S)
 				&& ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
 			try {
-				save();
+				try {
+					save();
+				} catch (Base64DecodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -975,7 +1047,12 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		if (e.isShiftDown() && e.isControlDown()
 				&& e.getKeyCode() == KeyEvent.VK_S) {
 			try {
-				saveAs();
+				try {
+					saveAs();
+				} catch (Base64DecodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
