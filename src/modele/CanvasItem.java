@@ -36,8 +36,6 @@ public abstract class CanvasItem {
 	
 	public static int value = 2;
 
-	protected ArrayList<Rectangle> modifRect;
-
 	Point firstPoint;
 	Point lastPoint;
 	
@@ -55,7 +53,6 @@ public abstract class CanvasItem {
 		blinkAnimate = false;
 		resize = false;
 		stroke = null;
-		// modifRect = new ArrayList<Rectangle>();
 	}
 
 	public void setOutlineColor(Color c) {
@@ -130,8 +127,6 @@ public abstract class CanvasItem {
 		return fill.getRed() + " " + fill.getGreen() + " " + fill.getBlue();
 	}
 
-	public abstract void modifSelect();
-
 	public abstract CanvasItem duplicate();
 
 	public abstract void update(Point p);
@@ -149,5 +144,6 @@ public abstract class CanvasItem {
 	public abstract int getWidth();
 	
 	public abstract int getHeight();
+	
 
 }

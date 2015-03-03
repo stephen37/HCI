@@ -17,7 +17,7 @@ public class VerticalButton extends JButton {
 		this.setSize(30, 30);
 		this.setIcon(icon);
 		this.setBackground(Color.WHITE);
-		this.setMaximumSize(new Dimension(30,40));
+		this.setMaximumSize(new Dimension(30,30));
 	}
 
 	public void paintComponent(Graphics g) {

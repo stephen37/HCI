@@ -48,7 +48,6 @@ public class ImageItem extends CanvasItem {
 				}
 			}
 		}
-		modifSelect();
 	}
 
 	public ImageItem(ImageItem other) {
@@ -59,7 +58,6 @@ public class ImageItem extends CanvasItem {
 		background = other.background;
 		path = other.path;
 		imageFormat = other.imageFormat;
-		modifSelect();
 	}
 
 	public CanvasItem duplicate() {
@@ -69,13 +67,6 @@ public class ImageItem extends CanvasItem {
 	public void update(Point p) {
 		canvas.repaint();
 		lastPoint = p;
-	}
-
-	public void modifSelect() {
-		if (isSelected) {
-			Rectangle modif = new Rectangle(firstpoint, new Dimension(5, 5));
-			modifRect.add(modif);
-		}
 	}
 
 	public void move(int dx, int dy) {
@@ -208,6 +199,7 @@ public class ImageItem extends CanvasItem {
 
 		File imageFile = new File("newTestSava.jpg");
 	}
+
 
 	// public void setImageByte(String base64String) throws IOException,
 	// Base64DecodingException {

@@ -57,6 +57,7 @@ public class PositionAnimation extends ItemAnimation {
 		// TODO Auto-generated method stub
 		if(item.getMinY() < GraphicalEditor.heightWindow) {
 			item.move(0,10);
+			
 		} else {
 			item.move(0, -(GraphicalEditor.heightWindow + item.getHeight()));
 		}
@@ -97,9 +98,7 @@ public class PositionAnimation extends ItemAnimation {
 		timer2.start();
 	}
 	
-//	public boolean processResize(){
-		
-//	}
+
 	
 	public boolean processBlink(){
 		blink();

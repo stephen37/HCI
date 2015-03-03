@@ -18,6 +18,8 @@ public abstract class ItemAnimation {
 	
 	public abstract boolean processVertical();
 	
+	public abstract boolean processResize();
+	
 	//call this method to restore parameters
 	public abstract void resume(int x, int y);
 }

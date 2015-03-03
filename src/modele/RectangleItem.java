@@ -25,8 +25,6 @@ public class RectangleItem extends CanvasItem implements Serializable {
 		super(c, o, f);
 		shape = new Rectangle(p.x, p.y, 0, 0);
 		firstpoint = p;
-
-		modifSelect();
 	}
 
 	public RectangleItem(RectangleItem other) {
@@ -34,7 +32,6 @@ public class RectangleItem extends CanvasItem implements Serializable {
 		shape = new Rectangle((Rectangle) other.shape);
 		isSelected = false;
 		firstpoint = other.firstpoint;
-		modifSelect();
 	}
 
 	public CanvasItem duplicate() {
@@ -45,13 +42,6 @@ public class RectangleItem extends CanvasItem implements Serializable {
 		((Rectangle) shape).setFrameFromDiagonal(firstpoint, p);
 		canvas.repaint();
 		lastPoint = p;
-	}
-
-	public void modifSelect() {
-		if (isSelected) {
-			Rectangle modif = new Rectangle(firstpoint, new Dimension(5, 5));
-			modifRect.add(modif);
-		}
 	}
 
 	public void move(int dx, int dy) {

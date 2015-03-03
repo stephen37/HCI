@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -234,9 +235,9 @@ public class ToolBar extends JFrame {
 		actionsLabel.setForeground(Color.GRAY);
 		panel.add(actionsLabel);
 		panel.add(Box.createVerticalStrut(7));
-		panel.add(createOperation("Delete"));
+		panel.add(createOperation("Delete "));
 		panel.add(Box.createRigidArea(new Dimension(0, 5)));
-		panel.add(createOperation(" Clone"));
+		panel.add(createOperation(" Clone "));
 		panel.add(Box.createRigidArea(new Dimension(0, 5)));
 		panel.add(createOperation("Resize"));
 		panel.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -247,12 +248,19 @@ public class ToolBar extends JFrame {
 		tabbedPanel.addTab("Anim", null);
 		// tabPanel.add(tabbedPanel);
 		// panel.add(tabPanel);
-		panel.add(Box.createVerticalStrut(10));
-		JLabel animHorizontaleLabel = new JLabel(" Horizontale");
-		animHorizontaleLabel.setForeground(Color.LIGHT_GRAY);
-		panel.add(animHorizontaleLabel);
-		panel.add(Box.createVerticalStrut(10));
+
+		JLabel animLabel = new JLabel("Animation");
+		animLabel.setForeground(Color.LIGHT_GRAY);
+		JPanel animPanel = new JPanel();
+		animPanel.setLayout(new GridLayout(3, 2, 0, 0));
+		panel.add(animLabel);
+		panel.add(Box.createVerticalStrut(7));
+		JPanel horizontalPanel = new JPanel();
 		HorizontalButton horizontalButton = new HorizontalButton();
+		horizontalButton.setSize(new Dimension(30, 30));
+		horizontalButton.setMaximumSize(new Dimension(30, 30));
+		horizontalPanel.setSize(new Dimension(30, 30));
+		horizontalPanel.setMaximumSize(new Dimension(30, 30));
 		horizontalButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -261,12 +269,19 @@ public class ToolBar extends JFrame {
 				GraphicalEditor.mode = "Horizontal";
 			}
 		});
-		panel.add(horizontalButton);
-		panel.add(startHorizontale);
-		panel.add(stopHorizontale);
-		panel.add(Box.createVerticalStrut(10));
-		JLabel animVerticaleLabel = new JLabel(" Verticale");
+
+		horizontalPanel.add(horizontalButton);
+		animPanel.add(horizontalPanel);
+		JLabel hori = new JLabel("Horizontal");
+		hori.setSize(30, 30);
+		hori.setMaximumSize(new Dimension(30, 30));
+		animPanel.add(hori);
+		JPanel verticalPanel = new JPanel();
 		VerticalButton verticalButton = new VerticalButton();
+		verticalButton.setSize(new Dimension(30, 30));
+		verticalButton.setMaximumSize(new Dimension(30, 30));
+		verticalPanel.setSize(new Dimension(30, 30));
+		verticalPanel.setMaximumSize(new Dimension(30, 30));
 		verticalButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -275,52 +290,20 @@ public class ToolBar extends JFrame {
 				GraphicalEditor.mode = "Vertical";
 			}
 		});
-		animVerticaleLabel.setForeground(Color.LIGHT_GRAY);
-		panel.add(animVerticaleLabel);
-		panel.add(Box.createVerticalStrut(10));
-		panel.add(verticalButton);
-		JCheckBox startVertical = new JCheckBox("Start", false);
-		JCheckBox stopVertical = new JCheckBox("Stop", true);
-		JPanel verticalAnimationsPanel = new JPanel();
-		startVertical.addActionListener(new ActionListener() {
+		verticalPanel.add(verticalButton);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if (startVertical.isSelected()) {
-					stopVertical.setSelected(false);
-					GraphicalEditor.anim.start();
-				} else {
-					GraphicalEditor.anim.stop();
-					stopVertical.setSelected(true);
-				}
-			}
-		});
-		stopVertical.addActionListener(new ActionListener() {
+		animPanel.add(verticalPanel);
+		JLabel vert = new JLabel("Vertical");
+		vert.setSize(30, 30);
+		vert.setMaximumSize(new Dimension(30, 30));
+		animPanel.add(vert);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if (stopVertical.isSelected()) {
-					startVertical.setSelected(false);
-					GraphicalEditor.anim.stop();
-				} else {
-					stopVertical.setSelected(true);
-					GraphicalEditor.anim.stop();
-				}
-			}
-		});
-		verticalAnimationsPanel.setLayout(new BoxLayout(
-				verticalAnimationsPanel, BoxLayout.Y_AXIS));
-		verticalAnimationsPanel.add(startVertical);
-		verticalAnimationsPanel.add(stopVertical);
-		panel.add(verticalAnimationsPanel);
-		panel.add(Box.createVerticalStrut(10));
-		JLabel blinkLabel = new JLabel("Clignotement");
-		blinkLabel.setForeground(Color.LIGHT_GRAY);
-		panel.add(blinkLabel);
-		panel.add(Box.createVerticalStrut(10));
+		JPanel blinkPanel = new JPanel();
 		BlinkButton blinkButton = new BlinkButton();
+		blinkButton.setSize(new Dimension(30, 30));
+		blinkButton.setMaximumSize(new Dimension(30, 30));
+		blinkPanel.setSize(new Dimension(30, 30));
+		blinkPanel.setMaximumSize(new Dimension(30, 30));
 		blinkButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -329,43 +312,51 @@ public class ToolBar extends JFrame {
 				GraphicalEditor.mode = "Blink";
 			}
 		});
-		panel.add(blinkButton);
-		JCheckBox blinkCheckBoxStart = new JCheckBox("Start", false);
-		JCheckBox blinkCheckBoxStop = new JCheckBox("Stop", true);
-		blinkCheckBoxStart.addActionListener(new ActionListener() {
+		blinkPanel.add(blinkButton);
+		animPanel.add(blinkPanel);
+		JLabel blin = new JLabel("Blink");
+		blin.setSize(30, 30);
+		blin.setMaximumSize(new Dimension(30, 30));
+		animPanel.add(blin);
+		JCheckBox startCheckBox = new JCheckBox("Start", false);
+		JCheckBox stopCheckBox = new JCheckBox("Stop", true);
+		startCheckBox.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if (blinkCheckBoxStart.isSelected()) {
-					blinkCheckBoxStop.setSelected(false);
+				if (startCheckBox.isSelected()) {
+					stopCheckBox.setSelected(false);
 					GraphicalEditor.anim.start();
 				} else {
 					GraphicalEditor.anim.stop();
-					blinkCheckBoxStop.setSelected(true);
+					stopCheckBox.setSelected(true);
 				}
 			}
 		});
 
-		blinkCheckBoxStop.addActionListener(new ActionListener() {
+		stopCheckBox.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if (blinkCheckBoxStop.isSelected()) {
-					blinkCheckBoxStart.setSelected(false);
+				if (stopCheckBox.isSelected()) {
+					startCheckBox.setSelected(false);
 					GraphicalEditor.anim.stop();
 				} else {
-					blinkCheckBoxStop.setSelected(true);
+					stopCheckBox.setSelected(true);
 					GraphicalEditor.anim.stop();
 				}
 			}
 		});
-		JPanel blinkPanel = new JPanel();
-		blinkPanel.setLayout(new BoxLayout(blinkPanel, BoxLayout.Y_AXIS));
-		blinkPanel.add(blinkCheckBoxStart);
-		blinkPanel.add(blinkCheckBoxStop);
-		panel.add(blinkPanel);
+
+		JPanel checkBoxPanel = new JPanel();
+		checkBoxPanel.setLayout(new BoxLayout(checkBoxPanel, BoxLayout.Y_AXIS));
+		checkBoxPanel.add(startCheckBox);
+		checkBoxPanel.add(stopCheckBox);
+		panel.add(animPanel);
+		panel.add(Box.createRigidArea(new Dimension(0, 10)));
+		panel.add(checkBoxPanel);
 		// panel.add(blinkCheckBoxStop);
 		// panel.add(stopVertical);
 		panel.add(Box.createVerticalGlue());
@@ -376,7 +367,7 @@ public class ToolBar extends JFrame {
 		// pane.add(panel);
 		this.add(panel);
 		setVisible(true);
-		setResizable(false);
+		setResizable(true);
 		setSize(120, 800);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -433,15 +424,15 @@ public class ToolBar extends JFrame {
 			// return;
 
 			String op = e.getActionCommand();
-			if (op.equals("Delete")) {
+			if (op.equals("Delete ")) {
 				GraphicalEditor.canvas.removeItem(GraphicalEditor.selection);
 				GraphicalEditor.deselect(GraphicalEditor.selection);
 				GraphicalEditor.repaintUndo();
-			} else if (op.equals("Clone")) {
+			} else if (op.equals(" Clone ")) {
 				CanvasItem clone = GraphicalEditor.selection.duplicate();
 				clone.move(10, 10);
 				GraphicalEditor.select(clone);
-			} else if (op.equals("Resize")){
+			} else if (op.equals("Resize")) {
 				GraphicalEditor.mode = "Resize";
 			}
 		}

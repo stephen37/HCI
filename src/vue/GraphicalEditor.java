@@ -154,28 +154,28 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 				} else if (mode.equals("Blink")) {
 					select(canvas.getItemAt(p));
-					if(selection.blinkAnimate == true){
+					if (selection.blinkAnimate == true) {
 						selection.blinkAnimate = false;
 					} else {
 						selection.blinkAnimate = true;
 					}
 				} else if (mode.equals("Horizontal")) {
 					select(canvas.getItemAt(p));
-					if(selection.horizAnimate == true){
+					if (selection.horizAnimate == true) {
 						selection.horizAnimate = false;
 					} else {
 						selection.horizAnimate = true;
 					}
 				} else if (mode.equals("Vertical")) {
 					select(canvas.getItemAt(p));
-					if(selection.verticAnimate == true){
+					if (selection.verticAnimate == true) {
 						selection.verticAnimate = false;
 					} else {
 						selection.verticAnimate = true;
 					}
 				} else if (mode.equals("Resize")) {
 					select(canvas.getItemAt(p));
-					if(selection.resize == true){
+					if (selection.resize == true) {
 						selection.resize = false;
 					} else {
 						selection.resize = true;
@@ -217,7 +217,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 					// TODO move the selected object
 					selection.move(e.getX() - mousepos.x, e.getY() - mousepos.y);
-				} else {
+				} else if (!mode.equals("Horizontal")
+						&& !mode.equals("Vertical") && !mode.equals("Blink")) {
 					selection.update(e.getPoint());
 					// System.out.println(selection.get);
 				}
