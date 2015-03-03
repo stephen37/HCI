@@ -29,9 +29,10 @@ public abstract class CanvasItem {
 
 	protected Image background;
 
-	public Boolean horizAnimate;
-	public Boolean verticAnimate;
-	public Boolean blinkAnimate;
+	public boolean horizAnimate;
+	public boolean verticAnimate;
+	public boolean blinkAnimate;
+	public boolean resize;
 	
 	public static int value = 2;
 
@@ -39,8 +40,7 @@ public abstract class CanvasItem {
 
 	Point firstPoint;
 	Point lastPoint;
-	Timer timer;
-	Timer timer2;
+	
 	Integer stroke;
 
 	public CanvasItem(PersistentCanvas c, Color o, Color f) {
@@ -53,6 +53,7 @@ public abstract class CanvasItem {
 		horizAnimate = false;
 		verticAnimate = false;
 		blinkAnimate = false;
+		resize = false;
 		stroke = null;
 		// modifRect = new ArrayList<Rectangle>();
 	}
@@ -78,42 +79,11 @@ public abstract class CanvasItem {
 		isSelected = false;
 		canvas.repaint();
 	}
-
-	public void blinkAnimated() {
-		blinkAnimate = true;
-		canvas.repaint();
-		this.blink();
+	
+	public PersistentCanvas getCanvas(){
+		return canvas;
 	}
-
-	public void blickUnanimated() {
-		blinkAnimate = false;
-		canvas.repaint();
-		timer.stop();
-		timer2.stop();
-		canvas.addItem(GraphicalEditor.selection);
-	}
-
-	public void blink() {
-		timer = new Timer(1000, new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				canvas.removeItem(GraphicalEditor.selection);
-
-			}
-		});
-		timer2 = new Timer(1100, new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				canvas.addItem(GraphicalEditor.selection);
-
-			}
-		});
-		timer.start();
-		timer2.start();
-	}
+	
 
 	protected void fillShape(Graphics2D g) {
 //		g.setStroke(new BasicStroke(value));

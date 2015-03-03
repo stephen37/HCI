@@ -95,7 +95,7 @@ public class Animator extends JPanel implements ActionListener {
 		this.delay = delay;
 		timer.setDelay(delay);
 	}
-
+ 
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		PersistentCanvas.processAnimation();

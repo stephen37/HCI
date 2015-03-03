@@ -152,6 +152,34 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					// TODO you can use the function select(CanvasItem item);
 					select(canvas.getItemAt(p));
 
+				} else if (mode.equals("Blink")) {
+					select(canvas.getItemAt(p));
+					if(selection.blinkAnimate == true){
+						selection.blinkAnimate = false;
+					} else {
+						selection.blinkAnimate = true;
+					}
+				} else if (mode.equals("Horizontal")) {
+					select(canvas.getItemAt(p));
+					if(selection.horizAnimate == true){
+						selection.horizAnimate = false;
+					} else {
+						selection.horizAnimate = true;
+					}
+				} else if (mode.equals("Vertical")) {
+					select(canvas.getItemAt(p));
+					if(selection.verticAnimate == true){
+						selection.verticAnimate = false;
+					} else {
+						selection.verticAnimate = true;
+					}
+				} else if (mode.equals("Resize")) {
+					select(canvas.getItemAt(p));
+					if(selection.resize == true){
+						selection.resize = false;
+					} else {
+						selection.resize = true;
+					}
 				} else {
 
 					if (mode.equals("Rectangle")) {
@@ -170,10 +198,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					select(item);
 					updateTitle();
 					repaintUndo();
-					if (mode.equals("Animation")) {
-						deselect(selection);
-						canvas.getItemAt(p).blinkAnimated();
-					}
 				}
 				mousepos = p;
 				if (e.isMetaDown()) {
@@ -581,11 +605,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getP1Y();
 				data += " ";
 				data += newItem.getPath();
-//				for (byte temp : newItem.getByte()) {
-//					data += (char) temp;
-//					data += " ";
-//					dataByte += (char) temp;
-//				}
+				// for (byte temp : newItem.getByte()) {
+				// data += (char) temp;
+				// data += " ";
+				// dataByte += (char) temp;
+				// }
 			}
 			data += "\t";
 			deselect(selection);
@@ -690,11 +714,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getP1Y();
 				data += " ";
 				data += newItem.getPath();
-//				for (byte temp : newItem.getByte()) {
-//					data += (char) temp;
-//					data += " ";
-//					dataByte += (char) temp;
-//				}
+				// for (byte temp : newItem.getByte()) {
+				// data += (char) temp;
+				// data += " ";
+				// dataByte += (char) temp;
+				// }
 			}
 			data += "\t";
 		}
@@ -789,11 +813,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getP1Y();
 				data += " ";
 				data += newItem.getPath();
-//				for (byte temp : newItem.getByte()) {
-//					data += (char) temp;
-//					data += " ";
-//					dataByte += (char) temp;
-//				}
+				// for (byte temp : newItem.getByte()) {
+				// data += (char) temp;
+				// data += " ";
+				// dataByte += (char) temp;
+				// }
 			}
 
 			data += "\t";
@@ -977,19 +1001,20 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					}
 					canvas.addItem(canvasItem);
 				} else if (Integer.parseInt(paramList[0]) == 5) {
-//					String data = "";
-//					for (int i = 3; i < paramList.length; i++) {
-//						data += paramList[i];
-//					}
-//					byte[] bytes = dataByte.getBytes("UTF-8");
+					// String data = "";
+					// for (int i = 3; i < paramList.length; i++) {
+					// data += paramList[i];
+					// }
+					// byte[] bytes = dataByte.getBytes("UTF-8");
 					Image img = ImageIO.read(new File(paramList[3]));
-					
+
 					ImageItem canvasItem = new ImageItem(canvas, Color.black,
 							Color.black, new Point(
 									Integer.parseInt(paramList[1]),
-									Integer.parseInt(paramList[2])), img, paramList[3]);
-					
-//					// canvasItem.setByte(bytes);
+									Integer.parseInt(paramList[2])), img,
+							paramList[3]);
+
+					// // canvasItem.setByte(bytes);
 					canvas.addItem(canvasItem);
 				}
 			}
