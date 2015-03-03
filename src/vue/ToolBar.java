@@ -211,11 +211,6 @@ public class ToolBar extends JFrame {
 		// panel.add(separator);
 		panel.add(labelCouleurs);
 		panel.add(Box.createVerticalStrut(10));
-<<<<<<< HEAD
-	//	panel.add(spinner);
-=======
-		// panel.add(spinner);
->>>>>>> ce48f2aa4887f141606590afcb59c670cf86334c
 
 		// panel.add(Box.createVerticalStrut(30));
 
