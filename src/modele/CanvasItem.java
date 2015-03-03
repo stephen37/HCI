@@ -29,7 +29,10 @@ public abstract class CanvasItem {
 
 	protected Image background;
 
-	public Boolean isAnimated;
+	public Boolean horizAnimate;
+	public Boolean verticAnimate;
+	public Boolean blinkAnimate;
+	
 	public static int value = 2;
 
 	protected ArrayList<Rectangle> modifRect;
@@ -47,7 +50,9 @@ public abstract class CanvasItem {
 		shape = null;
 		isSelected = false;
 		background = null;
-		isAnimated = false;
+		horizAnimate = false;
+		verticAnimate = false;
+		blinkAnimate = false;
 		stroke = null;
 		// modifRect = new ArrayList<Rectangle>();
 	}
@@ -74,14 +79,14 @@ public abstract class CanvasItem {
 		canvas.repaint();
 	}
 
-	public void animated() {
-		isAnimated = true;
+	public void blinkAnimated() {
+		blinkAnimate = true;
 		canvas.repaint();
 		this.blink();
 	}
 
-	public void unanimated() {
-		isAnimated = false;
+	public void blickUnanimated() {
+		blinkAnimate = false;
 		canvas.repaint();
 		timer.stop();
 		timer2.stop();
@@ -172,5 +177,7 @@ public abstract class CanvasItem {
 	public abstract int getMinY();
 
 	public abstract int getWidth();
+	
+	public abstract int getHeight();
 
 }

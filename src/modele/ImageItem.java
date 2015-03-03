@@ -103,6 +103,10 @@ public class ImageItem extends CanvasItem {
 	public int getP2Y() {
 		return (int) ((Rectangle) shape).getMaxY();
 	}
+	
+	public String getPath(){
+		return path;
+	}
 
 	@Override
 	public ArrayList<Integer> getPoints() {
@@ -129,6 +133,12 @@ public class ImageItem extends CanvasItem {
 	public int getWidth() {
 		// TODO Auto-generated method stub
 		return (int) shape.getBounds().getWidth();
+	}
+	
+	@Override
+	public int getHeight() {
+		// TODO Auto-generated method stub
+		return (int) shape.getBounds().getHeight();
 	}
 
 	// // Renvoie un string des bytes de l'image

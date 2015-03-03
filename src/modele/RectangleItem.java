@@ -101,4 +101,8 @@ public class RectangleItem extends CanvasItem implements Serializable {
 	public int getWidth() {
 		return (int) ((Rectangle) shape).getWidth();
 	}
+	
+	public int getHeight() {
+		return (int) ((Rectangle) shape).getHeight();
+	}
 }
