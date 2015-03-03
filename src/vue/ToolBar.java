@@ -303,8 +303,14 @@ public class ToolBar extends JFrame {
 		JLabel blinkLabel = new JLabel("Clignotement");
 		blinkLabel.setForeground(Color.LIGHT_GRAY);
 		panel.add(blinkLabel);
-		JCheckBox blinkCheckBox = new JCheckBox("Start", false);
-		panel.add(blinkCheckBox);
+		JCheckBox blinkCheckBoxStart = new JCheckBox("Start", false);
+		JCheckBox blinkCheckBoxStop = new  JCheckBox("Stop", true);
+		JPanel blinkPanel = new JPanel();
+		blinkPanel.setLayout(new BoxLayout(blinkPanel, BoxLayout.Y_AXIS));
+		blinkPanel.add(blinkCheckBoxStart);
+		blinkPanel.add(blinkCheckBoxStop);
+		panel.add(blinkPanel);
+//		panel.add(blinkCheckBoxStop);
 		// panel.add(stopVertical);
 		panel.add(Box.createVerticalGlue());
 
