@@ -154,37 +154,6 @@ public class ToolBar extends JFrame {
 			}
 		});
 
-		JCheckBox startHorizontale = new JCheckBox("Start", false);
-		JCheckBox stopHorizontale = new JCheckBox("Stop", true);
-
-		startHorizontale.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if (startHorizontale.isSelected()) {
-					stopHorizontale.setSelected(false);
-					GraphicalEditor.anim.start();
-				} else {
-					GraphicalEditor.anim.stop();
-					stopHorizontale.setSelected(true);
-				}
-			}
-		});
-
-		stopHorizontale.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if (stopHorizontale.isSelected()) {
-					startHorizontale.setSelected(false);
-					GraphicalEditor.anim.stop();
-					PersistentCanvas.resumeAnimations();
-				}
-			}
-		});
-
 		JLabel labelCouleurs = new JLabel(" Couleurs");
 		labelCouleurs.setForeground(Color.gray);
 		panel.add(selectMoveButton);
@@ -252,15 +221,15 @@ public class ToolBar extends JFrame {
 		JLabel animLabel = new JLabel("Animation");
 		animLabel.setForeground(Color.LIGHT_GRAY);
 		JPanel animPanel = new JPanel();
-		animPanel.setLayout(new GridLayout(3, 2, 0, 0));
+		//animPanel.setLayout(new GridLayout(3, 2, 0, 0));
+		animPanel.setLayout(new BoxLayout(animPanel, BoxLayout.Y_AXIS));
 		panel.add(animLabel);
 		panel.add(Box.createVerticalStrut(7));
-		JPanel horizontalPanel = new JPanel();
+		
 		HorizontalButton horizontalButton = new HorizontalButton();
 		horizontalButton.setSize(new Dimension(30, 30));
-		horizontalButton.setMaximumSize(new Dimension(30, 30));
-		horizontalPanel.setSize(new Dimension(30, 30));
-		horizontalPanel.setMaximumSize(new Dimension(30, 30));
+//		horizontalButton.setMaximumSize(new Dimension(30, 30));
+//		horizontalPanel.setSize(new Dimension(30, 30));
 		horizontalButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -270,18 +239,17 @@ public class ToolBar extends JFrame {
 			}
 		});
 
-		horizontalPanel.add(horizontalButton);
-		animPanel.add(horizontalPanel);
-		JLabel hori = new JLabel("Horizontal");
-		hori.setSize(30, 30);
-		hori.setMaximumSize(new Dimension(30, 30));
-		animPanel.add(hori);
-		JPanel verticalPanel = new JPanel();
+		animPanel.add(horizontalButton);
+
+//		JLabel hori = new JLabel("Horizontal");
+//		hori.setSize(30, 30);
+//		hori.setMaximumSize(new Dimension(30, 30));
+//		animPanel.add(hori);
+		animPanel.add(Box.createVerticalStrut(5));
 		VerticalButton verticalButton = new VerticalButton();
 		verticalButton.setSize(new Dimension(30, 30));
-		verticalButton.setMaximumSize(new Dimension(30, 30));
-		verticalPanel.setSize(new Dimension(30, 30));
-		verticalPanel.setMaximumSize(new Dimension(30, 30));
+//		verticalButton.setMaximumSize(new Dimension(30, 30));
+//		verticalPanel.setSize(new Dimension(30, 30));
 		verticalButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -290,20 +258,19 @@ public class ToolBar extends JFrame {
 				GraphicalEditor.mode = "Vertical";
 			}
 		});
-		verticalPanel.add(verticalButton);
+		animPanel.add(verticalButton);
 
-		animPanel.add(verticalPanel);
-		JLabel vert = new JLabel("Vertical");
-		vert.setSize(30, 30);
-		vert.setMaximumSize(new Dimension(30, 30));
-		animPanel.add(vert);
+//		JLabel vert = new JLabel("Vertical");
+//		vert.setSize(30, 30);
+//		vert.setMaximumSize(new Dimension(30, 30));
+//		animPanel.add(vert);
 
-		JPanel blinkPanel = new JPanel();
+		animPanel.add(Box.createVerticalStrut(5));
 		BlinkButton blinkButton = new BlinkButton();
 		blinkButton.setSize(new Dimension(30, 30));
-		blinkButton.setMaximumSize(new Dimension(30, 30));
-		blinkPanel.setSize(new Dimension(30, 30));
-		blinkPanel.setMaximumSize(new Dimension(30, 30));
+//		blinkButton.setMaximumSize(new Dimension(30, 30));
+//		blinkPanel.setSize(new Dimension(30, 30));
+
 		blinkButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -312,14 +279,14 @@ public class ToolBar extends JFrame {
 				GraphicalEditor.mode = "Blink";
 			}
 		});
-		blinkPanel.add(blinkButton);
-		animPanel.add(blinkPanel);
-		JLabel blin = new JLabel("Blink");
-		blin.setSize(30, 30);
-		blin.setMaximumSize(new Dimension(30, 30));
-		animPanel.add(blin);
-		JCheckBox startCheckBox = new JCheckBox("Start", false);
-		JCheckBox stopCheckBox = new JCheckBox("Stop", true);
+		animPanel.add(blinkButton);
+
+//		JLabel blin = new JLabel("Blink");
+//		blin.setSize(30, 30);
+//		blin.setMaximumSize(new Dimension(30, 30));
+//		animPanel.add(blin);
+		final JCheckBox startCheckBox = new JCheckBox("Start", false);
+		final JCheckBox stopCheckBox = new JCheckBox("Stop", true);
 		startCheckBox.addActionListener(new ActionListener() {
 
 			@Override
@@ -355,7 +322,6 @@ public class ToolBar extends JFrame {
 		checkBoxPanel.add(startCheckBox);
 		checkBoxPanel.add(stopCheckBox);
 		panel.add(animPanel);
-		panel.add(Box.createRigidArea(new Dimension(0, 10)));
 		panel.add(checkBoxPanel);
 		// panel.add(blinkCheckBoxStop);
 		// panel.add(stopVertical);
