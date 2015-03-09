@@ -130,6 +130,26 @@ public class ToolBar extends JFrame {
 		BlinkButton BlinkButton = new BlinkButton();
 		BlinkButton.setPreferredSize(new Dimension(100, 20));
 
+<<<<<<< HEAD
+=======
+		// Spinner a rajouté afin de modifier la taille des bordures
+		SpinnerNumberModel model = new SpinnerNumberModel(1, 1, 10, 1);
+		spinner = new JSpinner(model);
+		spinner.setSize(new Dimension(30, 30));
+		spinner.setMaximumSize(new Dimension(100, 30));
+		// spinner.setPreferredSize(new Dimension(100,20));
+		spinner.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Value has changed ");
+				// System.out.println("Graphics ! " +getGraphics().toString());
+				// CanvasItem.value = (int) spinner.getValue();
+			}
+		});
+
+>>>>>>> ea097fe6958d389489c312a6a6f89e7724bc5377
 		JLabel labelCouleurs = new JLabel(" Couleurs");
 		labelCouleurs.setForeground(Color.gray);
 		panel.add(selectMoveButton);
@@ -192,12 +212,24 @@ public class ToolBar extends JFrame {
 		JLabel animLabel = new JLabel("Animation");
 		animLabel.setForeground(Color.LIGHT_GRAY);
 		JPanel animPanel = new JPanel();
+<<<<<<< HEAD
 		animPanel.setLayout(new BoxLayout(animPanel, BoxLayout.Y_AXIS));
 		panel.add(animLabel);
 		panel.add(Box.createVerticalStrut(7));
 
 		HorizontalButton horizontalButton = new HorizontalButton();
 		horizontalButton.setSize(new Dimension(30, 30));
+=======
+		//animPanel.setLayout(new GridLayout(3, 2, 0, 0));
+		animPanel.setLayout(new BoxLayout(animPanel, BoxLayout.Y_AXIS));
+		panel.add(animLabel);
+		panel.add(Box.createVerticalStrut(7));
+		
+		HorizontalButton horizontalButton = new HorizontalButton();
+		horizontalButton.setSize(new Dimension(30, 30));
+//		horizontalButton.setMaximumSize(new Dimension(30, 30));
+//		horizontalPanel.setSize(new Dimension(30, 30));
+>>>>>>> ea097fe6958d389489c312a6a6f89e7724bc5377
 		horizontalButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -208,9 +240,21 @@ public class ToolBar extends JFrame {
 
 		animPanel.add(horizontalButton);
 
+<<<<<<< HEAD
 		animPanel.add(Box.createVerticalStrut(5));
 		VerticalButton verticalButton = new VerticalButton();
 		verticalButton.setSize(new Dimension(30, 30));
+=======
+//		JLabel hori = new JLabel("Horizontal");
+//		hori.setSize(30, 30);
+//		hori.setMaximumSize(new Dimension(30, 30));
+//		animPanel.add(hori);
+		animPanel.add(Box.createVerticalStrut(5));
+		VerticalButton verticalButton = new VerticalButton();
+		verticalButton.setSize(new Dimension(30, 30));
+//		verticalButton.setMaximumSize(new Dimension(30, 30));
+//		verticalPanel.setSize(new Dimension(30, 30));
+>>>>>>> ea097fe6958d389489c312a6a6f89e7724bc5377
 		verticalButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -219,10 +263,24 @@ public class ToolBar extends JFrame {
 			}
 		});
 		animPanel.add(verticalButton);
+<<<<<<< HEAD
+=======
+
+//		JLabel vert = new JLabel("Vertical");
+//		vert.setSize(30, 30);
+//		vert.setMaximumSize(new Dimension(30, 30));
+//		animPanel.add(vert);
+>>>>>>> ea097fe6958d389489c312a6a6f89e7724bc5377
 
 		animPanel.add(Box.createVerticalStrut(5));
 		BlinkButton blinkButton = new BlinkButton();
 		blinkButton.setSize(new Dimension(30, 30));
+<<<<<<< HEAD
+=======
+//		blinkButton.setMaximumSize(new Dimension(30, 30));
+//		blinkPanel.setSize(new Dimension(30, 30));
+
+>>>>>>> ea097fe6958d389489c312a6a6f89e7724bc5377
 		blinkButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -232,8 +290,17 @@ public class ToolBar extends JFrame {
 		});
 		animPanel.add(blinkButton);
 
+<<<<<<< HEAD
 		JCheckBox startCheckBox = new JCheckBox("Start", false);
 		JCheckBox stopCheckBox = new JCheckBox("Stop", true);
+=======
+//		JLabel blin = new JLabel("Blink");
+//		blin.setSize(30, 30);
+//		blin.setMaximumSize(new Dimension(30, 30));
+//		animPanel.add(blin);
+		final JCheckBox startCheckBox = new JCheckBox("Start", false);
+		final JCheckBox stopCheckBox = new JCheckBox("Stop", true);
+>>>>>>> ea097fe6958d389489c312a6a6f89e7724bc5377
 		startCheckBox.addActionListener(new ActionListener() {
 
 			@Override
