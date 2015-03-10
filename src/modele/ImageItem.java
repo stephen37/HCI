@@ -94,8 +94,8 @@ public class ImageItem extends CanvasItem {
 	public int getP2Y() {
 		return (int) ((Rectangle) shape).getMaxY();
 	}
-	
-	public String getPath(){
+
+	public String getPath() {
 		return path;
 	}
 
@@ -125,7 +125,7 @@ public class ImageItem extends CanvasItem {
 		// TODO Auto-generated method stub
 		return (int) shape.getBounds().getWidth();
 	}
-	
+
 	@Override
 	public int getHeight() {
 		// TODO Auto-generated method stub
@@ -199,7 +199,6 @@ public class ImageItem extends CanvasItem {
 
 		File imageFile = new File("newTestSava.jpg");
 	}
-
 
 	// public void setImageByte(String base64String) throws IOException,
 	// Base64DecodingException {

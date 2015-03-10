@@ -2,6 +2,7 @@ package vue;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -21,6 +22,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -46,8 +48,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-
 import modele.CanvasItem;
 import modele.CercleItem;
 import modele.ImageItem;
@@ -55,6 +55,9 @@ import modele.LineItem;
 import modele.PathItem;
 import modele.PersistentCanvas;
 import modele.RectangleItem;
+
+import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
+
 import controleur.Animator;
 
 /**
@@ -74,7 +77,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 	public static PersistentCanvas canvas; // Stores the created items
 	public static CanvasItem selection; // Stores the selected item
-	ToolBar toolbar;
+	ToolBar2 toolbar;
 	public static String mode;
 	public static String newMode;
 	Image image;
@@ -97,7 +100,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 	// Constructor of the Graphical Editor
 
-	public GraphicalEditor(String theTitle, int width, int height, ToolBar tool) {
+	public GraphicalEditor(String theTitle, int width, int height, ToolBar2 tool) {
 		frame = this;
 		widthWindow = width;
 		heightWindow = height;
@@ -109,6 +112,13 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		mode = toolbar.getMode();
 		operations = toolbar.getOperations();
 		anim = new Animator(canvas);
+		Container content = getContentPane();
+		Animator animator = new Animator();
+		animator.CestLeSysoMaGueule();
+		content.setBackground(Color.yellow);
+		content.add(animator, BorderLayout.CENTER);
+		
+		animator.start();
 		initMenu();
 		this.setLayout(new BorderLayout());
 		this.add(menuPanel, BorderLayout.NORTH);
@@ -123,7 +133,9 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		canvas = new PersistentCanvas();
 		canvas.setBackground(Color.WHITE);
 		canvas.setPreferredSize(new Dimension(width, height));
-		this.add(canvas);
+		
+//		this.add(canvas);
+		
 		new DropTarget(canvas, this);
 
 		// AJOUT DE L'ANIMATION !!!
@@ -133,12 +145,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				try {
-					try {
-						saveUndo();
-					} catch (Base64DecodingException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+
+					saveUndo();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -336,12 +344,9 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				try {
-					try {
-						save();
-					} catch (Base64DecodingException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+
+					save();
+
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -355,12 +360,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				try {
-					try {
-						saveAs();
-					} catch (Base64DecodingException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+
+					saveAs();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -395,7 +396,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				toolbar = new ToolBar();
+				toolbar = new ToolBar2();
 			}
 		});
 	}
@@ -534,7 +535,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	 * 
 	 * @throws Base64DecodingException
 	 *****************************/
-	public void save() throws IOException, Base64DecodingException {
+	public void save() throws IOException {
 		System.out.println("sauvegarde debut");
 		String data = "";
 		for (CanvasItem item : canvas.items) {
@@ -643,7 +644,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		System.out.println("sauvegarde fin");
 	}
 
-	public void saveUndo() throws IOException, Base64DecodingException {
+	public void saveUndo() throws IOException {
 		System.out.println("SaveUndo debut");
 		String data = "";
 		for (CanvasItem item : canvas.items) {
@@ -730,7 +731,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		System.out.println("SaveUndo fin");
 	}
 
-	public void saveAs() throws IOException, Base64DecodingException {
+	public void saveAs() throws IOException {
 
 		JFileChooser fileChooser = new JFileChooser(".");
 		int retrieval = fileChooser.showSaveDialog(null);
@@ -1056,12 +1057,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		if ((e.getKeyCode() == KeyEvent.VK_S)
 				&& ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
 			try {
-				try {
-					save();
-				} catch (Base64DecodingException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				save();
+
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -1091,12 +1088,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		if (e.isShiftDown() && e.isControlDown()
 				&& e.getKeyCode() == KeyEvent.VK_S) {
 			try {
-				try {
-					saveAs();
-				} catch (Base64DecodingException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+
+				saveAs();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

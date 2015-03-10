@@ -34,11 +34,19 @@ public class Animator extends JPanel implements ActionListener {
 	ArrayList<PathAnimation> paths;
 	ArrayList<Plane> planes;
 
+	public Animator() {
+		this(30);
+	}
+
 	public Animator(PersistentCanvas canvas) {
 		this(50);
 		this.canvas = canvas;
 		// x = canvas.getX();
 		// y = canvas.getY();
+	}
+	
+	public void CestLeSysoMaGueule() {
+		System.out.println("dqsdjsqlkdjqkdl jqskdl jqsdlkjq skldjsqkldj lksqjdlksqjdlksqjd lkqsjdlkqsjdlksqjdlkqsjd lksqjdlkqsjd lsqjdqs lkdjsq lkdjqsld jqs");
 	}
 
 	public Animator(int delay) {
@@ -63,7 +71,7 @@ public class Animator extends JPanel implements ActionListener {
 				// ************ à modifier ************
 				Plane plane = new Plane(event.getPoint());
 				plane.setPath(path);
-//				path.setLeadsToAirport(false);
+				// path.setLeadsToAirport(false);
 				planes.add(plane);
 				// ************************************
 				repaint();
@@ -95,7 +103,7 @@ public class Animator extends JPanel implements ActionListener {
 		this.delay = delay;
 		timer.setDelay(delay);
 	}
- 
+
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		PersistentCanvas.processAnimation();
