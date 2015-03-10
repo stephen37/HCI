@@ -97,4 +97,7 @@ public class LineItem extends CanvasItem {
 		return null;
 	}
 
+	public void rotate(int angle){
+		
+	}
 }

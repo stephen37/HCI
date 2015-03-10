@@ -2,7 +2,9 @@ package modele;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 
 public class CercleItem extends CanvasItem {
@@ -76,16 +78,24 @@ public class CercleItem extends CanvasItem {
 	public int getWidth() {
 		return (int) ((Ellipse2D.Float) shape).getWidth();
 	}
+
 	@Override
 	public int getHeight() {
 		// TODO Auto-generated method stub
 		return (int) ((Ellipse2D.Float) shape).getHeight();
 	}
 
-	
 	@Override
 	public ArrayList<Integer> getPoints() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void rotate(int angle) {
+		((Ellipse2D) shape).getPathIterator(AffineTransform
+				.getRotateInstance(Math.toRadians(angle)));
+
+		// System.out.println("Ch'ui la");
+		canvas.repaint();
 	}
 }

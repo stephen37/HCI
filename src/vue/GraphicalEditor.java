@@ -22,7 +22,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -55,9 +54,6 @@ import modele.LineItem;
 import modele.PathItem;
 import modele.PersistentCanvas;
 import modele.RectangleItem;
-
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-
 import controleur.Animator;
 
 /**
@@ -72,7 +68,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	public static ArrayList<JButton> operations;
 
 	private Point mousepos; // Stores the previous mouse position
-
 	protected static String title; // Changes according to the mode
 
 	public static PersistentCanvas canvas; // Stores the created items
@@ -97,7 +92,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	public static Animator anim;
 	public static int widthWindow;
 	public static int heightWindow;
-	String dataByte = "";
+	
 
 	// Constructor of the Graphical Editor
 
@@ -113,14 +108,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		mode = toolbar.getMode();
 		operations = toolbar.getOperations();
 		v = toolbar.slidVitesse.getValue();
-		anim = new Animator(canvas);
+
 		Container content = getContentPane();
-		Animator animator = new Animator();
-		animator.CestLeSysoMaGueule();
-		content.setBackground(Color.yellow);
-		content.add(animator, BorderLayout.CENTER);
-		
-		animator.start();
+		content.setBackground(Color.PINK);
+		// content.add(animator, BorderLayout.CENTER);
+
 		initMenu();
 		this.setLayout(new BorderLayout());
 		this.add(menuPanel, BorderLayout.NORTH);
@@ -135,9 +127,10 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		canvas = new PersistentCanvas();
 		canvas.setBackground(Color.WHITE);
 		canvas.setPreferredSize(new Dimension(width, height));
-		
-//		this.add(canvas);
-		
+		anim = new Animator(canvas);
+
+		this.add(canvas);
+
 		new DropTarget(canvas, this);
 
 		// AJOUT DE L'ANIMATION !!!
@@ -198,7 +191,13 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 							selection.resize = true;
 						}
 					}
-				} else {
+				} else if (mode.equals("Rotation")){
+					select(canvas.getItemAt(p));
+					if (selection != null) {
+						Point point = new Point(selection.getMinX(), selection.getMinY());
+						selection.rotate(45);
+					} 
+				}else {
 					if (mode.equals("Rectangle")) {
 						item = new RectangleItem(canvas, o, f, p, v);
 					} else if (mode.equals("Ellipse")) {
@@ -235,14 +234,12 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					// TODO move the selected object
 					selection.move(e.getX() - mousepos.x, e.getY() - mousepos.y);
 				} else if (!mode.equals("Horizontal")
-						&& !mode.equals("Vertical") && !mode.equals("Blink") && !mode.equals("Rotation")) {
+						&& !mode.equals("Vertical") && !mode.equals("Blink")
+						&& !mode.equals("Rotation")) {
 					selection.update(e.getPoint());
 					// System.out.println(selection.get);
-				} else if (mode.equals("Rotation")){
-					if(selection != null && selection.getType() != "Ellipse"){
-						Point origin = selection.firstPoint;
-						
-					}
+				} else if (mode.equals("Rotation")) {
+					
 				}
 				mousepos = e.getPoint();
 			}
@@ -256,6 +253,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(170, 0);
+		anim.start();
 	}
 
 	public static void repaintUndo() {
@@ -547,7 +545,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	/**********************************
 	 * SERIALIZATION
 	 * 
-	 * @throws Base64DecodingException
+	 * 
 	 *****************************/
 	public void save() throws IOException {
 		System.out.println("sauvegarde debut");
@@ -613,7 +611,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getColorExterieur();
 			} else if (item.getType() == "Image") {
 				ImageItem newItem = (ImageItem) item;
-				dataByte = "";
 				data += "5";
 				data += " ";
 				data += newItem.getP1X();
@@ -621,11 +618,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getP1Y();
 				data += " ";
 				data += newItem.getPath();
-				// for (byte temp : newItem.getByte()) {
-				// data += (char) temp;
-				// data += " ";
-				// dataByte += (char) temp;
-				// }
 			}
 			data += "\t";
 			deselect(selection);
@@ -658,12 +650,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		System.out.println("sauvegarde fin");
 	}
 
-<<<<<<< HEAD
 	public void saveUndo() throws IOException {
-		System.out.println("SaveUndo debut");
-=======
-	public void saveUndo() throws IOException, Base64DecodingException {
->>>>>>> c0c7e233c428a87d7a3f19893f6b86d8c1ce513d
 		String data = "";
 		for (CanvasItem item : canvas.items) {
 			if (item.getType() == "Rectangle") {
@@ -726,7 +713,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getColorExterieur();
 			} else if (item.getType() == "Image") {
 				ImageItem newItem = (ImageItem) item;
-				dataByte = "";
 				data += "5";
 				data += " ";
 				data += newItem.getP1X();
@@ -734,11 +720,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getP1Y();
 				data += " ";
 				data += newItem.getPath();
-				// for (byte temp : newItem.getByte()) {
-				// data += (char) temp;
-				// data += " ";
-				// dataByte += (char) temp;
-				// }
 			}
 			data += "\t";
 		}
@@ -824,7 +805,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getColorExterieur();
 			} else if (item.getType() == "Image") {
 				ImageItem newItem = (ImageItem) item;
-				dataByte = "";
+
 				data += "5";
 				data += " ";
 				data += newItem.getP1X();
@@ -832,11 +813,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getP1Y();
 				data += " ";
 				data += newItem.getPath();
-				// for (byte temp : newItem.getByte()) {
-				// data += (char) temp;
-				// data += " ";
-				// dataByte += (char) temp;
-				// }
 			}
 
 			data += "\t";
