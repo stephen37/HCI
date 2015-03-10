@@ -33,8 +33,8 @@ public class ImageItem extends CanvasItem {
 	String imageFormat = "";
 
 	public ImageItem(PersistentCanvas c, Color o, Color f, Point p, Image img,
-			String imagePath) {
-		super(c, o, f);
+			String imagePath, int v) {
+		super(c, o, f, v);
 		shape = new Rectangle(1, 23, img.getWidth(null), img.getHeight(null));
 		System.out.println("Hauteur " + img.getHeight(null));
 		System.out.println("Largeur " + img.getWidth(null));
@@ -51,7 +51,7 @@ public class ImageItem extends CanvasItem {
 	}
 
 	public ImageItem(ImageItem other) {
-		super(other.canvas, other.outline, other.fill);
+		super(other.canvas, other.outline, other.fill, other.vitesse);
 		shape = new Rectangle((Rectangle) other.shape);
 		isSelected = false;
 		firstpoint = other.firstpoint;

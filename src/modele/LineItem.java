@@ -9,14 +9,14 @@ public class LineItem extends CanvasItem {
 
 	Point firstPoint;
 
-	public LineItem(PersistentCanvas c, Color o, Color f, Point p) {
-		super(c, o, f);
+	public LineItem(PersistentCanvas c, Color o, Color f, Point p, int v) {
+		super(c, o, f, v);
 		shape = new Line2D.Float(p, p);
 		firstPoint = p;
 	}
 
 	public LineItem(LineItem other) {
-		super(other.canvas, other.outline, other.fill);
+		super(other.canvas, other.outline, other.fill, other.vitesse);
 		shape = new Line2D.Float(((Line2D.Float) other.shape).getP1(),
 				((Line2D.Float) other.shape).getP2());
 		isSelected = false;

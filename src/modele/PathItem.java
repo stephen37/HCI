@@ -14,8 +14,8 @@ public class PathItem extends CanvasItem {
 	protected GeneralPath path;
 	protected ArrayList<Point> listPoint;
 
-	public PathItem(PersistentCanvas c, Color o, Color f, Point p) {
-		super(c, o, f);
+	public PathItem(PersistentCanvas c, Color o, Color f, Point p, int v) {
+		super(c, o, f, v);
 		path = new GeneralPath();
 		path.moveTo(p.x, p.y);
 		shape = path;
@@ -27,7 +27,7 @@ public class PathItem extends CanvasItem {
 	}
 
 	public PathItem(PathItem other) {
-		super(other.canvas, other.outline, other.fill);
+		super(other.canvas, other.outline, other.fill, other.vitesse);
 		shape = new GeneralPath(other.shape);
 		isSelected = false;
 	}

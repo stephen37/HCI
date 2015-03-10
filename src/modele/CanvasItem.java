@@ -33,15 +33,15 @@ public abstract class CanvasItem {
 	public boolean verticAnimate;
 	public boolean blinkAnimate;
 	public boolean resize;
+	public int vitesse;
 	
 	public static int value = 2;
 
-	Point firstPoint;
-	Point lastPoint;
+	public Point firstPoint;
 	
 	Integer stroke;
 
-	public CanvasItem(PersistentCanvas c, Color o, Color f) {
+	public CanvasItem(PersistentCanvas c, Color o, Color f, int vit) {
 		canvas = c;
 		fill = f;
 		outline = o;
@@ -53,6 +53,7 @@ public abstract class CanvasItem {
 		blinkAnimate = false;
 		resize = false;
 		stroke = null;
+		vitesse = vit;
 	}
 
 	public void setOutlineColor(Color c) {
@@ -145,5 +146,4 @@ public abstract class CanvasItem {
 	
 	public abstract int getHeight();
 	
-
 }

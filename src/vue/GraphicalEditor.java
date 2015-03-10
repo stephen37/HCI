@@ -80,6 +80,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	ToolBar2 toolbar;
 	public static String mode;
 	public static String newMode;
+	public static int v;
 	Image image;
 	JMenuBar menu;
 	JMenu fileMenu, editMenu;
@@ -111,6 +112,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		newMode = "Rectangle";
 		mode = toolbar.getMode();
 		operations = toolbar.getOperations();
+		v = toolbar.slidVitesse.getValue();
 		anim = new Animator(canvas);
 		Container content = getContentPane();
 		Animator animator = new Animator();
@@ -162,45 +164,52 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 				} else if (mode.equals("Blink")) {
 					select(canvas.getItemAt(p));
-					if (selection.blinkAnimate == true) {
-						selection.blinkAnimate = false;
-					} else {
-						selection.blinkAnimate = true;
+					if (selection != null) {
+						if (selection.blinkAnimate == true) {
+							selection.blinkAnimate = false;
+						} else {
+							selection.blinkAnimate = true;
+						}
 					}
 				} else if (mode.equals("Horizontal")) {
 					select(canvas.getItemAt(p));
-					if (selection.horizAnimate == true) {
-						selection.horizAnimate = false;
-					} else {
-						selection.horizAnimate = true;
+					if (selection != null) {
+						if (selection.horizAnimate == true) {
+							selection.horizAnimate = false;
+						} else {
+							selection.horizAnimate = true;
+						}
 					}
 				} else if (mode.equals("Vertical")) {
 					select(canvas.getItemAt(p));
-					if (selection.verticAnimate == true) {
-						selection.verticAnimate = false;
-					} else {
-						selection.verticAnimate = true;
+					if (selection != null) {
+						if (selection.verticAnimate == true) {
+							selection.verticAnimate = false;
+						} else {
+							selection.verticAnimate = true;
+						}
 					}
 				} else if (mode.equals("Resize")) {
 					select(canvas.getItemAt(p));
-					if (selection.resize == true) {
-						selection.resize = false;
-					} else {
-						selection.resize = true;
+					if (selection != null) {
+						if (selection.resize == true) {
+							selection.resize = false;
+						} else {
+							selection.resize = true;
+						}
 					}
 				} else {
-
 					if (mode.equals("Rectangle")) {
-						item = new RectangleItem(canvas, o, f, p);
+						item = new RectangleItem(canvas, o, f, p, v);
 					} else if (mode.equals("Ellipse")) {
 						// TODO create a new ellipse
-						item = new CercleItem(canvas, o, f, p);
+						item = new CercleItem(canvas, o, f, p, v);
 					} else if (mode.equals("Line")) {
 						// TODO create a new line
-						item = new LineItem(canvas, o, f, p);
+						item = new LineItem(canvas, o, f, p, v);
 					} else if (mode.equals("Path")) {
 						// TODO create a new path
-						item = new PathItem(canvas, o, f, p);
+						item = new PathItem(canvas, o, f, p, v);
 					}
 					canvas.addItem(item);
 					select(item);
@@ -226,9 +235,14 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					// TODO move the selected object
 					selection.move(e.getX() - mousepos.x, e.getY() - mousepos.y);
 				} else if (!mode.equals("Horizontal")
-						&& !mode.equals("Vertical") && !mode.equals("Blink")) {
+						&& !mode.equals("Vertical") && !mode.equals("Blink") && !mode.equals("Rotation")) {
 					selection.update(e.getPoint());
 					// System.out.println(selection.get);
+				} else if (mode.equals("Rotation")){
+					if(selection != null && selection.getType() != "Ellipse"){
+						Point origin = selection.firstPoint;
+						
+					}
 				}
 				mousepos = e.getPoint();
 			}
@@ -492,7 +506,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 						imagePath = file.getPath();
 					}
 					ImageItem item = new ImageItem(canvas, Color.black, null,
-							new Point(0, 0), image, imagePath);
+							new Point(0, 0), image, imagePath, v);
 					canvas.items.add(item);
 					repaint();
 				}
@@ -644,8 +658,12 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		System.out.println("sauvegarde fin");
 	}
 
+<<<<<<< HEAD
 	public void saveUndo() throws IOException {
 		System.out.println("SaveUndo debut");
+=======
+	public void saveUndo() throws IOException, Base64DecodingException {
+>>>>>>> c0c7e233c428a87d7a3f19893f6b86d8c1ce513d
 		String data = "";
 		for (CanvasItem item : canvas.items) {
 			if (item.getType() == "Rectangle") {
@@ -728,7 +746,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		saveBuff = new BufferedWriter(new FileWriter("tmp.txt"));
 		saveBuff.write(data);
 		saveBuff.close();
-		System.out.println("SaveUndo fin");
 	}
 
 	public void saveAs() throws IOException {
@@ -855,7 +872,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 									Integer.parseInt(paramList[paramList.length - 1 - 1]),
 									Integer.parseInt(paramList[paramList.length - 1])),
 							new Point(Integer.parseInt(paramList[1]), Integer
-									.parseInt(paramList[2])));
+									.parseInt(paramList[2])), 5);
 					canvasItem.update(new Point(Integer.parseInt(paramList[3]),
 							Integer.parseInt(paramList[4])));
 					canvas.addItem(canvasItem);
@@ -871,7 +888,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 									Integer.parseInt(paramList[paramList.length - 1 - 1]),
 									Integer.parseInt(paramList[paramList.length - 1])),
 							new Point(Integer.parseInt(paramList[1]), Integer
-									.parseInt(paramList[2])));
+									.parseInt(paramList[2])), 5);
 					canvasItem.update(new Point(Integer.parseInt(paramList[4]),
 							Integer.parseInt(paramList[3])));
 					canvas.addItem(canvasItem);
@@ -887,7 +904,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 									Integer.parseInt(paramList[paramList.length - 1 - 1]),
 									Integer.parseInt(paramList[paramList.length - 1])),
 							new Point(Integer.parseInt(paramList[1]), Integer
-									.parseInt(paramList[2])));
+									.parseInt(paramList[2])), 5);
 					canvasItem.update(new Point(Integer.parseInt(paramList[3]),
 							Integer.parseInt(paramList[4])));
 					canvas.addItem(canvasItem);
@@ -903,7 +920,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 									Integer.parseInt(paramList[paramList.length - 1 - 1]),
 									Integer.parseInt(paramList[paramList.length - 1])),
 							new Point(Integer.parseInt(paramList[1]), Integer
-									.parseInt(paramList[2])));
+									.parseInt(paramList[2])), 5);
 					for (int i = 5; i < paramList.length - 1 - 5; i += 2) {
 						canvasItem.update(new Point(Integer
 								.parseInt(paramList[i]), Integer
@@ -947,7 +964,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 									Integer.parseInt(paramList[paramList.length - 1 - 1]),
 									Integer.parseInt(paramList[paramList.length - 1])),
 							new Point(Integer.parseInt(paramList[1]), Integer
-									.parseInt(paramList[2])));
+									.parseInt(paramList[2])), 5);
 					canvasItem.update(new Point(Integer.parseInt(paramList[3]),
 							Integer.parseInt(paramList[4])));
 					canvas.addItem(canvasItem);
@@ -963,7 +980,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 									Integer.parseInt(paramList[paramList.length - 1 - 1]),
 									Integer.parseInt(paramList[paramList.length - 1])),
 							new Point(Integer.parseInt(paramList[1]), Integer
-									.parseInt(paramList[2])));
+									.parseInt(paramList[2])), 5);
 					canvasItem.update(new Point(Integer.parseInt(paramList[4]),
 							Integer.parseInt(paramList[3])));
 					canvas.addItem(canvasItem);
@@ -979,7 +996,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 									Integer.parseInt(paramList[paramList.length - 1 - 1]),
 									Integer.parseInt(paramList[paramList.length - 1])),
 							new Point(Integer.parseInt(paramList[1]), Integer
-									.parseInt(paramList[2])));
+									.parseInt(paramList[2])), 5);
 					canvasItem.update(new Point(Integer.parseInt(paramList[3]),
 							Integer.parseInt(paramList[4])));
 					canvas.addItem(canvasItem);
@@ -995,7 +1012,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 									Integer.parseInt(paramList[paramList.length - 1 - 1]),
 									Integer.parseInt(paramList[paramList.length - 1])),
 							new Point(Integer.parseInt(paramList[1]), Integer
-									.parseInt(paramList[2])));
+									.parseInt(paramList[2])), 5);
 					for (int i = 5; i < paramList.length - 1 - 5; i += 2) {
 						canvasItem.update(new Point(Integer
 								.parseInt(paramList[i]), Integer
@@ -1014,7 +1031,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 							Color.black, new Point(
 									Integer.parseInt(paramList[1]),
 									Integer.parseInt(paramList[2])), img,
-							paramList[3]);
+							paramList[3], 5);
 
 					// // canvasItem.setByte(bytes);
 					canvas.addItem(canvasItem);

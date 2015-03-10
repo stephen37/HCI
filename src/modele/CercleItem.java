@@ -9,15 +9,14 @@ public class CercleItem extends CanvasItem {
 
 	Point firstPoint;
 
-	public CercleItem(PersistentCanvas c, Color o, Color f, Point p) {
-		super(c, o, f);
+	public CercleItem(PersistentCanvas c, Color o, Color f, Point p, int v) {
+		super(c, o, f, v);
 		shape = new Ellipse2D.Float(p.x, p.y, 0, 0);
 		firstPoint = p;
-		
 	}
 
 	public CercleItem(CercleItem other) {
-		super(other.canvas, other.outline, other.fill);
+		super(other.canvas, other.outline, other.fill, other.vitesse);
 		shape = new Ellipse2D.Float(
 				(float) ((Ellipse2D.Float) other.shape).getX(),
 				(float) ((Ellipse2D.Float) other.shape).getY(),

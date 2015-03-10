@@ -18,7 +18,13 @@ import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
+<<<<<<< HEAD
+=======
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+>>>>>>> c0c7e233c428a87d7a3f19893f6b86d8c1ce513d
 
 import modele.CanvasItem;
 import modele.PersistentCanvas;
@@ -36,7 +42,6 @@ public class ToolBar2 extends JFrame {
 	// Caracteristiques
 	private static final long serialVersionUID = 1L;
 	private String mode;
-	private CanvasItem selection;
 
 	protected JPanel panel;
 	protected JPanel dessin;
@@ -45,6 +50,7 @@ public class ToolBar2 extends JFrame {
 	protected JPanel fill;
 	protected JPanel outline;
 
+	public JSlider slidVitesse;
 	public ArrayList<JButton> operations;
 	public PersistentCanvas canvas;
 
@@ -57,19 +63,18 @@ public class ToolBar2 extends JFrame {
 	public void init() {
 		setName("ToolBar");
 
-		selection = null;
 		mode = "Rectangle";
 		operations = new ArrayList<JButton>();
 
 		panel = new JPanel();
 		ongletPan = new JTabbedPane();
-		
+
 		initDessin();
 		initAnimation();
 
 		add(ongletPan);
 
-		//setLocation(250, 250);
+		// setLocation(250, 250);
 
 		setVisible(true);
 		setResizable(false);
@@ -133,42 +138,40 @@ public class ToolBar2 extends JFrame {
 		// Panel pour les boutons de formes
 		JPanel boutonPanel = new JPanel();
 		boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.Y_AXIS));
-		JPanel bt= new JPanel();
+		JPanel bt = new JPanel();
 		bt.setLayout(new GridLayout(2, 3, 2, 2));
-		
+
 		// Panel pour les couleurs
 		JPanel couleurPanel = new JPanel();
 		couleurPanel.setLayout(new BoxLayout(couleurPanel, BoxLayout.Y_AXIS));
-		JPanel cl= new JPanel();
-		cl.setLayout(new GridLayout(1, 2, 2 ,2));
+		JPanel cl = new JPanel();
+		cl.setLayout(new GridLayout(1, 2, 2, 2));
 		// Interieur
 		JPanel fillPan = new JPanel();
 		fillPan.setMaximumSize(new Dimension(120, 75));
 		fillPan.setLayout(new BorderLayout());
 		fill = createColorSample(Color.LIGHT_GRAY);
-		//fill.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 		// Exterieur
 		JPanel outPan = new JPanel();
 		outPan.setMaximumSize(new Dimension(120, 75));
 		outPan.setLayout(new BorderLayout());
 		outline = createColorSample(Color.BLACK);
-		//outline.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 
 		// Panel pour les boutons d'actions
 		JPanel actionPanel = new JPanel();
 		actionPanel.setLayout(new BoxLayout(actionPanel, BoxLayout.Y_AXIS));
-		JPanel at= new JPanel();
+		JPanel at = new JPanel();
 		at.setLayout(new GridLayout(2, 3, 2, 2));
 
 		/*********** Labels ***********/
 		// Label 'Forme'
 		JLabel labelForme = new JLabel("Formes");
 		labelForme.setForeground(Color.gray);
-		
+
 		// Label 'Couleur'
 		JLabel labelCouleurs = new JLabel("Couleurs");
 		labelCouleurs.setForeground(Color.gray);
-		
+
 		// Label 'Action'
 		JLabel labelAction = new JLabel("Actions");
 		labelAction.setForeground(Color.gray);
@@ -176,44 +179,34 @@ public class ToolBar2 extends JFrame {
 		/*********** Placement ***********/
 		// Formes
 		boutonPanel.add(labelForme);
-//		boutonPanel.add(Box.createVerticalStrut(5));
 		bt.add(selectMoveButton);
-//		boutonPanel.add(Box.createVerticalStrut(5));
 		bt.add(rectangleButton);
-//		boutonPanel.add(Box.createVerticalStrut(5));
 		bt.add(ellipseButton);
-//		boutonPanel.add(Box.createVerticalStrut(5));
 		bt.add(lineButton);
-//		boutonPanel.add(Box.createVerticalStrut(5));
 		bt.add(pathButton);
 		boutonPanel.add(bt);
-		
+
 		// Couleurs
 		fillPan.add(fill, BorderLayout.CENTER);
 		outPan.add(outline, BorderLayout.CENTER);
 		couleurPanel.add(labelCouleurs);
-//		couleurPanel.add(Box.createVerticalStrut(5));
 		cl.add(outPan);
-//		couleurPanel.add(Box.createVerticalStrut(5));
 		cl.add(fillPan);
 		couleurPanel.add(cl);
-		
+
 		// Actions
 		actionPanel.add(labelAction);
-//		actionPanel.add(Box.createVerticalStrut(5));
 		at.add(createOperation("Delete "));
-//		actionPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 		at.add(createOperation(" Clone "));
-//		actionPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 		at.add(createOperation("Resize"));
-//		actionPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+		at.add(createOperation("Rotation"));
 		actionPanel.add(at);
-		
+
 		/*********** Ajout ***********/
 		dessin.add(boutonPanel);
 		dessin.add(couleurPanel);
 		dessin.add(actionPanel);
-		
+
 		ongletPan.addTab("Dessin", dessin);
 	}
 
@@ -251,8 +244,8 @@ public class ToolBar2 extends JFrame {
 			}
 		});
 		// CheckBox permettant de lancer et stoper l'animation
-		JCheckBox startCheckBox = new JCheckBox("Start", false);
-		JCheckBox stopCheckBox = new JCheckBox("Stop", true);
+		final JCheckBox startCheckBox = new JCheckBox("Start", false);
+		final JCheckBox stopCheckBox = new JCheckBox("Stop", true);
 		startCheckBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -279,50 +272,82 @@ public class ToolBar2 extends JFrame {
 		});
 
 		/*********** Panels ***********/
-		//Boutons
+		// Boutons
 		JPanel boutonPanel = new JPanel();
 		boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.Y_AXIS));
 		JPanel bt = new JPanel();
 		bt.setLayout(new GridLayout(1, 3, 2, 2));
-		
-		//CheckBox
+
+		// CheckBox
 		JPanel checkBoxPanel = new JPanel();
 		checkBoxPanel.setLayout(new BoxLayout(checkBoxPanel, BoxLayout.Y_AXIS));
 		JPanel cb = new JPanel();
 		cb.setLayout(new BoxLayout(cb, BoxLayout.Y_AXIS));
 
+		// Slider
+		JPanel slidPanel = new JPanel();
+		slidPanel.setLayout(new BoxLayout(slidPanel, BoxLayout.Y_AXIS));
+
+		// CheckBox & Slider
+		JPanel boxNSlid = new JPanel();
+		boxNSlid.setLayout(new BoxLayout(boxNSlid, BoxLayout.X_AXIS));
+
 		/*********** Labels ***********/
-		//Boutons
+		// Boutons
 		JLabel animLabel = new JLabel("Animation");
 		animLabel.setForeground(Color.LIGHT_GRAY);
-		
-		//CheckBox
+
+		// CheckBox
 		JLabel lancLabel = new JLabel("Lancement");
 		lancLabel.setForeground(Color.LIGHT_GRAY);
-		
+
+		// Vitesse
+		JLabel vitLabel = new JLabel("Vitesse");
+		vitLabel.setForeground(Color.LIGHT_GRAY);
+
+		/*********** Slider ***********/
+		slidVitesse = new JSlider(1, 9);
+		slidVitesse.setMinorTickSpacing(1);
+		slidVitesse.setMajorTickSpacing(4);
+		slidVitesse.setPaintTicks(true);
+		slidVitesse.setPaintLabels(true);
+
+		slidVitesse.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				if (GraphicalEditor.selection != null) {
+					GraphicalEditor.selection.vitesse = slidVitesse.getValue();
+				}
+			}
+		});
+
 		/*********** Placement ***********/
-		//Boutons
+		// Boutons
 		boutonPanel.add(animLabel);
-//		boutonPanel.add(Box.createVerticalStrut(5));
 		bt.add(horizontalButton);
-//		boutonPanel.add(Box.createVerticalStrut(5));
 		bt.add(verticalButton);
-//		boutonPanel.add(Box.createVerticalStrut(5));
 		bt.add(blinkButton);
 		boutonPanel.add(bt);
-		
-		//CheckBox
+
+		// CheckBox
 		checkBoxPanel.add(lancLabel);
 		cb.add(startCheckBox);
-//		boutonPanel.add(Box.createVerticalStrut(5));
 		cb.add(stopCheckBox);
 		checkBoxPanel.add(cb);
-		
+
+		// Slider
+		slidPanel.add(vitLabel);
+		slidPanel.add(slidVitesse);
+
+		// BoxNSlid
+		boxNSlid.add(checkBoxPanel);
+		boxNSlid.add(slidPanel);
+
 		/*********** Ajout ***********/
 		animation.add(boutonPanel);
 		animation.add(new JPanel());
-		animation.add(checkBoxPanel);
-		
+		animation.add(boxNSlid);
+
 		ongletPan.addTab("Animation", animation);
 	}
 
@@ -382,37 +407,40 @@ public class ToolBar2 extends JFrame {
 				GraphicalEditor.select(clone);
 			} else if (op.equals("Resize")) {
 				GraphicalEditor.mode = "Resize";
+			} else if (op.equals("Rotation")) {
+				GraphicalEditor.mode = "Rotation";
 			}
 		}
 	};
 
-	//Renvoie le mode
+	// Renvoie le mode
 	public String getMode() {
 		return mode;
 	}
 
-	//Renvoie la couleur exterieure
+	// Renvoie la couleur exterieure
 	public Color getOutlineColor() {
 		return outline.getBackground();
 	}
 
-	//Renvoie la couleur interieure
+	// Renvoie la couleur interieure
 	public Color getFillColor() {
 		return fill.getBackground();
 	}
 
-	//Renvoie la liste des boutons
+	// Renvoie la liste des boutons
 	public ArrayList<JButton> getOperations() {
 		return operations;
 	}
 
-	//Modifie le canvas
+	// Renvoie la valeur du slider
+	public int getSlidValue() {
+		return slidVitesse.getValue();
+	}
+
+	// Modifie le canvas
 	public void setCanvas(PersistentCanvas can) {
 		canvas = can;
 	}
 
-	//Modifie la selection
-	public void setSelection(CanvasItem select) {
-		selection = select;
-	}
 }

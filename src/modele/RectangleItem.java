@@ -21,14 +21,14 @@ public class RectangleItem extends CanvasItem implements Serializable {
 	Point firstpoint;
 	Point lastPoint;
 
-	public RectangleItem(PersistentCanvas c, Color o, Color f, Point p) {
-		super(c, o, f);
+	public RectangleItem(PersistentCanvas c, Color o, Color f, Point p, int v) {
+		super(c, o, f, v);
 		shape = new Rectangle(p.x, p.y, 0, 0);
 		firstpoint = p;
 	}
 
 	public RectangleItem(RectangleItem other) {
-		super(other.canvas, other.outline, other.fill);
+		super(other.canvas, other.outline, other.fill, other.vitesse);
 		shape = new Rectangle((Rectangle) other.shape);
 		isSelected = false;
 		firstpoint = other.firstpoint;
