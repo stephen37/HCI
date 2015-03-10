@@ -30,7 +30,7 @@ public class PositionAnimation extends ItemAnimation {
 	public boolean processHorizontal() {
 		// TODO Auto-generated method stub
 		if (item.getMinX() < GraphicalEditor.widthWindow) {
-			item.move(10, 0);
+			item.move(2*item.vitesse, 0);
 
 		} else {
 			// GraphicalEditor.canvas.addItem(item);
@@ -56,7 +56,7 @@ public class PositionAnimation extends ItemAnimation {
 	public boolean processVertical() {
 		// TODO Auto-generated method stub
 		if(item.getMinY() < GraphicalEditor.heightWindow) {
-			item.move(0,10);
+			item.move(0,2*item.vitesse);
 			
 		} else {
 			item.move(0, -(GraphicalEditor.heightWindow + item.getHeight()));
