@@ -95,4 +95,8 @@ public class RectangleItem extends CanvasItem implements Serializable {
 	public int getHeight() {
 		return (int) ((Rectangle) shape).getHeight();
 	}
+	
+	public void rotate(int angle){
+		
+	}
 }

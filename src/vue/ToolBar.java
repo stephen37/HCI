@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> bbb50deb46c8070fec225d30ebc47a13cb72ae52
 package vue;
 
 import java.awt.BorderLayout;

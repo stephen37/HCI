@@ -120,4 +120,8 @@ public class PathItem extends CanvasItem {
 		}
 		return maxY - getMinX();
 	}
+	
+	public void rotate(int angle){
+		
+	}
 }

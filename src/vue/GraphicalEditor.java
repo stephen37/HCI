@@ -75,7 +75,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	public static ArrayList<JButton> operations;
 
 	private Point mousepos; // Stores the previous mouse position
-
 	protected static String title; // Changes according to the mode
 
 	public static PersistentCanvas canvas; // Stores the created items
@@ -100,7 +99,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	public static Animator anim;
 	public static int widthWindow;
 	public static int heightWindow;
-	String dataByte = "";
+	
 
 	// Constructor of the Graphical Editor
 
@@ -136,7 +135,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		canvas.setBackground(Color.WHITE);
 		canvas.setPreferredSize(new Dimension(width, height));
 		anim = new Animator(canvas);
+<<<<<<< HEAD
 		// this.add(anim);
+=======
+
+>>>>>>> bbb50deb46c8070fec225d30ebc47a13cb72ae52
 		this.add(canvas);
 
 		new DropTarget(canvas, this);
@@ -199,7 +202,13 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 							selection.resize = true;
 						}
 					}
-				} else {
+				} else if (mode.equals("Rotation")){
+					select(canvas.getItemAt(p));
+					if (selection != null) {
+						Point point = new Point(selection.getMinX(), selection.getMinY());
+						selection.rotate(45);
+					} 
+				}else {
 					if (mode.equals("Rectangle")) {
 						item = new RectangleItem(canvas, o, f, p, v);
 					} else if (mode.equals("Ellipse")) {
@@ -238,10 +247,14 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					selection.update(e.getPoint());
 					// System.out.println(selection.get);
 				} else if (mode.equals("Rotation")) {
+<<<<<<< HEAD
 					if (selection != null && selection.getType() != "Ellipse") {
 						Point origin = selection.firstPoint;
 
 					}
+=======
+					
+>>>>>>> bbb50deb46c8070fec225d30ebc47a13cb72ae52
 				}
 				mousepos = e.getPoint();
 			}
@@ -641,7 +654,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getColorExterieur();
 			} else if (item.getType() == "Image") {
 				ImageItem newItem = (ImageItem) item;
-				dataByte = "";
 				data += "5";
 				data += " ";
 				data += newItem.getP1X();
@@ -649,11 +661,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getP1Y();
 				data += " ";
 				data += newItem.getPath();
-				// for (byte temp : newItem.getByte()) {
-				// data += (char) temp;
-				// data += " ";
-				// dataByte += (char) temp;
-				// }
 			}
 			data += "\t";
 			deselect(selection);
@@ -687,7 +694,10 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	}
 
 	public void saveUndo() throws IOException {
+<<<<<<< HEAD
 		System.out.println("SaveUndo debut");
+=======
+>>>>>>> bbb50deb46c8070fec225d30ebc47a13cb72ae52
 		String data = "";
 		for (CanvasItem item : canvas.items) {
 			if (item.getType() == "Rectangle") {
@@ -750,7 +760,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getColorExterieur();
 			} else if (item.getType() == "Image") {
 				ImageItem newItem = (ImageItem) item;
-				dataByte = "";
 				data += "5";
 				data += " ";
 				data += newItem.getP1X();
@@ -758,11 +767,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getP1Y();
 				data += " ";
 				data += newItem.getPath();
-				// for (byte temp : newItem.getByte()) {
-				// data += (char) temp;
-				// data += " ";
-				// dataByte += (char) temp;
-				// }
 			}
 			data += "\t";
 		}
@@ -848,7 +852,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getColorExterieur();
 			} else if (item.getType() == "Image") {
 				ImageItem newItem = (ImageItem) item;
-				dataByte = "";
+
 				data += "5";
 				data += " ";
 				data += newItem.getP1X();
@@ -856,11 +860,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				data += newItem.getP1Y();
 				data += " ";
 				data += newItem.getPath();
-				// for (byte temp : newItem.getByte()) {
-				// data += (char) temp;
-				// data += " ";
-				// dataByte += (char) temp;
-				// }
 			}
 
 			data += "\t";

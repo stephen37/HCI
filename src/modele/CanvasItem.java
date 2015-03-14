@@ -145,5 +145,6 @@ public abstract class CanvasItem {
 	public abstract int getWidth();
 	
 	public abstract int getHeight();
-	
+
+	public abstract void rotate(int angle);
 }

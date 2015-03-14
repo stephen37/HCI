@@ -198,5 +198,9 @@ public class ImageItem extends CanvasItem {
 	// BufferedImage img = ImageIO.read(new ByteArrayInputStream(bytearray));
 	// background = img;
 	// }
+	
+	public void rotate(int angle){
+		
+	}
 
 }
