@@ -5,12 +5,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import modele.CanvasItem;
 import modele.PersistentCanvas;
 import vue.Plane;
 
@@ -41,16 +41,15 @@ public class Animator extends JPanel implements ActionListener {
 	public Animator(PersistentCanvas canvas) {
 		this(50);
 		this.canvas = canvas;
+		// this.canvas.setBackground(Color.PINK);
 		// x = canvas.getX();
 		// y = canvas.getY();
-	}
-	
-	public void CestLeSysoMaGueule() {
-		System.out.println("dqsdjsqlkdjqkdl jqskdl jqsdlkjq skldjsqkldj lksqjdlksqjdlksqjd lkqsjdlkqsjdlksqjdlkqsjd lksqjdlkqsjd lsqjdqs lkdjsq lkdjqsld jqs");
+
 	}
 
 	public Animator(int delay) {
 		super();
+		System.out.println("sdqsd ");
 		// Timer
 		this.delay = delay;
 		timer = new Timer(delay, this);
@@ -60,6 +59,8 @@ public class Animator extends JPanel implements ActionListener {
 		// Listeners
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent event) {
+				System.out
+						.println("sqdjk qklsdjklsqj kjsd qlksjd qskldjsq dklqjd sqkldj sqlkdj ");
 				// ************ à modifier ************
 				path = new PathAnimation(event.getX(), event.getY());
 				paths.add(path);
@@ -110,7 +111,7 @@ public class Animator extends JPanel implements ActionListener {
 		try {
 			Thread.sleep(delay);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			// // TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

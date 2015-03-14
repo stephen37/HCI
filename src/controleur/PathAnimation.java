@@ -11,7 +11,7 @@ public class PathAnimation {
 	int index;
 	ArrayList<Point2D> points;
 
-	PathAnimation(int x, int y) {
+	public PathAnimation(int x, int y) {
 		points = new ArrayList<Point2D>();
 		location = new Point2D.Double(x, y);
 		addPoint(location);

@@ -30,7 +30,6 @@ public class ImageItem extends CanvasItem {
 	Point firstpoint;
 	Point lastPoint;
 	String path;
-	String imageFormat = "";
 
 	public ImageItem(PersistentCanvas c, Color o, Color f, Point p, Image img,
 			String imagePath, int v) {
@@ -41,13 +40,7 @@ public class ImageItem extends CanvasItem {
 		firstpoint = p;
 		background = img;
 		path = imagePath;
-		for (int i = 0; i < path.length(); i++) {
-			if (path.charAt(i) == '.') {
-				for (int j = i; j < path.length(); j++) {
-					imageFormat += path.charAt(j);
-				}
-			}
-		}
+		
 	}
 
 	public ImageItem(ImageItem other) {
@@ -57,7 +50,6 @@ public class ImageItem extends CanvasItem {
 		firstpoint = other.firstpoint;
 		background = other.background;
 		path = other.path;
-		imageFormat = other.imageFormat;
 	}
 
 	public CanvasItem duplicate() {

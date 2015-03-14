@@ -20,11 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
-<<<<<<< HEAD
-=======
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
->>>>>>> c0c7e233c428a87d7a3f19893f6b86d8c1ce513d
 
 import modele.CanvasItem;
 import modele.PersistentCanvas;

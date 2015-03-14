@@ -6,8 +6,12 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Transparency;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -22,8 +26,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -47,6 +51,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import modele.CanvasItem;
 import modele.CercleItem;
@@ -55,10 +60,8 @@ import modele.LineItem;
 import modele.PathItem;
 import modele.PersistentCanvas;
 import modele.RectangleItem;
-
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-
 import controleur.Animator;
+import controleur.PathAnimation;
 
 /**
  * @author Nicolas Roussel (roussel@lri.fr) Modified by Cedric Fleury
@@ -113,14 +116,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		mode = toolbar.getMode();
 		operations = toolbar.getOperations();
 		v = toolbar.slidVitesse.getValue();
-		anim = new Animator(canvas);
+
 		Container content = getContentPane();
-		Animator animator = new Animator();
-		animator.CestLeSysoMaGueule();
-		content.setBackground(Color.yellow);
-		content.add(animator, BorderLayout.CENTER);
-		
-		animator.start();
+		content.setBackground(Color.PINK);
+		// content.add(animator, BorderLayout.CENTER);
+
 		initMenu();
 		this.setLayout(new BorderLayout());
 		this.add(menuPanel, BorderLayout.NORTH);
@@ -135,9 +135,10 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		canvas = new PersistentCanvas();
 		canvas.setBackground(Color.WHITE);
 		canvas.setPreferredSize(new Dimension(width, height));
-		
-//		this.add(canvas);
-		
+		anim = new Animator(canvas);
+		// this.add(anim);
+		this.add(canvas);
+
 		new DropTarget(canvas, this);
 
 		// AJOUT DE L'ANIMATION !!!
@@ -202,13 +203,10 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					if (mode.equals("Rectangle")) {
 						item = new RectangleItem(canvas, o, f, p, v);
 					} else if (mode.equals("Ellipse")) {
-						// TODO create a new ellipse
 						item = new CercleItem(canvas, o, f, p, v);
 					} else if (mode.equals("Line")) {
-						// TODO create a new line
 						item = new LineItem(canvas, o, f, p, v);
 					} else if (mode.equals("Path")) {
-						// TODO create a new path
 						item = new PathItem(canvas, o, f, p, v);
 					}
 					canvas.addItem(item);
@@ -235,13 +233,14 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					// TODO move the selected object
 					selection.move(e.getX() - mousepos.x, e.getY() - mousepos.y);
 				} else if (!mode.equals("Horizontal")
-						&& !mode.equals("Vertical") && !mode.equals("Blink") && !mode.equals("Rotation")) {
+						&& !mode.equals("Vertical") && !mode.equals("Blink")
+						&& !mode.equals("Rotation")) {
 					selection.update(e.getPoint());
 					// System.out.println(selection.get);
-				} else if (mode.equals("Rotation")){
-					if(selection != null && selection.getType() != "Ellipse"){
+				} else if (mode.equals("Rotation")) {
+					if (selection != null && selection.getType() != "Ellipse") {
 						Point origin = selection.firstPoint;
-						
+
 					}
 				}
 				mousepos = e.getPoint();
@@ -256,6 +255,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(170, 0);
+		anim.start();
 	}
 
 	public static void repaintUndo() {
@@ -467,6 +467,34 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		return canvas;
 	}
 
+	/**************** Rotation ************************/
+
+	// L'image fait bien une rota de 90° mais elle revient dans sa position
+	// d'origine.
+	public Image rotate(BufferedImage im, double angle) {
+
+		System.out.println("Rotate d'image");
+		im = (BufferedImage) image;
+		double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
+		int w = im.getWidth(), h = im.getHeight();
+		int newW = (int) Math.floor(w * cos + h * sin), newH = (int) Math
+				.floor(h * cos + w * sin);
+		GraphicsEnvironment ge = GraphicsEnvironment
+				.getLocalGraphicsEnvironment();
+		GraphicsDevice gd = ge.getDefaultScreenDevice();
+		GraphicsConfiguration gc = gd.getDefaultConfiguration();
+		BufferedImage resultImage = gc.createCompatibleImage(newW, newH,
+				Transparency.TRANSLUCENT);
+		Graphics2D g2 = (Graphics2D) getGraphics();
+		Graphics2D g = resultImage.createGraphics();
+		g2.drawString("dsqsqhkdsqj h", 400, 400);
+		g2.translate((newW - w), (newH - h));
+		g2.rotate(angle, w / 2, h / 2);
+		g2.drawRenderedImage(im, null);
+		g2.dispose();
+		return resultImage;
+	}
+
 	/************************************* DROPTARGETLISTENER *****************************************/
 
 	@SuppressWarnings("unchecked")
@@ -547,7 +575,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	/**********************************
 	 * SERIALIZATION
 	 * 
-	 * @throws Base64DecodingException
+	 * 
 	 *****************************/
 	public void save() throws IOException {
 		System.out.println("sauvegarde debut");
@@ -658,12 +686,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		System.out.println("sauvegarde fin");
 	}
 
-<<<<<<< HEAD
 	public void saveUndo() throws IOException {
 		System.out.println("SaveUndo debut");
-=======
-	public void saveUndo() throws IOException, Base64DecodingException {
->>>>>>> c0c7e233c428a87d7a3f19893f6b86d8c1ce513d
 		String data = "";
 		for (CanvasItem item : canvas.items) {
 			if (item.getType() == "Rectangle") {
@@ -1119,10 +1143,93 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				e1.printStackTrace();
 			}
 		}
+		if (e.getKeyCode() == KeyEvent.VK_R) {
+			rotate((BufferedImage) image, 2);
+			// System.out.println("Coord image après rota : " +image.);
+			canvas.update(getGraphics());
+			revalidate();
+			repaint();
+
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+
+	}
+
+	class InnerAnimator implements ActionListener {
+
+		Timer timer;
+		ArrayList<PathAnimation> paths;
+		ArrayList<Plane> planes;
+		PathAnimation path;
+		int delay;
+		PersistentCanvas canvas;
+
+		public InnerAnimator(PersistentCanvas canvas) {
+			this(50);
+			this.canvas = canvas;
+			// this.canvas.setBackground(Color.PINK);
+			// x = canvas.getX();
+			// y = canvas.getY();
+
+		}
+
+		public InnerAnimator(int delay) {
+			super();
+			// Timer
+			this.delay = delay;
+			timer = new Timer(delay, this);
+			// Chemins et avions
+			paths = new ArrayList<PathAnimation>();
+			planes = new ArrayList<Plane>();
+			// Listeners
+			addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent event) {
+					// ************ à modifier ************
+					path = new PathAnimation(event.getX(), event.getY());
+					paths.add(path);
+					// ************************************
+					repaint();
+				}
+
+				public void mouseReleased(MouseEvent event) {
+					// ************ à modifier ************
+					Plane plane = new Plane(event.getPoint());
+					plane.setPath(path);
+					// path.setLeadsToAirport(false);
+					planes.add(plane);
+					// ************************************
+					repaint();
+				}
+			});
+			addMouseMotionListener(new MouseMotionListener() {
+				@Override
+				public void mouseDragged(MouseEvent event) {
+					path.addPoint(event.getX(), event.getY());
+					repaint();
+				}
+
+				@Override
+				public void mouseMoved(MouseEvent event) {
+					// Rien si la souris bouge sans bouton enfoncé
+				}
+			});
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
+		 * )
+		 */
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+
+		}
 
 	}
 }

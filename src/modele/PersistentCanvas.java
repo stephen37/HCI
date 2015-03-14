@@ -5,8 +5,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import javafx.beans.binding.SetBinding;
+import vue.Plane;
 import controleur.PositionAnimation;
 
 /**
@@ -15,6 +18,7 @@ import controleur.PositionAnimation;
  */
 @SuppressWarnings("serial")
 public class PersistentCanvas extends Component {
+	static ArrayList<Plane> planes;
 
 	public static ArrayList<CanvasItem> items;
 
@@ -85,26 +89,40 @@ public class PersistentCanvas extends Component {
 	}
 
 	public static void processAnimation() {
-		
 		for (CanvasItem item : items) {
 			if (item.horizAnimate) {
 				PositionAnimation anim = new PositionAnimation(item);
 				anim.processHorizontal();
 			}
-			if (item.verticAnimate){
+			if (item.verticAnimate) {
 				PositionAnimation anim = new PositionAnimation(item);
 				anim.processVertical();
 			}
-			if (item.blinkAnimate){
+			if (item.blinkAnimate) {
 				PositionAnimation anim = new PositionAnimation(item);
 				anim.processBlink();
 			}
-			if (item.resize){
+			if (item.resize) {
 				PositionAnimation anim = new PositionAnimation(item);
 				anim.processResize();
 				item.resize = false;
 			}
+
+			ArrayList<Plane> arrivedPlanes = new ArrayList<Plane>();
+			// Mise à jour des avions
+		/*	
+			Plane aleaPlane = new Plane(new Point2D.Double(300, 300),
+					Math.random() * 360);
+			planes.add(aleaPlane);
+			
+			*/
 		}
+		// Mise à jour de l'affichage
+		// repaint();
+		// Suppression des avions atterri
+		// for (Plane plane : arrivedPlanes) {
+		// planes.remove(plane);
+		// }
 	}
 
 	public static void resumeAnimations() {

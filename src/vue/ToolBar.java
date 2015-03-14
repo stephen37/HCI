@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package vue;
 
 import java.awt.BorderLayout;
@@ -428,7 +427,6 @@ public class ToolBar extends JFrame {
 		System.out.println(select);
 	}
 }
-=======
 //package vue;
 //
 //import java.awt.BorderLayout;
@@ -870,4 +868,3 @@ public class ToolBar extends JFrame {
 //		System.out.println(select);
 //	}
 //}
->>>>>>> c0c7e233c428a87d7a3f19893f6b86d8c1ce513d
