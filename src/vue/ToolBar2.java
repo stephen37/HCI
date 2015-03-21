@@ -20,13 +20,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
+import javax.swing.JToolBar;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import modele.CanvasItem;
 import modele.PersistentCanvas;
 import controleur.BlinkButton;
-import controleur.EllipseButton;
+import controleur.CircleButton;
 import controleur.HorizontalButton;
 import controleur.LineButton;
 import controleur.PathButton;
@@ -74,9 +75,9 @@ public class ToolBar2 extends JFrame {
 		// setLocation(250, 250);
 
 		setVisible(true);
-		setResizable(false);
+//		setResizable(false);
 		setSize(1000, 135);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 	// Initialise le panel de l'onglet "Dessin"
@@ -104,7 +105,7 @@ public class ToolBar2 extends JFrame {
 			}
 		});
 		// Bouton permettant de dessiner des ellipses
-		EllipseButton ellipseButton = new EllipseButton();
+		CircleButton ellipseButton = new CircleButton();
 		ellipseButton.setPreferredSize(new Dimension(100, 20));
 		ellipseButton.addActionListener(new ActionListener() {
 			@Override
